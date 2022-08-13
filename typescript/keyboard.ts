@@ -31,11 +31,9 @@ function updateControls(event: KeyboardEvent, keydown: boolean) {
     let a: KeyAction
     if (a = keyboardEventActions[event.code]) {
         controls[a[0]][a[1]] = keydown
-        // event.preventDefault()
+        event.preventDefault()
     }
 }
 
-export function addKeyboardEventListeners(target: GlobalEventHandlers) {
-    target.addEventListener('keydown', event => updateControls(event, true))
-    target.addEventListener('keyup', event => updateControls(event, false))
-}
+document.addEventListener('keydown', event => updateControls(event, true))
+document.addEventListener('keyup', event => updateControls(event, false))
