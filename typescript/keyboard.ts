@@ -23,14 +23,17 @@ export const controls = [
 ]
 
 function updateControls(event: KeyboardEvent, keydown: boolean) {
-    if (keydown &&
-        (event.altKey || event.ctrlKey || event.metaKey || event.repeat)) {
-        // Don't react to keyboard shortcuts and repeating keys.
+    if (keydown && (event.altKey || event.ctrlKey || event.metaKey)) {
+        // Don't respond to keyboard shortcuts
         return
     }
     let a: KeyAction
     if (a = keyboardEventActions[event.code]) {
-        controls[a[0]][a[1]] = keydown
+        if (!event.repeat) {
+            // Repeating keys don't change the state,
+            // but still prevent the default action.
+            controls[a[0]][a[1]] = keydown
+        }
         event.preventDefault()
     }
 }

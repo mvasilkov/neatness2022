@@ -2,6 +2,7 @@ import { startMainloop } from '../node_modules/natlib/scheduling/mainloop.js'
 import { Vec2 } from '../node_modules/natlib/Vec2.js'
 
 import { canvasUI, conUI } from './canvas.js'
+import { ddaWalk } from './ddaWalk.js'
 import { Action, controls } from './keyboard.js'
 
 const MAP_WIDTH = 10
@@ -12,6 +13,7 @@ const tiles = Array.from({ length: MAP_HEIGHT }, () => Array.from({ length: MAP_
 
 const startPoint = new Vec2(0.5, 0.5)
 const endPoint = new Vec2(MAP_WIDTH - 0.5, MAP_HEIGHT - 0.5)
+const direction = new Vec2
 
 function update() {
     // Start point
@@ -51,8 +53,30 @@ function paint() {
         }
     }
 
-    const angle = Math.atan2(endPoint.y - startPoint.y, endPoint.x - startPoint.x)
+    direction.copy(endPoint).subtract(startPoint)
+
+    // DDA
+    const intersection = ddaWalk(startPoint, direction, function (x, y) {
+        if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT) {
+            return true // Out of bounds, stop
+        }
+        tiles[y][x] = true
+        if (x === Math.floor(endPoint.x) && y === Math.floor(endPoint.y)) {
+            return true // Got to the end, stop
+        }
+    })
+
+    // Tiles
+    for (let y = 0; y < MAP_HEIGHT; ++y) {
+        for (let x = 0; x < MAP_WIDTH; ++x) {
+            conUI.fillStyle = tiles[y][x] ? '#fff' : '#000'
+            conUI.fillRect(x * 32, y * 32, 32, 32)
+        }
+    }
+
+    const angle = Math.atan2(direction.y, direction.x)
     const distance = Math.sqrt(startPoint.distanceSquared(endPoint))
+
     // Dotted line
     conUI.fillStyle = '#fdbd8f'
     for (let n = 0; n < distance * 8; ++n) {
@@ -60,12 +84,20 @@ function paint() {
         const y = startPoint.y * 32 + 4 * n * Math.sin(angle)
         conUI.fillRect(x - 1, y - 1, 2, 2)
     }
+
     // Start point
     conUI.fillStyle = '#fb3b64'
     conUI.fillRect(startPoint.x * 32 - 5, startPoint.y * 32 - 5, 10, 10)
+
     // End point
     conUI.fillStyle = '#b3e363'
     conUI.fillRect(endPoint.x * 32 - 5, endPoint.y * 32 - 5, 10, 10)
+
+    // Tile intersection
+    conUI.strokeStyle = '#f87b1b'
+    conUI.beginPath()
+    conUI.arc(intersection.x * 32, intersection.y * 32, 5, 0, 2 * Math.PI)
+    conUI.stroke()
 }
 
 startMainloop(update, paint)
