@@ -1,13 +1,5 @@
-import { CanvasHandle } from '../node_modules/natlib/canvas/CanvasHandle.js'
-
+import { canvasPaint, conPaint } from './canvas.js'
 import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, IR_X, IR_Y, Painter } from './paint.js'
-
-const UPSCALE_FROM_IR = 2
-
-const canvasPaint = new CanvasHandle(document.querySelector('#p')!,
-    UPSCALE_FROM_IR * IR_SCREEN_WIDTH, UPSCALE_FROM_IR * IR_SCREEN_HEIGHT)
-const conPaint = canvasPaint.con
-conPaint.scale(UPSCALE_FROM_IR, UPSCALE_FROM_IR)
 
 const pointer = new Painter(canvasPaint.canvas, paintLine)
 pointer.addEventListeners(document)

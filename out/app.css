@@ -10,7 +10,15 @@ canvas {
 }
 
 #a,
-#p {
+#p,
+#u {
     height: 540px;
     width: 960px;
+}
+
+#p,
+#u {
+    left: 0;
+    position: absolute;
+    top: 0;
 }

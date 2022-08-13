@@ -2,6 +2,8 @@
 
 ## Acknowledgements
 
+The Neatness uses the following data structures and algorithms:
+
 * Priority queue by [Francis Stokes][1] aka LowLevelJavaScript,
     [Implementing A Generic Priority Queue][2]
 
