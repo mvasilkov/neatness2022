@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2017",
     "module": "ES2020",
-    "declaration": true,
+    "declaration": false,
     "outDir": "./out",
     "rootDir": "./typescript",
     "strict": true,
@@ -11,7 +11,7 @@
     "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
+    "noUncheckedIndexedAccess": false,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,

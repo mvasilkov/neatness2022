@@ -1,0 +1,16 @@
+canvas {
+    display: block;
+}
+
+#a {
+    left: 0;
+    position: absolute;
+    top: 0;
+    transform-origin: 0 0;
+}
+
+#a,
+#p {
+    height: 540px;
+    width: 960px;
+}
