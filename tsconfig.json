@@ -17,7 +17,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "newLine": "LF",
-    "composite": true
+    "composite": false
   },
   "include": [
     "./typescript/**/*.ts"

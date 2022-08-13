@@ -1,6 +1,6 @@
 import { CanvasHandle } from '../node_modules/natlib/canvas/CanvasHandle.js'
 
-import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH } from './paint.js'
+import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, IR_X, IR_Y, Painter } from './paint.js'
 
 const UPSCALE_FROM_IR = 2
 
@@ -8,6 +8,30 @@ const canvasPaint = new CanvasHandle(document.querySelector('#p')!,
     UPSCALE_FROM_IR * IR_SCREEN_WIDTH, UPSCALE_FROM_IR * IR_SCREEN_HEIGHT)
 const conPaint = canvasPaint.con
 conPaint.scale(UPSCALE_FROM_IR, UPSCALE_FROM_IR)
+
+const pointer = new Painter(canvasPaint.canvas, paintLine)
+pointer.addEventListeners(document)
+
+//#region Line painting function
+
+function paintLine(x0: number, y0: number, x1: number, y1: number) {
+    // Convert to internal resolution
+    x0 = (x0 + 0.5) / IR_X
+    y0 = (y0 + 0.5) / IR_Y
+    x1 = (x1 + 0.5) / IR_X
+    y1 = (y1 + 0.5) / IR_Y
+
+    if (x0 < 0 || x0 >= IR_SCREEN_WIDTH ||
+        y0 < 0 || y0 >= IR_SCREEN_HEIGHT) {
+
+        return // Out of bounds, do nothing
+    }
+
+    conPaint.fillStyle = '#ff0080'
+    conPaint.fillRect((x0 | 0), (y0 | 0), 1, 1)
+}
+
+//#endregion
 
 function clearPaintCanvas() {
     conPaint.fillStyle = '#000'
