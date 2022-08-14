@@ -56,7 +56,8 @@ function paint() {
     direction.copy(endPoint).subtract(startPoint)
 
     // DDA
-    const intersection = ddaWalk(startPoint, direction, function (x, y) {
+    // @ts-expect-error Not all code paths return a value.
+    const ti = ddaWalk(startPoint, direction, function (x, y) {
         if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT) {
             return true // Out of bounds, stop
         }
@@ -94,10 +95,16 @@ function paint() {
     conUI.fillRect(endPoint.x * 32 - 5, endPoint.y * 32 - 5, 10, 10)
 
     // Tile intersection
-    conUI.strokeStyle = '#f87b1b'
     conUI.beginPath()
-    conUI.arc(intersection.x * 32, intersection.y * 32, 5, 0, 2 * Math.PI)
-    conUI.stroke()
+    conUI.arc(ti.x * 32, ti.y * 32, 5, 0, 2 * Math.PI)
+    if (ti.hitVerticalSide) {
+        conUI.fillStyle = '#f87b1b'
+        conUI.fill()
+    }
+    else {
+        conUI.strokeStyle = '#f87b1b'
+        conUI.stroke()
+    }
 }
 
 startMainloop(update, paint)

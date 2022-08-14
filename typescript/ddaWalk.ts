@@ -1,20 +1,17 @@
 import { IVec2, Vec2 } from '../node_modules/natlib/Vec2.js'
 
-class TileIntersection extends Vec2 {
-    hitDistance: number
-
-    constructor(x: number, y: number, hitDistance: number) {
-        super(x, y)
-
-        this.hitDistance = hitDistance
-    }
+type TileIntersection = Vec2 & {
+    hitDistance?: number,
+    hitVerticalSide?: boolean,
 }
 
+const ti: TileIntersection = new Vec2
+
 /** Return true to end the walk. */
-type WalkFunction = (x: number, y: number, hitDistance: number) => boolean
+type WalkFunction = (x: number, y: number, hitDistance: number) => boolean | void
 
 /** Digital differential analyzer (DDA) */
-export function ddaWalk(start: Readonly<IVec2>, direction: Readonly<IVec2>, fun: WalkFunction) {
+export function ddaWalk(start: Readonly<IVec2>, direction: Readonly<IVec2>, fun: WalkFunction): TileIntersection {
     // Scaling factor
     const Δx = Math.abs(1 / direction.x)
     const Δy = Math.abs(1 / direction.y)
@@ -30,7 +27,10 @@ export function ddaWalk(start: Readonly<IVec2>, direction: Readonly<IVec2>, fun:
     let xdir: 1 | -1, ydir: 1 | -1
 
     // View plane distance
-    let distance = 0
+    let distance: number
+
+    // Are we on a vertical side
+    let vertical: boolean
 
     if (direction.x < 0) {
         xdir = -1
@@ -52,7 +52,7 @@ export function ddaWalk(start: Readonly<IVec2>, direction: Readonly<IVec2>, fun:
 
     while (true) {
         // Walk along the shortest path
-        if (xlength < ylength) {
+        if (vertical = xlength < ylength) {
             xtile += xdir
             distance = xlength
             xlength += Δx
@@ -64,11 +64,9 @@ export function ddaWalk(start: Readonly<IVec2>, direction: Readonly<IVec2>, fun:
         }
 
         if (fun(xtile, ytile, distance)) {
-            const ti = new TileIntersection(
-                start.x + direction.x * distance,
-                start.y + direction.y * distance,
-                distance)
-            return ti
+            ti.hitDistance = distance
+            ti.hitVerticalSide = vertical
+            return ti.setMultiplyScalar(direction, distance).add(start)
         }
     }
 }
