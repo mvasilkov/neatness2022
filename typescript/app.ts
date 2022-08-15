@@ -2,6 +2,7 @@ import { Vec2 } from '../node_modules/natlib/Vec2.js'
 
 import { canvasPaint } from './canvas.js'
 import { ddaWalk } from './ddaWalk.js'
+import { floodFill } from './floodFill.js'
 import { Level } from './level.js'
 import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, IR_X, IR_Y, Painter, painting } from './paint.js'
 
@@ -37,7 +38,14 @@ function paintLine(x0: number, y0: number, x1: number, y1: number) {
     activatePoint(x0trunc, y0trunc)
 
     // Check if it's a single point
-    if (x0trunc === x1trunc && y0trunc === y1trunc) return
+    if (x0trunc === x1trunc && y0trunc === y1trunc) {
+        // Flood fill and return
+        const adjacentIndex = level.getAnyConnectedNeighbour(x0trunc, y0trunc)
+        if (adjacentIndex !== 0) {
+            _floodFill([[x0trunc, y0trunc, adjacentIndex]])
+        }
+        return
+    }
 
     startPoint.set(x0, y0)
     const expectedLength = endPoint.set(x1, y1).subtract(startPoint).length()
@@ -78,6 +86,25 @@ function paintLine(x0: number, y0: number, x1: number, y1: number) {
             return true // Passed the end point, stop
         }
     })
+
+    // Flood fill
+    _floodFill(pointsToFloodFill)
+}
+
+function _floodFill(pointsToFloodFill: FloodFillPoint[]) {
+    for (const [x, y, index] of pointsToFloodFill) {
+        floodFill(painting, IR_SCREEN_WIDTH, IR_SCREEN_HEIGHT, x, y, 1, function updatePoint(x, y) {
+            // Update the point
+            level.setPoint(x, y, index)
+
+            // Make connections
+            for (const otherIndex of level.getNeighbourhood(x, y)) {
+                if (otherIndex > 9 && otherIndex !== index) {
+                    level.connect(index, otherIndex)
+                }
+            }
+        })
+    }
 }
 
 function activatePoint(x: number, y: number) {

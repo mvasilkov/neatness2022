@@ -12,11 +12,16 @@ export class Level {
     entryPoints: Hotspot[]
     exitPoints: Hotspot[]
     hotspots: { [n: number]: Hotspot }
+    connected: boolean[][]
 
     constructor() {
         this.entryPoints = []
         this.exitPoints = []
         this.hotspots = Object.create(null)
+
+        // Lazy connectivity table using sparse arrays,
+        // I wish I had a defaultdict like in Python.
+        this.connected = Array.from({ length: 30 }, () => [])
     }
 
     reset() {
@@ -83,5 +88,16 @@ export class Level {
                     (neighbours[2] > 9 ? neighbours[2] :
                         (neighbours[3] > 9 ? neighbours[3] : 0)))
         )
+    }
+
+    connect(a: number, b: number) {
+        if (a === b || this.connected[a][b]) return false
+
+        console.log(`Connecting ${a} to ${b}`)
+
+        this.connected[a][b] = true
+        this.connected[b][a] = true
+
+        return true
     }
 }
