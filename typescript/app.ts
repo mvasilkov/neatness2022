@@ -1,8 +1,9 @@
 import { Vec2 } from '../node_modules/natlib/Vec2.js'
 
-import { canvasPaint, conPaint } from './canvas.js'
+import { canvasPaint } from './canvas.js'
 import { ddaWalk } from './ddaWalk.js'
-import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, IR_X, IR_Y, Painter } from './paint.js'
+import { Level } from './level.js'
+import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, IR_X, IR_Y, Painter, painting } from './paint.js'
 
 const pointer = new Painter(canvasPaint.canvas, paintLine)
 pointer.addEventListeners(document)
@@ -30,8 +31,7 @@ function paintLine(x0: number, y0: number, x1: number, y1: number) {
     const x1trunc = x1 | 0
     const y1trunc = y1 | 0
 
-    conPaint.fillStyle = '#ff0080'
-    conPaint.fillRect(x0trunc, y0trunc, 1, 1)
+    activatePoint(x0trunc, y0trunc)
 
     // Check if it's a single point
     if (x0trunc === x1trunc && y0trunc === y1trunc) return
@@ -47,7 +47,7 @@ function paintLine(x0: number, y0: number, x1: number, y1: number) {
         }
 
         // Paint the actual line
-        conPaint.fillRect(x, y, 1, 1)
+        activatePoint(x, y)
 
         if (x === x1trunc && y === y1trunc) {
             return true // Got to the end, stop
@@ -59,11 +59,20 @@ function paintLine(x0: number, y0: number, x1: number, y1: number) {
     })
 }
 
-//#endregion
+function activatePoint(x: number, y: number) {
+    const currentValue = painting[y][x]
 
-function clearPaintCanvas() {
-    conPaint.fillStyle = '#000'
-    conPaint.fillRect(0, 0, IR_SCREEN_WIDTH, IR_SCREEN_HEIGHT)
+    // Can only paint over nothing (0) or unconnected paint (1).
+    if (currentValue > 1) return false
+
+    level.setPoint(x, y, 1)
+
+    return true
 }
 
-clearPaintCanvas()
+//#endregion
+
+const level = new Level
+level.reset()
+level.addHotspot(0.25 * IR_SCREEN_WIDTH, 0.5 * IR_SCREEN_HEIGHT, false)
+level.addHotspot(0.75 * IR_SCREEN_WIDTH, 0.5 * IR_SCREEN_HEIGHT, true)
