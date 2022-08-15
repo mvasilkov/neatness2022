@@ -33,3 +33,7 @@ export class Painter extends Pointer {
         }
     }
 }
+
+/** Painting buffer */
+export const painting = Array.from({ length: IR_SCREEN_HEIGHT },
+    () => Array.from({ length: IR_SCREEN_WIDTH }, () => 0))
