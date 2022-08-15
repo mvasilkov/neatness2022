@@ -3,9 +3,9 @@ export type ComparatorFn<T> = (a: T, b: T) => number
 type Optional<T> = T | null
 
 export class PriorityQueue<T> {
-  comparatorFn: ComparatorFn<T>
+  readonly comparatorFn: ComparatorFn<T>
   length: number
-  values: T[]
+  private values: T[]
 
   constructor(comparatorFn: ComparatorFn<T>, initialValues?: T[]) {
     this.comparatorFn = comparatorFn
@@ -34,11 +34,13 @@ export class PriorityQueue<T> {
 
     if (this.length === 1) {
       this.length = 0
+      // @ts-expect-error Type 'null' is not assignable to type 'T'.
       this.values[0] = null
       return node
     }
 
     this.values[0] = this.values[this.length - 1]
+    // @ts-expect-error Type 'null' is not assignable to type 'T'.
     this.values[this.length - 1] = null
     this.length--
 
