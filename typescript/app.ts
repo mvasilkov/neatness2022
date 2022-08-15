@@ -10,6 +10,9 @@ pointer.addEventListeners(document)
 
 //#region Line painting function
 
+/** (x, y, index) */
+type FloodFillPoint = [number, number, number]
+
 const startPoint = new Vec2
 const endPoint = new Vec2
 
@@ -39,6 +42,10 @@ function paintLine(x0: number, y0: number, x1: number, y1: number) {
     startPoint.set(x0, y0)
     const expectedLength = endPoint.set(x1, y1).subtract(startPoint).length()
 
+    // Flood fill state
+    const pointsToFloodFill: FloodFillPoint[] = []
+    let addedPointInThisRun = false
+
     ddaWalk(startPoint, endPoint.normalize(), function (x, y, length) {
         if (x < 0 || x >= IR_SCREEN_WIDTH ||
             y < 0 || y >= IR_SCREEN_HEIGHT) {
@@ -47,7 +54,21 @@ function paintLine(x0: number, y0: number, x1: number, y1: number) {
         }
 
         // Paint the actual line
-        activatePoint(x, y)
+        if (activatePoint(x, y)) {
+            // If we're still waiting for a flood fill point
+            if (!addedPointInThisRun) {
+                // Save an adjacent connection's index
+                const adjacentIndex = level.getAnyConnectedNeighbour(x, y)
+                if (adjacentIndex !== 0) {
+                    pointsToFloodFill.push([x, y, adjacentIndex])
+                    addedPointInThisRun = true
+                }
+            }
+        }
+        else {
+            // Hit an obstacle
+            addedPointInThisRun = false
+        }
 
         if (x === x1trunc && y === y1trunc) {
             return true // Got to the end, stop

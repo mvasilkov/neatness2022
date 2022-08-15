@@ -5,8 +5,8 @@ import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, painting } from './paint.js'
 // Indices are as follows:
 // 0 – nothing
 // 1 – unconnected paint
-// [10, 19] – entry point
-// [20, 29] – exit point
+// [10, 20) – entry point
+// [20, 30) – exit point
 
 export class Level {
     entryPoints: Hotspot[]
@@ -49,10 +49,39 @@ export class Level {
 
         let color
         if (index === 0) color = '#000'
-        else if (index === 1) color = '#ff0080'
-        else color = '#fff'
+        else if (index === 1) color = '#f87b1b'
+        else if (index >= 10 && index < 20) color = '#fb3b64'
+        else if (index >= 20 && index < 30) color = '#b3e363'
+        else color = '#fdbd8f'
 
         conPaint.fillStyle = color
         conPaint.fillRect(x, y, 1, 1)
+    }
+
+    getNeighbourhood(x: number, y: number) {
+        const neighbours = [
+            // left
+            (x > 0) ? painting[y][x - 1] : 0,
+            // top
+            (y > 0) ? painting[y - 1][x] : 0,
+            // right
+            (x < IR_SCREEN_WIDTH - 1) ? painting[y][x + 1] : 0,
+            // bottom
+            (y < IR_SCREEN_HEIGHT - 1) ? painting[y + 1][x] : 0,
+        ]
+        return neighbours
+    }
+
+    getAnyConnectedNeighbour(x: number, y: number) {
+        const neighbours = this.getNeighbourhood(x, y)
+
+        // Any neighbour's index in the range [10, 30) – a hotspot.
+        // Return 0 if there's none.
+        return (
+            neighbours[0] > 9 ? neighbours[0] :
+                (neighbours[1] > 9 ? neighbours[1] :
+                    (neighbours[2] > 9 ? neighbours[2] :
+                        (neighbours[3] > 9 ? neighbours[3] : 0)))
+        )
     }
 }
