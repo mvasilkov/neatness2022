@@ -1,3 +1,4 @@
+import { astar } from './astar.js'
 import { conPaint } from './canvas.js'
 import { Hotspot } from './hotspot.js'
 import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, painting } from './paint.js'
@@ -94,10 +95,20 @@ export class Level {
         if (a === b || this.connected[a][b]) return false
 
         console.log(`Connecting ${a} to ${b}`)
+        highlightPath(this.hotspots[a], this.hotspots[b])
 
         this.connected[a][b] = true
         this.connected[b][a] = true
 
         return true
     }
+}
+
+/** Highlight a path from a to b. */
+function highlightPath(a: Hotspot, b: Hotspot) {
+    conPaint.fillStyle = '#ffe08b'
+
+    astar(painting, IR_SCREEN_WIDTH, IR_SCREEN_HEIGHT, a.x, a.y, b.x, b.y, function (x, y) {
+        conPaint.fillRect(x, y, 1, 1)
+    })
 }
