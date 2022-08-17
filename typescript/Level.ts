@@ -1,7 +1,8 @@
-import { astar } from './astar.js'
 import { conPaint } from './canvas.js'
 import { Hotspot } from './Hotspot.js'
 import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, painting } from './paint.js'
+import { paintPath, produceFailureScreen } from './rendering.js'
+import { LevelPhase, state } from './state.js'
 
 // Indices are as follows:
 // 0 – nothing
@@ -26,15 +27,23 @@ export class Level {
     }
 
     reset() {
+        // 1) Connections
+        for (const a of this.connected) {
+            a.length = 0
+        }
+
+        // 2) Painting canvas
         conPaint.fillStyle = '#000'
         conPaint.fillRect(0, 0, IR_SCREEN_WIDTH, IR_SCREEN_HEIGHT)
 
+        // 3) Painting buffer
         for (let y = 0; y < IR_SCREEN_HEIGHT; ++y) {
             for (let x = 0; x < IR_SCREEN_WIDTH; ++x) {
                 painting[y][x] = 0
             }
         }
 
+        // 4) Hotspots
         for (const hotspot of Object.values(this.hotspots)) {
             hotspot.paintInternal()
         }
@@ -46,8 +55,6 @@ export class Level {
 
         const hotspot = new Hotspot(this, x, y, startIndex + collection.length, isExit)
         collection.push(this.hotspots[hotspot.index] = hotspot)
-
-        hotspot.paintInternal()
     }
 
     setPoint(x: number, y: number, index: number) {
@@ -95,20 +102,18 @@ export class Level {
         if (a === b || this.connected[a][b]) return false
 
         console.log(`Connecting ${a} to ${b}`)
-        highlightPath(this.hotspots[a], this.hotspots[b])
+
+        conPaint.fillStyle = '#ffe08b'
+        paintPath(conPaint, this.hotspots[a], this.hotspots[b])
 
         this.connected[a][b] = true
         this.connected[b][a] = true
 
+        if ((0.1 * a | 0) === (0.1 * b | 0)) {
+            state.failureScreen = produceFailureScreen(this.hotspots[a], this.hotspots[b])
+            state.levelPhase = LevelPhase.FAILING
+        }
+
         return true
     }
-}
-
-/** Highlight a path from a to b. */
-function highlightPath(a: Hotspot, b: Hotspot) {
-    conPaint.fillStyle = '#ffe08b'
-
-    astar(painting, IR_SCREEN_WIDTH, IR_SCREEN_HEIGHT, a.x, a.y, b.x, b.y, function (x, y) {
-        conPaint.fillRect(x, y, 1, 1)
-    })
 }

@@ -4,7 +4,7 @@ import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH } from './paint.js'
 
 export const SCREEN_WIDTH = 960
 export const SCREEN_HEIGHT = 540
-const UPSCALE_FROM_IR = 2
+export const UPSCALE_FROM_IR = 2
 
 /** Low resolution canvas for painting */
 export const canvasPaint = new CanvasHandle(document.querySelector('#p')!,

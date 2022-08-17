@@ -15,9 +15,11 @@ export const enum LevelPhase {
 interface State {
     level: Level,
     levelPhase: LevelPhase,
+    failureScreen: HTMLCanvasElement,
 }
 
 export const state: State = {
     level: new LEVELS[0],
     levelPhase: LevelPhase.INITIAL,
+    failureScreen: null,
 }

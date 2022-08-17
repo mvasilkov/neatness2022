@@ -61,7 +61,7 @@ export function astar(buf: number[][], width: number, height: number, x0: number
     }
 }
 
-function isTraversable(index: number) {
+function isTraversable(index: number): boolean {
     return index === 1 || index > 9
 }
 

@@ -1,7 +1,7 @@
 import { startMainloop } from '../node_modules/natlib/scheduling/mainloop.js'
 import { Vec2 } from '../node_modules/natlib/Vec2.js'
 
-import { canvasPaint } from './canvas.js'
+import { canvasPaint, conUI, SCREEN_HEIGHT, SCREEN_WIDTH } from './canvas.js'
 import { ddaWalk } from './ddaWalk.js'
 import { floodFill } from './floodFill.js'
 import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, IR_X, IR_Y, Painter, painting } from './paint.js'
@@ -110,7 +110,7 @@ function _floodFill(pointsToFloodFill: FloodFillPoint[]) {
     }
 }
 
-function activatePoint(x: number, y: number) {
+function activatePoint(x: number, y: number): boolean {
     const currentValue = painting[y][x]
 
     // Can only paint over nothing (0) or unconnected paint (1).
@@ -135,6 +135,14 @@ function update() {
 }
 
 function paint(t: number) {
+    conUI.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+    if (state.levelPhase === LevelPhase.FAILING) {
+        conUI.drawImage(state.failureScreen,
+            0, 0, state.failureScreen.width, state.failureScreen.height,
+            0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        return
+    }
 }
 
 startMainloop(update, paint)

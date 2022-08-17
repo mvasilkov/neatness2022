@@ -32,9 +32,10 @@ export class Hotspot {
     }
 
     paint() {
-        conUI.strokeStyle = '#ff0080'
         conUI.beginPath()
         conUI.arc(IR_X * this.x, IR_Y * this.y, 16, 0, 2 * Math.PI)
+
+        conUI.strokeStyle = '#ff0080'
         conUI.stroke()
     }
 }
