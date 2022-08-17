@@ -1,5 +1,5 @@
 import { conUI } from './canvas.js'
-import type { Level } from './level'
+import type { Level } from './Level'
 import { IR_X, IR_Y } from './paint.js'
 
 export class Hotspot {

@@ -3,8 +3,9 @@ import { Vec2 } from '../node_modules/natlib/Vec2.js'
 import { canvasPaint } from './canvas.js'
 import { ddaWalk } from './ddaWalk.js'
 import { floodFill } from './floodFill.js'
-import { Level } from './level.js'
+import { Level } from './Level.js'
 import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, IR_X, IR_Y, Painter, painting } from './paint.js'
+import { LevelPhase, state } from './state.js'
 
 const pointer = new Painter(canvasPaint.canvas, paintLine)
 pointer.addEventListeners(document)
@@ -18,6 +19,8 @@ const startPoint = new Vec2
 const endPoint = new Vec2
 
 function paintLine(x0: number, y0: number, x1: number, y1: number) {
+    if (state.levelPhase !== LevelPhase.RUNNING) return
+
     // Convert to internal resolution
     x0 = (x0 + 0.5) / IR_X
     y0 = (y0 + 0.5) / IR_Y

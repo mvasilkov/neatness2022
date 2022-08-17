@@ -1,6 +1,6 @@
 import { astar } from './astar.js'
 import { conPaint } from './canvas.js'
-import { Hotspot } from './hotspot.js'
+import { Hotspot } from './Hotspot.js'
 import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, painting } from './paint.js'
 
 // Indices are as follows:
