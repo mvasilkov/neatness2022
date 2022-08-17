@@ -20,7 +20,7 @@ class Vec2WithPriority extends Vec2 {
 
 type WalkFunction = (x: number, y: number) => void
 
-/** `A*` pathfinding algorithm */
+/** `A*` path finding algorithm */
 export function astar(buf: number[][], width: number, height: number, x0: number, y0: number, x1: number, y1: number, walkFunction: WalkFunction) {
     const start = new Vec2WithPriority(x0, y0)
     // Critical default: start.priority = 0
@@ -61,21 +61,25 @@ export function astar(buf: number[][], width: number, height: number, x0: number
     }
 }
 
+function isTraversable(index: number) {
+    return index === 1 || index > 9
+}
+
 /** Get the neighbourhood of connected points. */
 function getConnected(buf: number[][], width: number, height: number, x: number, y: number): Vec2WithPriority[] {
     const connected: Vec2WithPriority[] = []
 
     // left
-    if (x > 0 && buf[y][x - 1] > 9)
+    if (x > 0 && isTraversable(buf[y][x - 1]))
         connected.push(new Vec2WithPriority(x - 1, y))
     // top
-    if (y > 0 && buf[y - 1][x] > 9)
+    if (y > 0 && isTraversable(buf[y - 1][x]))
         connected.push(new Vec2WithPriority(x, y - 1))
     // right
-    if (x < width - 1 && buf[y][x + 1] > 9)
+    if (x < width - 1 && isTraversable(buf[y][x + 1]))
         connected.push(new Vec2WithPriority(x + 1, y))
     // bottom
-    if (y < height - 1 && buf[y + 1][x] > 9)
+    if (y < height - 1 && isTraversable(buf[y + 1][x]))
         connected.push(new Vec2WithPriority(x, y + 1))
 
     return connected

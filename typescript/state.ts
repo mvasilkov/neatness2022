@@ -1,4 +1,9 @@
-import { Level } from './Level.js'
+import type { Level } from './Level'
+import { Neatness01 } from './levels/Neatness01.js'
+
+export const LEVELS = [
+    Neatness01,
+]
 
 export const enum LevelPhase {
     INITIAL,
@@ -13,6 +18,6 @@ interface State {
 }
 
 export const state: State = {
-    level: new Level,
+    level: new LEVELS[0],
     levelPhase: LevelPhase.INITIAL,
 }

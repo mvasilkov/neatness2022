@@ -1,9 +1,9 @@
+import { startMainloop } from '../node_modules/natlib/scheduling/mainloop.js'
 import { Vec2 } from '../node_modules/natlib/Vec2.js'
 
 import { canvasPaint } from './canvas.js'
 import { ddaWalk } from './ddaWalk.js'
 import { floodFill } from './floodFill.js'
-import { Level } from './Level.js'
 import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, IR_X, IR_Y, Painter, painting } from './paint.js'
 import { LevelPhase, state } from './state.js'
 
@@ -43,7 +43,7 @@ function paintLine(x0: number, y0: number, x1: number, y1: number) {
     // Check if it's a single point
     if (x0trunc === x1trunc && y0trunc === y1trunc) {
         // Flood fill and return
-        const adjacentIndex = level.getAnyConnectedNeighbour(x0trunc, y0trunc)
+        const adjacentIndex = state.level.getAnyConnectedNeighbour(x0trunc, y0trunc)
         if (adjacentIndex !== 0) {
             _floodFill([[x0trunc, y0trunc, adjacentIndex]])
         }
@@ -69,7 +69,7 @@ function paintLine(x0: number, y0: number, x1: number, y1: number) {
             // If we're still waiting for a flood fill point
             if (!addedPointInThisRun) {
                 // Save an adjacent connection's index
-                const adjacentIndex = level.getAnyConnectedNeighbour(x, y)
+                const adjacentIndex = state.level.getAnyConnectedNeighbour(x, y)
                 if (adjacentIndex !== 0) {
                     pointsToFloodFill.push([x, y, adjacentIndex])
                     addedPointInThisRun = true
@@ -98,12 +98,12 @@ function _floodFill(pointsToFloodFill: FloodFillPoint[]) {
     for (const [x, y, index] of pointsToFloodFill) {
         floodFill(painting, IR_SCREEN_WIDTH, IR_SCREEN_HEIGHT, x, y, 1, function updatePoint(x, y) {
             // Update the point
-            level.setPoint(x, y, index)
+            state.level.setPoint(x, y, index)
 
             // Make connections
-            for (const otherIndex of level.getNeighbourhood(x, y)) {
+            for (const otherIndex of state.level.getNeighbourhood(x, y)) {
                 if (otherIndex > 9 && otherIndex !== index) {
-                    level.connect(index, otherIndex)
+                    state.level.connect(index, otherIndex)
                 }
             }
         })
@@ -116,14 +116,27 @@ function activatePoint(x: number, y: number) {
     // Can only paint over nothing (0) or unconnected paint (1).
     if (currentValue > 1) return false
 
-    level.setPoint(x, y, 1)
+    state.level.setPoint(x, y, 1)
 
     return true
 }
 
 //#endregion
 
-const level = new Level
-level.reset()
-level.addHotspot(0.25 * IR_SCREEN_WIDTH, 0.5 * IR_SCREEN_HEIGHT, false)
-level.addHotspot(0.75 * IR_SCREEN_WIDTH, 0.5 * IR_SCREEN_HEIGHT, true)
+//#region Mainloop
+
+function update() {
+    switch (state.levelPhase) {
+        case LevelPhase.INITIAL:
+            state.level.reset()
+            state.levelPhase = LevelPhase.RUNNING
+            break
+    }
+}
+
+function paint(t: number) {
+}
+
+startMainloop(update, paint)
+
+//#endregion
