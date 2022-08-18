@@ -1,24 +1,28 @@
+html {
+  font-family: -apple-system, 'Segoe UI', 'DejaVu Sans', system-ui, sans-serif;
+}
+
 canvas {
-    display: block;
+  display: block;
 }
 
 #a {
-    left: 0;
-    position: absolute;
-    top: 0;
-    transform-origin: 0 0;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform-origin: 0 0;
 }
 
 #a,
 #p,
 #u {
-    height: 540px;
-    width: 960px;
+  height: 540px;
+  width: 960px;
 }
 
 #p,
 #u {
-    left: 0;
-    position: absolute;
-    top: 0;
+  left: 0;
+  position: absolute;
+  top: 0;
 }

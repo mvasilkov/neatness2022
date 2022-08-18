@@ -2,6 +2,8 @@ import { conUI } from './canvas.js'
 import type { Level } from './Level'
 import { IR_X, IR_Y } from './paint.js'
 
+type WalkFunction = (x: number, y: number) => void
+
 export class Hotspot {
     readonly level: Level
     readonly x: number
@@ -17,7 +19,7 @@ export class Hotspot {
         this.isExit = isExit
     }
 
-    paintInternal() {
+    _paintInternal(walkFunction: WalkFunction) {
         const rx = 7
         const ry = 8
 
@@ -25,10 +27,16 @@ export class Hotspot {
             for (let x = -rx; x < rx; ++x) {
                 const a = ((x + 0.5) ** 2 / rx ** 2) + ((y + 0.5) ** 2 / ry ** 2)
                 if (a <= 1) {
-                    this.level.setPoint(this.x + x, this.y + y, this.index)
+                    walkFunction(this.x + x, this.y + y)
                 }
             }
         }
+    }
+
+    paintInternal() {
+        this._paintInternal((x, y) => {
+            this.level.setPoint(x, y, this.index)
+        })
     }
 
     paint() {
