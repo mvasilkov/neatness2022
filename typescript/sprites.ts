@@ -32,10 +32,36 @@ const spriteSkullFront = [
     0b0000010101010101010000,
 ]
 
+// Grave: 11 by 11, 2-bit
+// 0) Transparent
+// 1) Outline
+// 2) Main color
+// 3) Shading
+const spriteGrave = [
+    0b0000000101010101000000,
+    0b0001010111111101010100,
+    0b0001101010101111110100,
+    0b0101101010101010110101,
+    0b0110101010101010111101,
+    0b0110101010101010101101,
+    0b0110101010101010101101,
+    0b0110101010101010101001,
+    0b0110101010101010101001,
+    0b0110101010101010101001,
+    0b0101010101010101010101,
+]
+
 const paletteSkull = [
     '#0000',
     '#101010',
     '#dbcfb1',
+    '#a9a48d',
+]
+
+const paletteGrave = [
+    '#0000',
+    '#101010',
+    '#7b8382',
     '#a9a48d',
 ]
 
@@ -62,4 +88,16 @@ export const skull = [
     new CanvasHandle(document.createElement('canvas'), 99, 99, getRenderingFunction(spriteSkullFront, 11, paletteSkull, 9)).canvas,
     // right
     new CanvasHandle(document.createElement('canvas'), 99, 99, getRenderingFunction(spriteSkull, 11, paletteSkull, 9, true)).canvas,
+]
+
+export const grave = [
+    // default
+    new CanvasHandle(document.createElement('canvas'), 99, 99, con => {
+        getRenderingFunction(spriteGrave, 11, paletteGrave, 9)(con)
+
+        // Paint the cross
+        con.fillStyle = '#fac05a'
+        con.fillRect(5, 4, 1, 4)
+        con.fillRect(4, 5, 3, 1)
+    }).canvas
 ]
