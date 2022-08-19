@@ -6,6 +6,25 @@ import type { Hotspot } from './Hotspot'
 import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, painting } from './paint.js'
 
 export function produceFailureScreen(a: Hotspot, b: Hotspot): HTMLCanvasElement {
+    const oneThirdIR = IR_SCREEN_HEIGHT / 3
+    const twoThirdsIR = 2 * oneThirdIR
+
+    /** Try placing text so that it doesn't cover hotspots. */
+    let textPosition = SCREEN_HEIGHT / 6 // Default to the top row
+    if ((a.y >= oneThirdIR && a.y < twoThirdsIR) ||
+        (b.y >= oneThirdIR && b.y < twoThirdsIR)) {
+        // Middle row occupied, check top
+        if ((a.y >= 0 && a.y < oneThirdIR) ||
+            (b.y >= 0 && b.y < oneThirdIR)) {
+            // Top row occupied
+            textPosition *= 5 // Move to the bottom row
+        }
+    }
+    else {
+        // Middle row available
+        textPosition = 0.5 * SCREEN_HEIGHT // Put on the middle row
+    }
+
     const path = new CanvasHandle(document.createElement('canvas'), UPSCALE_FROM_IR * IR_SCREEN_WIDTH, UPSCALE_FROM_IR * IR_SCREEN_HEIGHT, function (con) {
         con.scale(UPSCALE_FROM_IR, UPSCALE_FROM_IR)
 
@@ -28,7 +47,7 @@ export function produceFailureScreen(a: Hotspot, b: Hotspot): HTMLCanvasElement 
             0, 0, path.canvas.width, path.canvas.height,
             0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
-        paintTextBlob(con, 0.5 * SCREEN_WIDTH, 0.5 * SCREEN_HEIGHT, 48, 'bold 48', 'Wrong. Again.')
+        paintTextBlob(con, 0.5 * SCREEN_WIDTH, textPosition, 48, 'bold 48', 'Wrong. Again.')
     })
     return result.canvas
 }

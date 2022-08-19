@@ -1,7 +1,7 @@
 import { conPaint } from './canvas.js'
 import { Hotspot } from './Hotspot.js'
 import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, painting } from './paint.js'
-import { paintPath, produceFailureScreen } from './rendering.js'
+import { paintPath, produceFailureScreen } from './screens.js'
 import { LevelPhase, state } from './state.js'
 
 // Indices are as follows:
@@ -98,8 +98,8 @@ export class Level {
         )
     }
 
-    connect(a: number, b: number) {
-        if (a === b || this.connected[a][b]) return false
+    _connect(a: number, b: number) {
+        if (a === b || this.connected[a][b]) return
 
         console.log(`Connecting ${a} to ${b}`)
 
@@ -113,7 +113,17 @@ export class Level {
             state.failureScreen = produceFailureScreen(this.hotspots[a], this.hotspots[b])
             state.levelPhase = LevelPhase.FAILING
         }
+    }
 
-        return true
+    connect(a: number, b: number) {
+        for (const n in this.connected[a]) {
+            if (this.connected[a][n]) this._connect(b, +n)
+        }
+
+        for (const n in this.connected[b]) {
+            if (this.connected[b][n]) this._connect(a, +n)
+        }
+
+        this._connect(a, b)
     }
 }

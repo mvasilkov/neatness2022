@@ -10,5 +10,7 @@ export class Neatness01 extends Level {
 
         // For testing only
         this.addHotspot(0.5 * IR_SCREEN_WIDTH | 0, 0.5 * IR_SCREEN_HEIGHT | 0, true)
+        this.addHotspot(0.5 * IR_SCREEN_WIDTH | 0, 0.25 * IR_SCREEN_HEIGHT | 0, false)
+        this.addHotspot(0.5 * IR_SCREEN_WIDTH | 0, 0.75 * IR_SCREEN_HEIGHT | 0, false)
     }
 }
