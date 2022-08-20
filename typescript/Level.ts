@@ -2,7 +2,7 @@ import { conPaint } from './canvas.js'
 import { Hotspot } from './Hotspot.js'
 import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, painting } from './paint.js'
 import { paintPath, produceFailureScreen } from './screens.js'
-import { LevelPhase, state } from './state.js'
+import { enterLevelPhase, LevelPhase, state } from './state.js'
 
 // Indices are as follows:
 // 0 – nothing
@@ -105,13 +105,18 @@ export class Level {
 
         conPaint.fillStyle = '#ffe08b'
         paintPath(conPaint, this.hotspots[a], this.hotspots[b])
+        // Restore hotspots' color
+        this.hotspots[a].paintInternal()
+        this.hotspots[b].paintInternal()
 
         this.connected[a][b] = true
         this.connected[b][a] = true
 
         if ((0.1 * a | 0) === (0.1 * b | 0)) {
+            // Failing state
             state.failureScreen = produceFailureScreen(this.hotspots[a], this.hotspots[b])
-            state.levelPhase = LevelPhase.FAILING
+            // Can't call this.reset() here!
+            enterLevelPhase(LevelPhase.FAILING)
         }
     }
 

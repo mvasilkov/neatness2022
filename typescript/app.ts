@@ -1,3 +1,4 @@
+import { lerp } from '../node_modules/natlib/interpolation.js'
 import { startMainloop } from '../node_modules/natlib/scheduling/mainloop.js'
 import { Vec2 } from '../node_modules/natlib/Vec2.js'
 
@@ -5,7 +6,7 @@ import { canvasPaint, conUI, SCREEN_HEIGHT, SCREEN_WIDTH } from './canvas.js'
 import { ddaWalk } from './ddaWalk.js'
 import { floodFill } from './floodFill.js'
 import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, IR_X, IR_Y, Painter, painting } from './paint.js'
-import { LevelPhase, state } from './state.js'
+import { FAILURE_ENTER_DURATION, FAILURE_EXIT_DURATION, LevelPhase, state, update } from './state.js'
 
 const pointer = new Painter(canvasPaint.canvas, paintLine)
 pointer.addEventListeners(document)
@@ -125,24 +126,34 @@ function activatePoint(x: number, y: number): boolean {
 
 //#region Mainloop
 
-function update() {
+function paint(t: number) {
+    conUI.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+    const phaseProgress = lerp(state.oldProgress, state.phaseProgress, t)
+
     switch (state.levelPhase) {
-        case LevelPhase.INITIAL:
-            state.level.reset()
-            state.levelPhase = LevelPhase.RUNNING
+        case LevelPhase.RUNNING:
+            // Fade out the failure screen
+            if (phaseProgress > 0) {
+                paintFailureScreen(phaseProgress / FAILURE_EXIT_DURATION)
+            }
+            break
+
+        case LevelPhase.FAILING:
+            // Fade in the failure screen
+            paintFailureScreen(phaseProgress / FAILURE_ENTER_DURATION)
             break
     }
 }
 
-function paint(t: number) {
-    conUI.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+function paintFailureScreen(opacity: number) {
+    if (!state.failureScreen) return
 
-    if (state.levelPhase === LevelPhase.FAILING) {
-        conUI.drawImage(state.failureScreen,
-            0, 0, state.failureScreen.width, state.failureScreen.height,
-            0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
-        return
-    }
+    conUI.globalAlpha = opacity
+    conUI.drawImage(state.failureScreen,
+        0, 0, state.failureScreen.width, state.failureScreen.height,
+        0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+    conUI.globalAlpha = 1
 }
 
 startMainloop(update, paint)

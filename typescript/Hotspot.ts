@@ -1,8 +1,11 @@
 import { conUI } from './canvas.js'
 import type { Level } from './Level'
 import { IR_X, IR_Y } from './paint.js'
+import { graves, skulls } from './sprites.js'
 
 type WalkFunction = (x: number, y: number) => void
+
+const SPRITE_SIZE = 22
 
 export class Hotspot {
     readonly level: Level
@@ -40,10 +43,12 @@ export class Hotspot {
     }
 
     paint() {
-        conUI.beginPath()
-        conUI.arc(IR_X * this.x, IR_Y * this.y, 16, 0, 2 * Math.PI)
+        const sprite = this.isExit ? graves[0] : skulls[0]
 
-        conUI.strokeStyle = '#ff0080'
-        conUI.stroke()
+        conUI.drawImage(sprite,
+            0, 0, sprite.width, sprite.height,
+            IR_X * this.x - 0.5 * SPRITE_SIZE,
+            IR_Y * this.y - 0.5 * SPRITE_SIZE,
+            SPRITE_SIZE, SPRITE_SIZE)
     }
 }
