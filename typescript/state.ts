@@ -12,15 +12,13 @@ export const enum LevelPhase {
     WINNING,
 }
 
-export const FAILURE_ENTER_DURATION = 0 // Ticks, 50 ticks == 1 second
-export const FAILURE_EXIT_DURATION = 100
+export const FAILURE_DURATION = 100 // Ticks, 50 ticks == 1 second
 
 interface State {
     level: Level,
     levelPhase: LevelPhase,
     phaseProgress: number,
     oldProgress: number,
-    failureScreen: HTMLCanvasElement | null,
 }
 
 export const state: State = {
@@ -28,7 +26,6 @@ export const state: State = {
     levelPhase: LevelPhase.INITIAL,
     phaseProgress: 0,
     oldProgress: 0,
-    failureScreen: null,
 }
 
 export function enterLevelPhase(phase: LevelPhase, initialProgress = 0) {

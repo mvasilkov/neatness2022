@@ -15,6 +15,9 @@ were harmed in the making of this game:
     * Which in turn cites
       [QuickFill: An Efficient Flood Fill Algorithm][ack5]
       by John R. Shaw
+
+I ended up not using these, but the code is there for future reference:
+
 * Priority queue by [Francis Stokes][ack6] aka LowLevelJavaScript,
   see [Implementing A Generic Priority Queue][ack7]
 * `A*` based on the excellent

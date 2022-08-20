@@ -7,7 +7,8 @@ import { ddaWalk } from './ddaWalk.js'
 import { easeOutQuad } from './easing.js'
 import { floodFill } from './floodFill.js'
 import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, IR_X, IR_Y, Painter, painting } from './paint.js'
-import { enterLevelPhase, FAILURE_ENTER_DURATION, FAILURE_EXIT_DURATION, LevelPhase, state, update } from './state.js'
+import { failureScreen } from './screens.js'
+import { enterLevelPhase, FAILURE_DURATION, LevelPhase, state } from './state.js'
 
 const pointer = new Painter(canvasPaint.canvas, paintLine)
 pointer.addEventListeners(document)
@@ -144,14 +145,11 @@ function update() {
             break
 
         case LevelPhase.FAILING:
-            // Fade in the failure screen
-            if (++state.phaseProgress >= FAILURE_ENTER_DURATION) {
-                // Restart the level
-                state.level.reset()
-                // Cut the line here
-                pointer.held = false
-                enterLevelPhase(LevelPhase.RUNNING, FAILURE_EXIT_DURATION)
-            }
+            // Cut the line here
+            pointer.held = false
+            // Restart the level
+            state.level.reset()
+            enterLevelPhase(LevelPhase.RUNNING, FAILURE_DURATION)
             break
     }
 }
@@ -165,23 +163,21 @@ function paint(t: number) {
         case LevelPhase.RUNNING:
             // Fade out the failure screen
             if (phaseProgress > 0) {
-                paintFailureScreen(phaseProgress / FAILURE_EXIT_DURATION)
+                paintFailureScreen(phaseProgress / FAILURE_DURATION)
             }
             break
 
         case LevelPhase.FAILING:
-            // Fade in the failure screen
-            paintFailureScreen(phaseProgress / FAILURE_ENTER_DURATION)
+            // Paint the failure screen
+            paintFailureScreen(1)
             break
     }
 }
 
 function paintFailureScreen(opacity: number) {
-    if (!state.failureScreen) return
-
     conUI.globalAlpha = easeOutQuad(opacity)
-    conUI.drawImage(state.failureScreen,
-        0, 0, state.failureScreen.width, state.failureScreen.height,
+    conUI.drawImage(failureScreen,
+        0, 0, failureScreen.width, failureScreen.height,
         0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
     conUI.globalAlpha = 1
 }
