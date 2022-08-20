@@ -44,6 +44,7 @@ export class Level {
 
         // 4) Hotspots
         for (const hotspot of Object.values(this.hotspots)) {
+            hotspot.isSatisfied = false
             hotspot.paintInternal()
         }
     }
@@ -60,11 +61,11 @@ export class Level {
         painting[y][x] = index
 
         let color
-        if (index === 0) color = '#000'
-        else if (index === 1) color = '#f87b1b'
-        else if (index >= 10 && index < 20) color = '#fb3b64'
-        else if (index >= 20 && index < 30) color = '#b3e363'
-        else color = '#fdbd8f'
+        if (index === 0) color = '#000' // This shouldn't happen
+        else if (index === 1) color = '#FFE091'
+        else if (index >= 10 && index < 20) color = this.hotspots[index].isSatisfied ? '#FFE091' : '#8CFF9B'
+        else if (index >= 20 && index < 30) color = this.hotspots[index].isSatisfied ? '#FFE091' : '#78FAE6'
+        else color = '#ff0040' // This shouldn't happen
 
         conPaint.fillStyle = color
         conPaint.fillRect(x, y, 1, 1)
@@ -109,6 +110,13 @@ export class Level {
             // Failing state
             // Can't call this.reset() here!
             enterLevelPhase(LevelPhase.FAILING)
+        }
+        else {
+            // Satisfying connection
+            this.hotspots[a].isSatisfied = this.hotspots[b].isSatisfied = true
+            // Change color [TODO]
+            this.hotspots[a].paintInternal()
+            this.hotspots[b].paintInternal()
         }
     }
 

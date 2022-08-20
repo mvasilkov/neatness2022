@@ -13,6 +13,7 @@ export class Hotspot {
     readonly y: number
     readonly index: number
     readonly isExit: boolean
+    isSatisfied: boolean
 
     constructor(level: Level, x: number, y: number, index: number, isExit: boolean) {
         this.level = level
@@ -20,6 +21,7 @@ export class Hotspot {
         this.y = y
         this.index = index
         this.isExit = isExit
+        this.isSatisfied = false
     }
 
     _paintInternal(walkFunction: WalkFunction) {

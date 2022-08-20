@@ -1,4 +1,4 @@
-import { Vec2 } from '../node_modules/natlib/Vec2.js'
+import { Vec2 } from '../../node_modules/natlib/Vec2.js'
 
 import { PriorityQueue } from './PriorityQueue.js'
 
