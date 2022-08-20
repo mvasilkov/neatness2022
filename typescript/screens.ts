@@ -40,9 +40,6 @@ export function produceFailureScreen(a: Hotspot, b: Hotspot): HTMLCanvasElement 
         })
     })
     const result = new CanvasHandle(document.createElement('canvas'), SCREEN_WIDTH, SCREEN_HEIGHT, function (con) {
-        con.fillStyle = '#000'
-        con.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
-
         con.drawImage(path.canvas,
             0, 0, path.canvas.width, path.canvas.height,
             0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)

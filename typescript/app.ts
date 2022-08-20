@@ -6,7 +6,7 @@ import { canvasPaint, conUI, SCREEN_HEIGHT, SCREEN_WIDTH } from './canvas.js'
 import { ddaWalk } from './ddaWalk.js'
 import { floodFill } from './floodFill.js'
 import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, IR_X, IR_Y, Painter, painting } from './paint.js'
-import { FAILURE_ENTER_DURATION, FAILURE_EXIT_DURATION, LevelPhase, state, update } from './state.js'
+import { enterLevelPhase, FAILURE_ENTER_DURATION, FAILURE_EXIT_DURATION, LevelPhase, state, update } from './state.js'
 
 const pointer = new Painter(canvasPaint.canvas, paintLine)
 pointer.addEventListeners(document)
@@ -125,6 +125,35 @@ function activatePoint(x: number, y: number): boolean {
 //#endregion
 
 //#region Mainloop
+
+function update() {
+    state.oldProgress = state.phaseProgress
+
+    switch (state.levelPhase) {
+        case LevelPhase.INITIAL:
+            state.level.reset()
+            enterLevelPhase(LevelPhase.RUNNING)
+            break
+
+        case LevelPhase.RUNNING:
+            // Fade out the failure screen
+            if (state.phaseProgress > 0) {
+                --state.phaseProgress
+            }
+            break
+
+        case LevelPhase.FAILING:
+            // Fade in the failure screen
+            if (++state.phaseProgress >= FAILURE_ENTER_DURATION) {
+                // Restart the level
+                state.level.reset()
+                // Cut the line here
+                pointer.held = false
+                enterLevelPhase(LevelPhase.RUNNING, FAILURE_EXIT_DURATION)
+            }
+            break
+    }
+}
 
 function paint(t: number) {
     conUI.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
