@@ -4,6 +4,7 @@ import { Vec2 } from '../node_modules/natlib/Vec2.js'
 
 import { canvasPaint, conUI, SCREEN_HEIGHT, SCREEN_WIDTH } from './canvas.js'
 import { ddaWalk } from './ddaWalk.js'
+import { easeOutQuad } from './easing.js'
 import { floodFill } from './floodFill.js'
 import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, IR_X, IR_Y, Painter, painting } from './paint.js'
 import { enterLevelPhase, FAILURE_ENTER_DURATION, FAILURE_EXIT_DURATION, LevelPhase, state, update } from './state.js'
@@ -178,7 +179,7 @@ function paint(t: number) {
 function paintFailureScreen(opacity: number) {
     if (!state.failureScreen) return
 
-    conUI.globalAlpha = opacity
+    conUI.globalAlpha = easeOutQuad(opacity)
     conUI.drawImage(state.failureScreen,
         0, 0, state.failureScreen.width, state.failureScreen.height,
         0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
