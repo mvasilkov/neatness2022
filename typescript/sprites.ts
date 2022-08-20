@@ -39,16 +39,16 @@ const spriteSkullFront = [
 // 3) Shading
 const spriteGrave = [
     0b0000000101010101000000,
-    0b0001010111111101010100,
-    0b0001101010101111110100,
-    0b0101101010101010110101,
-    0b0110101010101010111101,
-    0b0110101010101010101101,
-    0b0110101010101010101101,
-    0b0110101010101010101001,
-    0b0110101010101010101001,
-    0b0110101010101010101001,
-    0b0101010101010101010101,
+    0b0000010111111101010000,
+    0b0001011010011111010100,
+    0b0001101001010111110100,
+    0b0001101010011010110100,
+    0b0001101010011010110100,
+    0b0001101010101010110100,
+    0b0001101010101010110100,
+    0b0001101010101010110100,
+    0b0001101010101010110100,
+    0b0001010101010101010100,
 ]
 
 const paletteSkull = [
@@ -61,8 +61,8 @@ const paletteSkull = [
 const paletteGrave = [
     '#0000',
     '#101010',
-    '#7b8382',
     '#a9a48d',
+    '#dbcfb1',
 ]
 
 function getRenderingFunction(sprite: number[], width: number, palette: string[], scale: number, flip = false) {
@@ -81,7 +81,7 @@ function getRenderingFunction(sprite: number[], width: number, palette: string[]
     }
 }
 
-export const skull = [
+export const skulls = [
     // left
     new CanvasHandle(document.createElement('canvas'), 99, 99, getRenderingFunction(spriteSkull, 11, paletteSkull, 9)).canvas,
     // front
@@ -90,14 +90,7 @@ export const skull = [
     new CanvasHandle(document.createElement('canvas'), 99, 99, getRenderingFunction(spriteSkull, 11, paletteSkull, 9, true)).canvas,
 ]
 
-export const grave = [
+export const graves = [
     // default
-    new CanvasHandle(document.createElement('canvas'), 99, 99, con => {
-        getRenderingFunction(spriteGrave, 11, paletteGrave, 9)(con)
-
-        // Paint the cross
-        con.fillStyle = '#fac05a'
-        con.fillRect(5, 4, 1, 4)
-        con.fillRect(4, 5, 3, 1)
-    }).canvas
+    new CanvasHandle(document.createElement('canvas'), 99, 99, getRenderingFunction(spriteGrave, 11, paletteGrave, 9)).canvas
 ]
