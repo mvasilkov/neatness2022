@@ -13,12 +13,14 @@ export const enum LevelPhase {
 }
 
 export const FAILURE_DURATION = 100 // Ticks, 50 ticks == 1 second
+export const SKULL_TURN_PERIOD = 50
 
 interface State {
     level: Level,
     levelPhase: LevelPhase,
     phaseProgress: number,
     oldProgress: number,
+    skullsTurnProgress: number,
 }
 
 export const state: State = {
@@ -26,6 +28,7 @@ export const state: State = {
     levelPhase: LevelPhase.INITIAL,
     phaseProgress: 0,
     oldProgress: 0,
+    skullsTurnProgress: 0,
 }
 
 export function enterLevelPhase(phase: LevelPhase, initialProgress = 0) {

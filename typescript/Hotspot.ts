@@ -8,6 +8,7 @@ type WalkFunction = (x: number, y: number) => void
 const enum SkullFacing { LEFT, FRONT, RIGHT }
 
 const SPRITE_SIZE = 22
+export const SKULL_TURN_DURATION = 9
 
 export class Hotspot {
     readonly level: Level
@@ -28,6 +29,12 @@ export class Hotspot {
         this.isSatisfied = false
         this.orientation = Math.random() < 0.5 ? SkullFacing.LEFT : SkullFacing.RIGHT
         this.turningProgress = 0
+    }
+
+    update() {
+        if (this.turningProgress > 0) {
+            --this.turningProgress
+        }
     }
 
     _paintInternal(walkFunction: WalkFunction) {
@@ -51,7 +58,7 @@ export class Hotspot {
     }
 
     paint() {
-        const sprite = this.isExit ? graves[0] : skulls[this.orientation]
+        const sprite = this.isExit ? graves[0] : skulls[this.turningProgress > 0 ? SkullFacing.FRONT : this.orientation]
 
         conUI.drawImage(sprite,
             0, 0, sprite.width, sprite.height,

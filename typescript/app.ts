@@ -5,9 +5,10 @@ import { Vec2 } from '../node_modules/natlib/Vec2.js'
 import { canvasPaint, conUI, SCREEN_HEIGHT, SCREEN_WIDTH } from './canvas.js'
 import { ddaWalk } from './ddaWalk.js'
 import { floodFill } from './floodFill.js'
+import { SKULL_TURN_DURATION } from './Hotspot.js'
 import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, IR_X, IR_Y, Painter, painting } from './paint.js'
 import { paintFailureScreen } from './screens.js'
-import { enterLevelPhase, FAILURE_DURATION, LevelPhase, state } from './state.js'
+import { enterLevelPhase, FAILURE_DURATION, LevelPhase, SKULL_TURN_PERIOD, state } from './state.js'
 
 const pointer = new Painter(canvasPaint.canvas, paintLine)
 pointer.addEventListeners(document)
@@ -140,6 +141,19 @@ function update() {
             // Fade out the failure screen
             if (state.phaseProgress > 0) {
                 --state.phaseProgress
+            }
+            // Turn skulls
+            if (++state.skullsTurnProgress >= SKULL_TURN_PERIOD) {
+                state.skullsTurnProgress -= SKULL_TURN_PERIOD
+                if (Math.random() < 0.5) {
+                    const skull = state.level.entryPoints[Math.random() * state.level.entryPoints.length | 0]
+                    skull.orientation = (skull.orientation + 2) % 4 // Toggle between 0 and 2
+                    skull.turningProgress = SKULL_TURN_DURATION
+                }
+            }
+            // Already turning skulls
+            for (const hotspot of state.level.entryPoints) {
+                hotspot.update()
             }
             break
 
