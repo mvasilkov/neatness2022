@@ -1,9 +1,9 @@
-import { startMainloop } from '../../node_modules/natlib/scheduling/mainloop.js'
-import { Vec2 } from '../../node_modules/natlib/Vec2.js'
+import { startMainloop } from '../node_modules/natlib/scheduling/mainloop.js'
+import { Vec2 } from '../node_modules/natlib/Vec2.js'
 
-import { canvasUI, conUI } from '../canvas.js'
-import { ddaWalk } from '../ddaWalk.js'
-import { Action, controls } from '../keyboard.js'
+import { canvasUI, conUI } from './canvas.js'
+import { ddaWalk } from './ddaWalk.js'
+import { Action, controls } from './keyboard.js'
 
 const MAP_WIDTH = 10
 const MAP_HEIGHT = 10

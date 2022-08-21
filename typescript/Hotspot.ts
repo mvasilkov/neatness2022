@@ -1,14 +1,11 @@
 import { conUI } from './canvas.js'
 import type { Level } from './Level'
-import { IR_X, IR_Y } from './paint.js'
-import { graves, skulls } from './sprites.js'
-
-type WalkFunction = (x: number, y: number) => void
+import { Settings } from './prelude.js'
+import { grave, skulls } from './sprites.js'
 
 const enum SkullFacing { LEFT, FRONT, RIGHT }
 
-const SPRITE_SIZE = 22
-export const SKULL_TURN_DURATION = 9
+type WalkFunction = (x: number, y: number) => void
 
 export class Hotspot {
     readonly level: Level
@@ -16,6 +13,7 @@ export class Hotspot {
     readonly y: number
     readonly index: number
     readonly isExit: boolean
+    /** https://youtu.be/szCuvbdQsSI */
     isSatisfied: boolean
     orientation: SkullFacing
     turningProgress: number
@@ -26,9 +24,16 @@ export class Hotspot {
         this.y = y
         this.index = index
         this.isExit = isExit
+
         this.isSatisfied = false
         this.orientation = Math.random() < 0.5 ? SkullFacing.LEFT : SkullFacing.RIGHT
         this.turningProgress = 0
+    }
+
+    turn() {
+        // Toggle between 0 and 2
+        this.orientation = (this.orientation + 2) % 4
+        this.turningProgress = Settings.skullTurnDuration
     }
 
     update() {
@@ -58,12 +63,13 @@ export class Hotspot {
     }
 
     paint() {
-        const sprite = this.isExit ? graves[0] : skulls[this.turningProgress > 0 ? SkullFacing.FRONT : this.orientation]
+        const sprite = this.isExit ? grave :
+            skulls[this.turningProgress > 0 ? SkullFacing.FRONT : this.orientation]
 
         conUI.drawImage(sprite,
             0, 0, sprite.width, sprite.height,
-            IR_X * this.x - 0.5 * SPRITE_SIZE,
-            IR_Y * this.y - 0.5 * SPRITE_SIZE,
-            SPRITE_SIZE, SPRITE_SIZE)
+            Settings.IR_X * this.x - 0.5 * Settings.hotspotSpriteSize,
+            Settings.IR_Y * this.y - 0.5 * Settings.hotspotSpriteSize,
+            Settings.hotspotSpriteSize, Settings.hotspotSpriteSize)
     }
 }

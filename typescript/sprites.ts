@@ -5,7 +5,7 @@ import { CanvasHandle } from '../node_modules/natlib/canvas/CanvasHandle.js'
 // 1) Outline
 // 2) Main color
 // 3) Shading
-const spriteSkull = [
+const spriteSkullLeft = [
     0b0000010101010101010000,
     0b0001011111111111010100,
     0b0101101010101011110101,
@@ -51,6 +51,7 @@ const spriteGrave = [
     0b0001010101010101010100,
 ]
 
+// Colors: https://lospec.com/palette-list/twilioquest-76
 const paletteSkull = [
     '#0000',
     '#101010',
@@ -83,14 +84,12 @@ function getRenderingFunction(sprite: number[], width: number, palette: string[]
 
 export const skulls = [
     // left
-    new CanvasHandle(document.createElement('canvas'), 99, 99, getRenderingFunction(spriteSkull, 11, paletteSkull, 9)).canvas,
+    new CanvasHandle(document.createElement('canvas'), 99, 99, getRenderingFunction(spriteSkullLeft, 11, paletteSkull, 9)).canvas,
     // front
     new CanvasHandle(document.createElement('canvas'), 99, 99, getRenderingFunction(spriteSkullFront, 11, paletteSkull, 9)).canvas,
     // right
-    new CanvasHandle(document.createElement('canvas'), 99, 99, getRenderingFunction(spriteSkull, 11, paletteSkull, 9, true)).canvas,
+    new CanvasHandle(document.createElement('canvas'), 99, 99, getRenderingFunction(spriteSkullLeft, 11, paletteSkull, 9, true)).canvas,
 ]
 
-export const graves = [
-    // default
+export const grave =
     new CanvasHandle(document.createElement('canvas'), 99, 99, getRenderingFunction(spriteGrave, 11, paletteGrave, 9)).canvas
-]

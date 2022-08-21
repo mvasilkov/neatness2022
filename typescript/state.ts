@@ -1,19 +1,8 @@
 import type { Level } from './Level'
-import { Neatness01 } from './levels/Neatness01.js'
-
-export const LEVELS = [
-    Neatness01,
-]
 
 export const enum LevelPhase {
-    INITIAL,
-    RUNNING,
-    FAILING,
-    WINNING,
+    INITIAL, RUNNING, FAILING, WINNING,
 }
-
-export const FAILURE_DURATION = 100 // Ticks, 50 ticks == 1 second
-export const SKULL_TURN_PERIOD = 50
 
 interface State {
     level: Level,
@@ -24,7 +13,8 @@ interface State {
 }
 
 export const state: State = {
-    level: new LEVELS[0],
+    // @ts-expect-error Type 'null' is not assignable to type 'Level'.
+    level: null,
     levelPhase: LevelPhase.INITIAL,
     phaseProgress: 0,
     oldProgress: 0,

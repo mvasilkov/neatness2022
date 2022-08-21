@@ -1,25 +1,24 @@
 import { CanvasHandle } from '../node_modules/natlib/canvas/CanvasHandle.js'
 
-import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH } from './paint.js'
+import { Settings } from './prelude.js'
 
-export const SCREEN_WIDTH = 960
-export const SCREEN_HEIGHT = 540
-export const UPSCALE_FROM_IR = 2
-
-/** Low resolution canvas for painting */
 export const canvasPaint = new CanvasHandle(document.querySelector('#p')!,
-    UPSCALE_FROM_IR * IR_SCREEN_WIDTH, UPSCALE_FROM_IR * IR_SCREEN_HEIGHT)
+    Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_WIDTH,
+    Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_HEIGHT,
+    con => con.scale(Settings.UPSCALE_FROM_IR, Settings.UPSCALE_FROM_IR))
+
 export const conPaint = canvasPaint.con
-conPaint.scale(UPSCALE_FROM_IR, UPSCALE_FROM_IR)
 
 export const canvasUI = new CanvasHandle(document.querySelector('#u')!,
-    SCREEN_WIDTH, SCREEN_HEIGHT)
+    Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT)
+
 export const conUI = canvasUI.con
 
 export function setFontStyle(con: CanvasRenderingContext2D, style: string) {
     con.font = style + `px -apple-system, 'Segoe UI', 'DejaVu Sans', system-ui, sans-serif`
 }
 
+// Work in progress
 export function paintTextBlob(con: CanvasRenderingContext2D, x: number, y: number, size: number, style: string, text: string) {
     setFontStyle(con, style)
     con.textAlign = 'center'

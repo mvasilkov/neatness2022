@@ -1,6 +1,7 @@
 type UpdateFunction = (x: number, y: number) => void
 
 const enum FillDirection { UP = 1, DOWN, ALL }
+// Critical:
 // FillDirection.ALL === (FillDirection.UP | FillDirection.DOWN)
 
 /** (x0, x1, y, direction) */

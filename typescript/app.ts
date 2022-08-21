@@ -2,13 +2,13 @@ import { lerp } from '../node_modules/natlib/interpolation.js'
 import { startMainloop } from '../node_modules/natlib/scheduling/mainloop.js'
 import { Vec2 } from '../node_modules/natlib/Vec2.js'
 
-import { canvasPaint, conUI, SCREEN_HEIGHT, SCREEN_WIDTH } from './canvas.js'
+import { canvasPaint, conUI } from './canvas.js'
 import { ddaWalk } from './ddaWalk.js'
 import { floodFill } from './floodFill.js'
-import { SKULL_TURN_DURATION } from './Hotspot.js'
-import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, IR_X, IR_Y, Painter, painting } from './paint.js'
-import { paintFailureScreen } from './screens.js'
-import { enterLevelPhase, FAILURE_DURATION, LevelPhase, SKULL_TURN_PERIOD, state } from './state.js'
+import { Painter } from './Painter.js'
+import { painting, Settings } from './prelude.js'
+import { enterLevelPhase, LevelPhase, state } from './state.js'
+import { paintRestartMessage } from './ui.js'
 
 const pointer = new Painter(canvasPaint.canvas, paintLine)
 pointer.addEventListeners(document)
@@ -25,13 +25,13 @@ function paintLine(x0: number, y0: number, x1: number, y1: number) {
     if (state.levelPhase !== LevelPhase.RUNNING) return
 
     // Convert to internal resolution
-    x0 = (x0 + 0.5) / IR_X
-    y0 = (y0 + 0.5) / IR_Y
-    x1 = (x1 + 0.5) / IR_X
-    y1 = (y1 + 0.5) / IR_Y
+    x0 = (x0 + 0.5) / Settings.IR_X
+    y0 = (y0 + 0.5) / Settings.IR_Y
+    x1 = (x1 + 0.5) / Settings.IR_X
+    y1 = (y1 + 0.5) / Settings.IR_Y
 
-    if (x0 < 0 || x0 >= IR_SCREEN_WIDTH ||
-        y0 < 0 || y0 >= IR_SCREEN_HEIGHT) {
+    if (x0 < 0 || x0 >= Settings.IR_SCREEN_WIDTH ||
+        y0 < 0 || y0 >= Settings.IR_SCREEN_HEIGHT) {
 
         return // Out of bounds, do nothing
     }
@@ -60,9 +60,10 @@ function paintLine(x0: number, y0: number, x1: number, y1: number) {
     const pointsToFloodFill: FloodFillPoint[] = []
     let addedPointInThisRun = false
 
+    // @ts-expect-error Not all code paths return a value.
     ddaWalk(startPoint, endPoint.normalize(), function (x, y, length) {
-        if (x < 0 || x >= IR_SCREEN_WIDTH ||
-            y < 0 || y >= IR_SCREEN_HEIGHT) {
+        if (x < 0 || x >= Settings.IR_SCREEN_WIDTH ||
+            y < 0 || y >= Settings.IR_SCREEN_HEIGHT) {
 
             return true // Out of bounds, stop
         }
@@ -99,7 +100,7 @@ function paintLine(x0: number, y0: number, x1: number, y1: number) {
 
 function _floodFill(pointsToFloodFill: FloodFillPoint[]) {
     for (const [x, y, index] of pointsToFloodFill) {
-        floodFill(painting, IR_SCREEN_WIDTH, IR_SCREEN_HEIGHT, x, y, 1, function updatePoint(x, y) {
+        floodFill(painting, Settings.IR_SCREEN_WIDTH, Settings.IR_SCREEN_HEIGHT, x, y, 1, function updatePoint(x, y) {
             // Update the point
             state.level.setPoint(x, y, index)
 
@@ -138,17 +139,16 @@ function update() {
             break
 
         case LevelPhase.RUNNING:
-            // Fade out the failure screen
+            // Fade out restartMessage
             if (state.phaseProgress > 0) {
                 --state.phaseProgress
             }
             // Turn skulls
-            if (++state.skullsTurnProgress >= SKULL_TURN_PERIOD) {
-                state.skullsTurnProgress -= SKULL_TURN_PERIOD
+            if (++state.skullsTurnProgress >= Settings.skullsTurnPeriod) {
+                state.skullsTurnProgress -= Settings.skullsTurnPeriod
                 if (Math.random() < 0.5) {
-                    const skull = state.level.entryPoints[Math.random() * state.level.entryPoints.length | 0]
-                    skull.orientation = (skull.orientation + 2) % 4 // Toggle between 0 and 2
-                    skull.turningProgress = SKULL_TURN_DURATION
+                    const n = Math.random() * state.level.entryPoints.length | 0
+                    state.level.entryPoints[n].turn()
                 }
             }
             // Already turning skulls
@@ -158,17 +158,17 @@ function update() {
             break
 
         case LevelPhase.FAILING:
-            // Cut the line here
+            // Cut the line
             pointer.held = false
             // Restart the level
             state.level.reset()
-            enterLevelPhase(LevelPhase.RUNNING, FAILURE_DURATION)
+            enterLevelPhase(LevelPhase.RUNNING, Settings.restartMessageDuration)
             break
     }
 }
 
 function paint(t: number) {
-    conUI.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+    conUI.clearRect(0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT)
 
     for (const hotspot of Object.values(state.level.hotspots)) {
         hotspot.paint()
@@ -178,15 +178,15 @@ function paint(t: number) {
 
     switch (state.levelPhase) {
         case LevelPhase.RUNNING:
-            // Fade out the failure screen
+            // Fade out restartMessage
             if (phaseProgress > 0) {
-                paintFailureScreen(phaseProgress / FAILURE_DURATION)
+                paintRestartMessage(phaseProgress / Settings.restartMessageDuration)
             }
             break
 
         case LevelPhase.FAILING:
-            // Paint the failure screen
-            paintFailureScreen(1)
+            // Paint restartMessage
+            paintRestartMessage(1)
             break
     }
 }

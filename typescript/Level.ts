@@ -1,6 +1,6 @@
 import { conPaint } from './canvas.js'
 import { Hotspot } from './Hotspot.js'
-import { IR_SCREEN_HEIGHT, IR_SCREEN_WIDTH, painting } from './paint.js'
+import { painting, Settings } from './prelude.js'
 import { enterLevelPhase, LevelPhase } from './state.js'
 
 // Indices are as follows:
@@ -33,11 +33,12 @@ export class Level {
 
         // 2) Painting canvas
         conPaint.fillStyle = '#000'
-        conPaint.fillRect(0, 0, IR_SCREEN_WIDTH, IR_SCREEN_HEIGHT)
+        conPaint.fillRect(0, 0,
+            Settings.IR_SCREEN_WIDTH, Settings.IR_SCREEN_HEIGHT)
 
         // 3) Painting buffer
-        for (let y = 0; y < IR_SCREEN_HEIGHT; ++y) {
-            for (let x = 0; x < IR_SCREEN_WIDTH; ++x) {
+        for (let y = 0; y < Settings.IR_SCREEN_HEIGHT; ++y) {
+            for (let x = 0; x < Settings.IR_SCREEN_WIDTH; ++x) {
                 painting[y][x] = 0
             }
         }
@@ -60,11 +61,14 @@ export class Level {
     setPoint(x: number, y: number, index: number) {
         painting[y][x] = index
 
+        // Colors: https://lospec.com/palette-list/blk-neo
         let color
         if (index === 0) color = '#000' // This shouldn't happen
-        else if (index === 1) color = '#FFE091'
-        else if (index >= 10 && index < 20) color = this.hotspots[index].isSatisfied ? '#FFE091' : '#8CFF9B'
-        else if (index >= 20 && index < 30) color = this.hotspots[index].isSatisfied ? '#FFE091' : '#78FAE6'
+        else if (index === 1) color = '#ffe091'
+        else if (index >= 10 && index < 20) color =
+            this.hotspots[index].isSatisfied ? '#ffe091' : '#8cff9b'
+        else if (index >= 20 && index < 30) color =
+            this.hotspots[index].isSatisfied ? '#ffe091' : '#78fae6'
         else color = '#ff0040' // This shouldn't happen
 
         conPaint.fillStyle = color
@@ -78,9 +82,9 @@ export class Level {
             // top
             (y > 0) ? painting[y - 1][x] : 0,
             // right
-            (x < IR_SCREEN_WIDTH - 1) ? painting[y][x + 1] : 0,
+            (x < Settings.IR_SCREEN_WIDTH - 1) ? painting[y][x + 1] : 0,
             // bottom
-            (y < IR_SCREEN_HEIGHT - 1) ? painting[y + 1][x] : 0,
+            (y < Settings.IR_SCREEN_HEIGHT - 1) ? painting[y + 1][x] : 0,
         ]
         return neighbours
     }
@@ -114,17 +118,19 @@ export class Level {
         else {
             // Satisfying connection
             this.hotspots[a].isSatisfied = this.hotspots[b].isSatisfied = true
-            // Change color [TODO]
+            // Change color
             this.hotspots[a].paintInternal()
             this.hotspots[b].paintInternal()
         }
     }
 
     connect(a: number, b: number) {
+        // Connect things to `b` that are connected to `a`
         for (const n in this.connected[a]) {
             if (this.connected[a][n]) this._connect(b, +n)
         }
 
+        // Connect things to `a` that are connected to `b`
         for (const n in this.connected[b]) {
             if (this.connected[b][n]) this._connect(a, +n)
         }
