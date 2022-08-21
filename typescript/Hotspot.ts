@@ -5,6 +5,8 @@ import { graves, skulls } from './sprites.js'
 
 type WalkFunction = (x: number, y: number) => void
 
+const enum SkullFacing { LEFT, FRONT, RIGHT }
+
 const SPRITE_SIZE = 22
 
 export class Hotspot {
@@ -14,6 +16,8 @@ export class Hotspot {
     readonly index: number
     readonly isExit: boolean
     isSatisfied: boolean
+    orientation: SkullFacing
+    turningProgress: number
 
     constructor(level: Level, x: number, y: number, index: number, isExit: boolean) {
         this.level = level
@@ -22,6 +26,8 @@ export class Hotspot {
         this.index = index
         this.isExit = isExit
         this.isSatisfied = false
+        this.orientation = Math.random() < 0.5 ? SkullFacing.LEFT : SkullFacing.RIGHT
+        this.turningProgress = 0
     }
 
     _paintInternal(walkFunction: WalkFunction) {
@@ -45,7 +51,7 @@ export class Hotspot {
     }
 
     paint() {
-        const sprite = this.isExit ? graves[0] : skulls[0]
+        const sprite = this.isExit ? graves[0] : skulls[this.orientation]
 
         conUI.drawImage(sprite,
             0, 0, sprite.width, sprite.height,

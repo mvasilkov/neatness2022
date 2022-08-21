@@ -33,7 +33,7 @@ export function paintTextBlob(con: CanvasRenderingContext2D, x: number, y: numbe
 
     const borderRadius = 16
     const padding = 16
-    const backgroundColor = '#10101090'
+    const backgroundColor = '#00000090'
     const color = '#ff0040'
 
     con.beginPath()
