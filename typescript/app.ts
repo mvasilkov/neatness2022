@@ -5,10 +5,11 @@ import { Vec2 } from '../node_modules/natlib/Vec2.js'
 import { canvasPaint, conUI } from './canvas.js'
 import { ddaWalk } from './ddaWalk.js'
 import { floodFill } from './floodFill.js'
+import { enterLevel } from './levels.js'
 import { Painter } from './Painter.js'
 import { painting, Settings } from './prelude.js'
 import { enterLevelPhase, LevelPhase, state } from './state.js'
-import { paintRestartMessage } from './ui.js'
+import { paintRestartMessage } from './visuals.js'
 
 const pointer = new Painter(canvasPaint.canvas, paintLine)
 pointer.addEventListeners(document)
@@ -190,6 +191,8 @@ function paint(t: number) {
             break
     }
 }
+
+enterLevel(0)
 
 startMainloop(update, paint)
 
