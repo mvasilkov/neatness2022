@@ -7,6 +7,10 @@ export const enum Settings {
     IR_X = 2 * (8 / 7),
     IR_Y = 2,
 
+    // Tiles
+    TILE_WIDTH = 7,
+    TILE_HEIGHT = 8,
+
     // Actual canvas size
     SCREEN_WIDTH = 960,
     SCREEN_HEIGHT = 540,
@@ -20,6 +24,8 @@ export const enum Settings {
     /** For how long a skull is facing forward during a turn */
     skullTurnDuration = 9,
 
+    hotspotRx = Settings.TILE_WIDTH,
+    hotspotRy = Settings.TILE_HEIGHT,
     hotspotSpriteSize = 22,
 }
 

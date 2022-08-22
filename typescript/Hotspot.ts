@@ -43,8 +43,8 @@ export class Hotspot {
     }
 
     _paintInternal(walkFunction: WalkFunction) {
-        const rx = 7
-        const ry = 8
+        const rx = Settings.hotspotRx
+        const ry = Settings.hotspotRy
 
         for (let y = -ry; y < ry; ++y) {
             for (let x = -rx; x < rx; ++x) {

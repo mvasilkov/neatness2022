@@ -42,6 +42,7 @@ export class Level {
                 painting[y][x] = 0
             }
         }
+        this.paintInternal()
 
         // 4) Hotspots
         for (const hotspot of Object.values(this.hotspots)) {
@@ -136,5 +137,29 @@ export class Level {
         }
 
         this._connect(a, b)
+    }
+
+    paintInternal() {
+    }
+
+    paintInternalTiles(tiles: number[], width: number) {
+        const x0 = 0.5 * (Settings.IR_SCREEN_WIDTH - Settings.TILE_WIDTH * width) | 0
+        const y0 = 0.5 * (Settings.IR_SCREEN_HEIGHT - Settings.TILE_HEIGHT * tiles.length) | 0
+
+        for (let y = 0; y < tiles.length; ++y) {
+            for (let x = 0; x < width; ++x) {
+                const a = tiles[y] >> (width - 1 - x) & 1
+                if (a === 0) continue
+
+                // Paint a tile
+                for (let v = 0; v < Settings.TILE_HEIGHT; ++v) {
+                    for (let u = 0; u < Settings.TILE_WIDTH; ++u) {
+                        this.setPoint(
+                            u + Settings.TILE_WIDTH * x + x0,
+                            v + Settings.TILE_HEIGHT * y + y0, 2)
+                    }
+                }
+            }
+        }
     }
 }
