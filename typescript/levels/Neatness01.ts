@@ -5,6 +5,8 @@ export class Neatness01 extends Level {
     constructor() {
         super()
 
+        this.reflect = true
+
         const x0 = 0.25 * Settings.IR_SCREEN_WIDTH | 0
         const y0 = 0.5 * Settings.IR_SCREEN_HEIGHT | 0
         const step = 20

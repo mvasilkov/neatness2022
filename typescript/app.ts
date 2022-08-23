@@ -16,6 +16,8 @@ pointer.addEventListeners(document)
 
 //#region Line painting function
 
+const enum EnabledPart { ALL, LEFT, RIGHT }
+
 /** (x, y, index) */
 type FloodFillPoint = [number, number, number]
 
@@ -23,6 +25,17 @@ const startPoint = new Vec2
 const endPoint = new Vec2
 
 function paintLine(x0: number, y0: number, x1: number, y1: number) {
+    _paintLine(x0, y0, x1, y1,
+        state.level.reflect ? EnabledPart.LEFT : EnabledPart.ALL)
+
+    if (state.level.reflect) {
+        // Reflection
+        _paintLine(Settings.SCREEN_WIDTH - x0, y0,
+            Settings.SCREEN_WIDTH - x1, y1, EnabledPart.RIGHT)
+    }
+}
+
+function _paintLine(x0: number, y0: number, x1: number, y1: number, enabled: EnabledPart) {
     if (state.levelPhase !== LevelPhase.RUNNING) return
 
     // Convert to internal resolution
@@ -42,7 +55,7 @@ function paintLine(x0: number, y0: number, x1: number, y1: number) {
     const x1trunc = x1 | 0
     const y1trunc = y1 | 0
 
-    activatePoint(x0trunc, y0trunc)
+    activatePoint(x0trunc, y0trunc, enabled)
 
     // Check if it's a single point
     if (x0trunc === x1trunc && y0trunc === y1trunc) {
@@ -70,7 +83,7 @@ function paintLine(x0: number, y0: number, x1: number, y1: number) {
         }
 
         // Paint the actual line
-        if (activatePoint(x, y)) {
+        if (activatePoint(x, y, enabled)) {
             // If we're still waiting for a flood fill point
             if (!addedPointInThisRun) {
                 // Save an adjacent connection's index
@@ -115,7 +128,14 @@ function _floodFill(pointsToFloodFill: FloodFillPoint[]) {
     }
 }
 
-function activatePoint(x: number, y: number): boolean {
+function activatePoint(x: number, y: number, enabled: EnabledPart): boolean {
+    if (x < 0.5 * Settings.IR_SCREEN_WIDTH) {
+        if (enabled === EnabledPart.RIGHT) return false
+    }
+    else {
+        if (enabled === EnabledPart.LEFT) return false
+    }
+
     const currentValue = painting[y][x]
 
     // Can only paint over nothing (0) or unconnected paint (1).

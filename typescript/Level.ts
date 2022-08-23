@@ -14,6 +14,7 @@ export class Level {
     exitPoints: Hotspot[]
     hotspots: { [n: number]: Hotspot }
     connected: boolean[][]
+    reflect: boolean
 
     constructor() {
         this.entryPoints = []
@@ -23,6 +24,8 @@ export class Level {
         // Lazy connectivity table using sparse arrays,
         // I wish I had a defaultdict like in Python.
         this.connected = Array.from({ length: 30 }, () => [])
+
+        this.reflect = false
     }
 
     reset() {
