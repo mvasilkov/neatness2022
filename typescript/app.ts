@@ -9,7 +9,7 @@ import { enterLevel } from './levels.js'
 import { Painter } from './Painter.js'
 import { painting, Settings } from './prelude.js'
 import { enterLevelPhase, LevelPhase, state } from './state.js'
-import { paintRestartMessage } from './visuals.js'
+import { paintRestartMessage, reflection } from './visuals.js'
 
 const pointer = new Painter(canvasPaint.canvas, paintLine)
 pointer.addEventListeners(document)
@@ -193,6 +193,11 @@ function paint(t: number) {
 
     for (const hotspot of Object.values(state.level.hotspots)) {
         hotspot.paint()
+    }
+
+    if (state.level.reflect) {
+        conUI.drawImage(reflection, 0, 0, reflection.width, reflection.height,
+            0.5 * Settings.SCREEN_WIDTH, 0, 0.5 * Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT)
     }
 
     const phaseProgress = lerp(state.oldProgress, state.phaseProgress, t)

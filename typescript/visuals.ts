@@ -16,3 +16,26 @@ export function paintRestartMessage(opacity: number) {
         0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT)
     conUI.globalAlpha = 1
 }
+
+export const reflection = new CanvasHandle(document.createElement('canvas'), 0.5 * Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, (con, width, heigth) => {
+    const gradient1 = con.createRadialGradient(0, 0, 0, 0, 0, width)
+    gradient1.addColorStop(0, '#ffffff40')
+    gradient1.addColorStop(0.8, '#ffffff00')
+
+    con.fillStyle = gradient1
+    con.fillRect(0, 0, width, heigth)
+
+    const gradient2 = con.createLinearGradient(0, 0, width, 0.087 * width)
+    gradient2.addColorStop(0, '#ffffff00')
+    gradient2.addColorStop(0.3333, '#ffffff20')
+    gradient2.addColorStop(0.3334, '#ffffff00')
+
+    con.fillStyle = gradient2
+    con.fillRect(0, 0, width, heigth)
+
+    con.beginPath()
+    con.lineTo(0, 0)
+    con.lineTo(0, Settings.SCREEN_HEIGHT)
+    con.strokeStyle = '#ffffff40'
+    con.stroke()
+}).canvas
