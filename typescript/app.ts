@@ -195,6 +195,17 @@ function paint(t: number) {
         hotspot.paint()
     }
 
+    if (state.level.reflect) {
+        conUI.beginPath()
+        conUI.lineTo(0.5 * Settings.SCREEN_WIDTH + 0.5, 0.5)
+        conUI.lineTo(Settings.SCREEN_WIDTH - 0.5, 0.5)
+        conUI.lineTo(Settings.SCREEN_WIDTH - 0.5, Settings.SCREEN_HEIGHT - 0.5)
+        conUI.lineTo(0.5 * Settings.SCREEN_WIDTH + 0.5, Settings.SCREEN_HEIGHT - 0.5)
+        conUI.closePath()
+        conUI.strokeStyle = '#ff6eaf'
+        conUI.stroke()
+    }
+
     const phaseProgress = lerp(state.oldProgress, state.phaseProgress, t)
 
     switch (state.levelPhase) {
