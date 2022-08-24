@@ -9,7 +9,7 @@ import { enterLevel } from './levels.js'
 import { Painter } from './Painter.js'
 import { painting, Settings } from './prelude.js'
 import { enterLevelPhase, LevelPhase, state } from './state.js'
-import { paintRestartMessage } from './visuals.js'
+import { paintRestartMessage, reflection } from './visuals.js'
 
 const pointer = new Painter(canvasPaint.canvas, paintLine)
 pointer.addEventListeners(document)
@@ -196,14 +196,9 @@ function paint(t: number) {
     }
 
     if (state.level.reflect) {
-        conUI.beginPath()
-        conUI.lineTo(0.5 * Settings.SCREEN_WIDTH + 0.5, 0.5)
-        conUI.lineTo(Settings.SCREEN_WIDTH - 0.5, 0.5)
-        conUI.lineTo(Settings.SCREEN_WIDTH - 0.5, Settings.SCREEN_HEIGHT - 0.5)
-        conUI.lineTo(0.5 * Settings.SCREEN_WIDTH + 0.5, Settings.SCREEN_HEIGHT - 0.5)
-        conUI.closePath()
-        conUI.strokeStyle = '#ff6eaf'
-        conUI.stroke()
+        // Paint the reflection border
+        conUI.drawImage(reflection, 0, 0, reflection.width, reflection.height,
+            0.5 * Settings.SCREEN_WIDTH, 0, 0.5 * Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT)
     }
 
     const phaseProgress = lerp(state.oldProgress, state.phaseProgress, t)
