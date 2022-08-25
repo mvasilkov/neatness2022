@@ -1,11 +1,13 @@
 import { conPaint } from './canvas.js'
 import { Hotspot } from './Hotspot.js'
-import { painting, Settings } from './prelude.js'
+import { oldPainting, painting, Settings } from './prelude.js'
 import { enterLevelPhase, LevelPhase } from './state.js'
 
 // Indices are as follows:
 // 0 – nothing
 // 1 – unconnected paint
+// 2 – tile
+// 3 – fungus
 // [10, 20) – entry point
 // [20, 30) – exit point
 
@@ -15,6 +17,7 @@ export class Level {
     hotspots: { [n: number]: Hotspot }
     connected: boolean[][]
     reflect: boolean
+    fungus: boolean
 
     constructor() {
         this.entryPoints = []
@@ -26,6 +29,7 @@ export class Level {
         this.connected = Array.from({ length: 30 }, () => [])
 
         this.reflect = false
+        this.fungus = false
     }
 
     reset() {
@@ -166,4 +170,41 @@ export class Level {
             }
         }
     }
+
+    advanceFungus() {
+        if (!this.fungus) return
+
+        for (let y = 0; y < Settings.IR_SCREEN_HEIGHT; ++y) {
+            for (let x = 0; x < Settings.IR_SCREEN_WIDTH; ++x) {
+                oldPainting[y][x] = painting[y][x]
+            }
+        }
+
+        let left: number, center: number, right: number
+
+        for (let y = 0; y < Settings.IR_SCREEN_HEIGHT; ++y) {
+            left = 0
+            center = _fungusCol(0, y)
+
+            for (let x = 0; x < Settings.IR_SCREEN_WIDTH; ++x) {
+                right = x < Settings.IR_SCREEN_WIDTH - 1 ? _fungusCol(x + 1, y) : 0
+
+                if (painting[y][x] === 0) {
+                    const neighbours = left + center + right - (oldPainting[y][x] === 3 ? 1 : 0)
+                    if (neighbours === 3) {
+                        this.setPoint(x, y, 3)
+                    }
+                }
+
+                left = center
+                center = right
+            }
+        }
+    }
+}
+
+function _fungusCol(x: number, y: number) {
+    return (y > 0 && oldPainting[y - 1][x] === 3 ? 1 : 0) +
+        (oldPainting[y][x] === 3 ? 1 : 0) +
+        (y < Settings.IR_SCREEN_HEIGHT - 1 && oldPainting[y + 1][x] === 3 ? 1 : 0)
 }

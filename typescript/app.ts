@@ -136,6 +136,8 @@ function activatePoint(x: number, y: number, enabled: EnabledPart): boolean {
         if (enabled === EnabledPart.LEFT) return false
     }
 
+    state.level.advanceFungus()
+
     const currentValue = painting[y][x]
 
     // Can only paint over nothing (0) or unconnected paint (1).

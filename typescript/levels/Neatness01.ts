@@ -5,7 +5,7 @@ export class Neatness01 extends Level {
     constructor() {
         super()
 
-        this.reflect = true
+        this.fungus = true
 
         const x0 = 0.25 * Settings.IR_SCREEN_WIDTH | 0
         const y0 = 0.5 * Settings.IR_SCREEN_HEIGHT | 0
@@ -18,5 +18,17 @@ export class Neatness01 extends Level {
         }
 
         this.addHotspot(0.75 * Settings.IR_SCREEN_WIDTH | 0, 0.5 * Settings.IR_SCREEN_HEIGHT | 0, true)
+    }
+
+    override paintInternal(): void {
+        // Fungus
+        const x0 = 0.5 * Settings.IR_SCREEN_WIDTH
+        const y0 = 0.5 * Settings.IR_SCREEN_HEIGHT
+
+        for (let y = 0; y < 10; ++y) {
+            for (let x = 0; x < 10; ++x) {
+                if (Math.random() < 0.5) this.setPoint(x0 + x, y0 + y, 3)
+            }
+        }
     }
 }

@@ -33,3 +33,7 @@ export const enum Settings {
 export const painting = Array.from(
     { length: Settings.IR_SCREEN_HEIGHT }, () => Array.from(
         { length: Settings.IR_SCREEN_WIDTH }, () => 0))
+
+export const oldPainting = Array.from(
+    { length: Settings.IR_SCREEN_HEIGHT }, () => Array.from(
+        { length: Settings.IR_SCREEN_WIDTH }, () => 0))
