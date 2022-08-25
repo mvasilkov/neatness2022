@@ -18,7 +18,7 @@ export function paintRestartMessage(opacity: number) {
 }
 
 export const reflection = new CanvasHandle(document.createElement('canvas'), 0.5 * Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, (con, width, height) => {
-    con.strokeStyle = '#ff6eaf'
+    con.strokeStyle = '#eaeae8'
 
     for (let n = 0; n < 2 * height; n += 10) {
         con.beginPath()
@@ -29,13 +29,13 @@ export const reflection = new CanvasHandle(document.createElement('canvas'), 0.5
     }
 
     con.clearRect(0, 10, width, height - 20)
+    con.clearRect(0, 0, 5, height)
+    con.clearRect(width - 5, 0, 5, height)
 
     con.beginPath()
     con.lineTo(0.5, 0.5)
-    con.lineTo(width - 0.5, 0.5)
-    con.lineTo(width - 0.5, height - 0.5)
     con.lineTo(0.5, height - 0.5)
-    con.closePath()
 
+    con.setLineDash([20, 4, 3, 4])
     con.stroke()
 }).canvas

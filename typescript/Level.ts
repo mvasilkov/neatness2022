@@ -69,6 +69,7 @@ export class Level {
         let color
         if (index === 0) color = '#000' // This shouldn't happen
         else if (index === 1) color = '#ffe091'
+        else if (index === 2) color = '#eaeae8'
         else if (index >= 10 && index < 20) color =
             this.hotspots[index].isSatisfied ? '#ffe091' : '#8cff9b'
         else if (index >= 20 && index < 30) color =
