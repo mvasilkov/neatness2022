@@ -17,3 +17,5 @@ export const tiles = [
     0b000000001111111111111111,
 ]
 export const width = 24
+export const xs = [126, 294]
+export const ys = [103, 167]

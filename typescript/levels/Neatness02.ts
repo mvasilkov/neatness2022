@@ -1,12 +1,12 @@
 import { Level } from '../Level.js'
-import { tiles, width } from './tiles/Neatness02.js'
+import { tiles, width, xs, ys } from './tiles/Neatness02.js'
 
 export class Neatness02 extends Level {
     constructor() {
         super()
 
-        this.addHotspot(126, 103, false)
-        this.addHotspot(294, 167, true)
+        this.addHotspot(xs[0], ys[0], false)
+        this.addHotspot(xs[1], ys[1], true)
     }
 
     override paintInternal() {
