@@ -136,14 +136,14 @@ function activatePoint(x: number, y: number, enabled: EnabledPart): boolean {
         if (enabled === EnabledPart.LEFT) return false
     }
 
-    state.level.advanceFungus()
-
     const currentValue = painting[y][x]
 
     // Can only paint over nothing (0) or unconnected paint (1).
     if (currentValue > 1) return false
 
     state.level.setPoint(x, y, 1)
+
+    if (currentValue === 0) state.level.advanceFungus()
 
     return true
 }
@@ -169,7 +169,7 @@ function update() {
             // Turn skulls
             if (++state.skullsTurnProgress >= Settings.skullsTurnPeriod) {
                 state.skullsTurnProgress -= Settings.skullsTurnPeriod
-                if (Math.random() < 0.5) {
+                if (Math.random() < 0.5 && state.level.entryPoints.length > 0) {
                     const n = Math.random() * state.level.entryPoints.length | 0
                     state.level.entryPoints[n].turn()
                 }

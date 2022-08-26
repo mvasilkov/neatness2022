@@ -27,6 +27,8 @@ export const enum Settings {
     hotspotRx = Settings.TILE_WIDTH,
     hotspotRy = Settings.TILE_HEIGHT,
     hotspotSpriteSize = 22,
+
+    fungusRange = 128,
 }
 
 /** Painting buffer */

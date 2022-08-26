@@ -18,6 +18,7 @@ export class Level {
     connected: boolean[][]
     reflect: boolean
     fungus: boolean
+    fungusGeneration: number
 
     constructor() {
         this.entryPoints = []
@@ -30,6 +31,7 @@ export class Level {
 
         this.reflect = false
         this.fungus = false
+        this.fungusGeneration = 0
     }
 
     reset() {
@@ -56,6 +58,9 @@ export class Level {
             hotspot.isSatisfied = false
             hotspot.paintInternal()
         }
+
+        // 5) Fungus
+        this.fungusGeneration = 0
     }
 
     addHotspot(x: number, y: number, isExit: boolean) {
@@ -74,6 +79,7 @@ export class Level {
         if (index === 0) color = '#000' // This shouldn't happen
         else if (index === 1) color = '#ffe091'
         else if (index === 2) color = '#eaeae8'
+        else if (index === 3) color = '#ff0040' + (this.fungusGeneration + 128).toString(16)
         else if (index >= 10 && index < 20) color =
             this.hotspots[index].isSatisfied ? '#ffe091' : '#8cff9b'
         else if (index >= 20 && index < 30) color =
@@ -191,7 +197,7 @@ export class Level {
 
                 if (painting[y][x] === 0) {
                     const neighbours = left + center + right - (oldPainting[y][x] === 3 ? 1 : 0)
-                    if (neighbours === 3) {
+                    if (neighbours === 3 || neighbours === 6) {
                         this.setPoint(x, y, 3)
                     }
                 }
@@ -199,6 +205,11 @@ export class Level {
                 left = center
                 center = right
             }
+        }
+
+        this.fungusGeneration += 4
+        if (this.fungusGeneration >= Settings.fungusRange) {
+            this.fungusGeneration = 0
         }
     }
 }

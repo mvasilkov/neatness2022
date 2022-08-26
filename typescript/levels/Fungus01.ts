@@ -17,7 +17,7 @@ export class Fungus01 extends Level {
     override paintInternal() {
         this.paintInternalTiles(tiles, width)
 
-        const prng = new Mulberry32(11)
+        const prng = new Mulberry32(12)
 
         const fungus = new Hotspot(this, xs[0], ys[0], 3, false)
         fungus._paintInternal((x, y) => {
