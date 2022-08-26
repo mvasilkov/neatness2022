@@ -60,7 +60,7 @@ def run():
         p = Image.open(png_file)
         width, height = p.size
 
-        save_points = [(x, y) for x in range(width) for y in range(height) if p.getpixel((x, y)) == (255, 0, 128)]
+        save_points = [(x, y) for y in range(height) for x in range(width) if p.getpixel((x, y)) == (255, 0, 128)]
 
         buf = [
             [0 if p.getpixel((x, y)) in ((0, 0, 0), (255, 0, 128)) else 1 for x in range(width)] for y in range(height)
