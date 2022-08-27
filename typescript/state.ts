@@ -10,6 +10,9 @@ interface State {
     phaseProgress: number,
     oldProgress: number,
     skullsTurnProgress: number,
+    buttonsEnabled: number,
+    buttonsPressed: [boolean, boolean, boolean],
+    oldPressed: [boolean, boolean, boolean],
 }
 
 export const state: State = {
@@ -19,6 +22,9 @@ export const state: State = {
     phaseProgress: 0,
     oldProgress: 0,
     skullsTurnProgress: 0,
+    buttonsEnabled: 3,
+    buttonsPressed: [false, false, false],
+    oldPressed: [false, false, false],
 }
 
 export function enterLevelPhase(phase: LevelPhase, initialProgress = 0) {

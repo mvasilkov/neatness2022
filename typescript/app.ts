@@ -2,6 +2,7 @@ import { lerp } from '../node_modules/natlib/interpolation.js'
 import { startMainloop } from '../node_modules/natlib/scheduling/mainloop.js'
 import { Vec2 } from '../node_modules/natlib/Vec2.js'
 
+import { updateButtons } from './buttons.js'
 import { canvasPaint, conUI } from './canvas.js'
 import { ddaWalk } from './ddaWalk.js'
 import { floodFill } from './floodFill.js'
@@ -178,6 +179,8 @@ function update() {
             for (const hotspot of state.level.entryPoints) {
                 hotspot.update()
             }
+            // Update button state
+            updateButtons(pointer)
             break
 
         case LevelPhase.FAILING:

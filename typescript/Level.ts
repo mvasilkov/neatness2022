@@ -74,7 +74,7 @@ export class Level {
         this.fungusGeneration = 0
 
         // 6) Toolbar
-        paintToolbar(3)
+        paintToolbar()
     }
 
     addHotspot(x: number, y: number, isExit: boolean) {
