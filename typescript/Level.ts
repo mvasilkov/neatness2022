@@ -1,3 +1,4 @@
+import { paint1BppSprite, paintToolbar } from './buttons.js'
 import { conPaint } from './canvas.js'
 import { Hotspot } from './Hotspot.js'
 import { oldPainting, painting, Settings } from './prelude.js'
@@ -71,6 +72,9 @@ export class Level {
 
         // 5) Fungus
         this.fungusGeneration = 0
+
+        // 6) Toolbar
+        paintToolbar(3)
     }
 
     addHotspot(x: number, y: number, isExit: boolean) {
@@ -170,21 +174,16 @@ export class Level {
         const x0 = 0.5 * (Settings.IR_SCREEN_WIDTH - Settings.TILE_WIDTH * width) | 0
         const y0 = 0.5 * (Settings.IR_SCREEN_HEIGHT - Settings.TILE_HEIGHT * tiles.length) | 0
 
-        for (let y = 0; y < tiles.length; ++y) {
-            for (let x = 0; x < width; ++x) {
-                const a = tiles[y] >> (width - 1 - x) & 1
-                if (a === 0) continue
-
-                // Paint a tile
-                for (let v = 0; v < Settings.TILE_HEIGHT; ++v) {
-                    for (let u = 0; u < Settings.TILE_WIDTH; ++u) {
-                        this.setPoint(
-                            u + Settings.TILE_WIDTH * x + x0,
-                            v + Settings.TILE_HEIGHT * y + y0, 2)
-                    }
+        paint1BppSprite(tiles, width, (x, y) => {
+            // Paint a tile
+            for (let v = 0; v < Settings.TILE_HEIGHT; ++v) {
+                for (let u = 0; u < Settings.TILE_WIDTH; ++u) {
+                    this.setPoint(
+                        u + Settings.TILE_WIDTH * x + x0,
+                        v + Settings.TILE_HEIGHT * y + y0, 2)
                 }
             }
-        }
+        })
     }
 
     advanceFungus() {

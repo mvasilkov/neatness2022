@@ -29,6 +29,10 @@ export const enum Settings {
     hotspotSpriteSize = 22,
 
     fungusLifeExpectancy = 32,
+
+    // Toolbar
+    buttonWidth = 15,
+    buttonHeight = 18,
 }
 
 /** Painting buffer */

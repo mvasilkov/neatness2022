@@ -69,7 +69,6 @@ const paletteGrave = [
 function getRenderingFunction(sprite: number[], width: number, palette: string[], scale: number, flip = false) {
     return function (con: CanvasRenderingContext2D) {
         con.scale(scale, scale)
-        con.clearRect(0, 0, width, sprite.length)
 
         for (let y = 0; y < sprite.length; ++y) {
             for (let x = 0; x < width; ++x) {

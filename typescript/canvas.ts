@@ -57,15 +57,3 @@ export function paintTextBlob(con: CanvasRenderingContext2D, x: number, y: numbe
     con.fillStyle = color
     con.fillText(text, x, y)
 }
-
-// Not used
-export function paint1BppSprite(con: CanvasRenderingContext2D, x0: number, y0: number, tiles: number[], width: number, flip = false) {
-    for (let y = 0; y < tiles.length; ++y) {
-        for (let x = 0; x < width; ++x) {
-            const a = tiles[y] >> (flip ? x : width - 1 - x) & 1
-            if (a === 0) continue
-
-            con.fillRect(x + x0, y + y0, 1, 1)
-        }
-    }
-}
