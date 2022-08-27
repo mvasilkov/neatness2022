@@ -17,8 +17,13 @@ export class Level {
     hotspots: { [n: number]: Hotspot }
     connected: boolean[][]
     reflect: boolean
+    // Fungus
     fungus: boolean
     fungusGeneration: number
+    fungusLeft: number
+    fungusTop: number
+    fungusRight: number
+    fungusBottom: number
 
     constructor() {
         this.entryPoints = []
@@ -30,8 +35,13 @@ export class Level {
         this.connected = Array.from({ length: 30 }, () => [])
 
         this.reflect = false
+        // Fungus
         this.fungus = false
         this.fungusGeneration = 0
+        this.fungusLeft = 0
+        this.fungusTop = 0
+        this.fungusRight = 0
+        this.fungusBottom = 0
     }
 
     reset() {
@@ -79,7 +89,7 @@ export class Level {
         if (index === 0) color = '#000' // This shouldn't happen
         else if (index === 1) color = '#ffe091'
         else if (index === 2) color = '#eaeae8'
-        else if (index === 3) color = '#ff0040' + (this.fungusGeneration + 128).toString(16)
+        else if (index === 3) color = '#ff0040' + (4 * this.fungusGeneration + 127).toString(16)
         else if (index >= 10 && index < 20) color =
             this.hotspots[index].isSatisfied ? '#ffe091' : '#8cff9b'
         else if (index >= 20 && index < 30) color =
@@ -180,20 +190,20 @@ export class Level {
     advanceFungus() {
         if (!this.fungus) return
 
-        for (let y = 0; y < Settings.IR_SCREEN_HEIGHT; ++y) {
-            for (let x = 0; x < Settings.IR_SCREEN_WIDTH; ++x) {
+        for (let y = this.fungusTop; y < this.fungusBottom; ++y) {
+            for (let x = this.fungusLeft; x < this.fungusRight; ++x) {
                 oldPainting[y][x] = painting[y][x]
             }
         }
 
         let left: number, center: number, right: number
 
-        for (let y = 0; y < Settings.IR_SCREEN_HEIGHT; ++y) {
+        for (let y = this.fungusTop; y < this.fungusBottom; ++y) {
             left = 0
-            center = _fungusCol(0, y)
+            center = this._fungusCol(this.fungusLeft, y)
 
-            for (let x = 0; x < Settings.IR_SCREEN_WIDTH; ++x) {
-                right = x < Settings.IR_SCREEN_WIDTH - 1 ? _fungusCol(x + 1, y) : 0
+            for (let x = this.fungusLeft; x < this.fungusRight; ++x) {
+                right = x < this.fungusRight - 1 ? this._fungusCol(x + 1, y) : 0
 
                 if (painting[y][x] === 0) {
                     const neighbours = left + center + right - (oldPainting[y][x] === 3 ? 1 : 0)
@@ -207,15 +217,15 @@ export class Level {
             }
         }
 
-        this.fungusGeneration += 4
-        if (this.fungusGeneration >= Settings.fungusRange) {
+        ++this.fungusGeneration
+        if (this.fungusGeneration > Settings.fungusLifeExpectancy) {
             this.fungusGeneration = 0
         }
     }
-}
 
-function _fungusCol(x: number, y: number) {
-    return (y > 0 && oldPainting[y - 1][x] === 3 ? 1 : 0) +
-        (oldPainting[y][x] === 3 ? 1 : 0) +
-        (y < Settings.IR_SCREEN_HEIGHT - 1 && oldPainting[y + 1][x] === 3 ? 1 : 0)
+    _fungusCol(x: number, y: number) {
+        return (y > this.fungusTop && oldPainting[y - 1][x] === 3 ? 1 : 0) +
+            (oldPainting[y][x] === 3 ? 1 : 0) +
+            (y < this.fungusBottom - 1 && oldPainting[y + 1][x] === 3 ? 1 : 0)
+    }
 }

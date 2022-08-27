@@ -9,9 +9,13 @@ export class Fungus01 extends Level {
         super()
 
         this.fungus = true
+        this.fungusLeft = xs[0]
+        this.fungusTop = ys[0]
+        this.fungusRight = xs[4]
+        this.fungusBottom = ys[4]
 
-        this.addHotspot(xs[1], ys[1], false)
-        this.addHotspot(xs[2], ys[2], true)
+        this.addHotspot(xs[2], ys[2], false)
+        this.addHotspot(xs[3], ys[3], true)
     }
 
     override paintInternal() {
@@ -19,7 +23,7 @@ export class Fungus01 extends Level {
 
         const prng = new Mulberry32(12)
 
-        const fungus = new Hotspot(this, xs[0], ys[0], 3, false)
+        const fungus = new Hotspot(this, xs[1], ys[1], 3, false)
         fungus._paintInternal((x, y) => {
             if (prng.random() < 0.5) this.setPoint(x, y, 3)
         })
