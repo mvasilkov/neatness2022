@@ -13,6 +13,7 @@ interface State {
     buttonsEnabled: number,
     buttonsPressed: [boolean, boolean, boolean],
     oldPressed: [boolean, boolean, boolean],
+    soundEnabled: boolean,
 }
 
 export const state: State = {
@@ -25,6 +26,7 @@ export const state: State = {
     buttonsEnabled: 3,
     buttonsPressed: [false, false, false],
     oldPressed: [false, false, false],
+    soundEnabled: true,
 }
 
 export function enterLevelPhase(phase: LevelPhase, initialProgress = 0) {

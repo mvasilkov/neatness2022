@@ -62,19 +62,15 @@ export class Level {
                 painting[y][x] = 0
             }
         }
+        this.fungusGeneration = 0
         this.paintInternal()
+        paintToolbar()
 
         // 4) Hotspots
         for (const hotspot of Object.values(this.hotspots)) {
             hotspot.isSatisfied = false
             hotspot.paintInternal()
         }
-
-        // 5) Fungus
-        this.fungusGeneration = 0
-
-        // 6) Toolbar
-        paintToolbar()
     }
 
     addHotspot(x: number, y: number, isExit: boolean) {
