@@ -61,7 +61,7 @@ export function paintToolbar() {
         paint1BppSprite(buttons[n], 7, (x, y) => {
             conPaint.rect(x + x0 + 4, y + p + v0 + 3, 1, 1)
         })
-        conPaint.fillStyle = (n === 0 && state.soundEnabled) ? '#ffe091' : '#000'
+        conPaint.fillStyle = (n === 0 && !state.soundEnabled) ? '#f8401b' : '#000'
         conPaint.fill()
 
         for (let x = 0; x < Settings.buttonWidth; ++x) {
@@ -113,17 +113,19 @@ export function updateButtons(pointer: Pointer) {
         state.oldPressed[1] !== state.buttonsPressed[1] ||
         state.oldPressed[2] !== state.buttonsPressed[2]) {
         // Pressed buttons changed
-        if (state.oldPressed[0] && !state.buttonsPressed[0]) {
-            // Music button released
-            state.soundEnabled = !state.soundEnabled
-        }
-        if (state.oldPressed[1] && !state.buttonsPressed[1]) {
-            // Reset button released
-            state.level.reset()
-        }
-        if (state.oldPressed[2] && !state.buttonsPressed[2]) {
-            // Level button released
-            console.log('Level!')
+        if (!pointer.held) {
+            if (state.oldPressed[0] && !state.buttonsPressed[0]) {
+                // Music button released
+                state.soundEnabled = !state.soundEnabled
+            }
+            if (state.oldPressed[1] && !state.buttonsPressed[1]) {
+                // Reset button released
+                state.level.reset()
+            }
+            if (state.oldPressed[2] && !state.buttonsPressed[2]) {
+                // Level button released
+                console.log('Level!')
+            }
         }
         paintToolbar()
     }
