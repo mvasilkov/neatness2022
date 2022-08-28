@@ -4,6 +4,7 @@ import { Vec2 } from '../node_modules/natlib/Vec2.js'
 
 import { updateButtons } from './buttons.js'
 import { canvasPaint, conUI } from './canvas.js'
+import { paintCurtain, _paintCurtain } from './curtain.js'
 import { ddaWalk } from './ddaWalk.js'
 import { floodFill } from './floodFill.js'
 import { enterLevel } from './levels.js'
@@ -159,7 +160,13 @@ function update() {
     switch (state.levelPhase) {
         case LevelPhase.INITIAL:
             state.level.reset()
-            enterLevelPhase(LevelPhase.RUNNING)
+            enterLevelPhase(LevelPhase.ENTERING, Settings.curtainDuration)
+            break
+
+        case LevelPhase.ENTERING:
+            if (--state.phaseProgress <= 0) {
+                enterLevelPhase(LevelPhase.RUNNING)
+            }
             break
 
         case LevelPhase.RUNNING:
@@ -181,6 +188,10 @@ function update() {
             }
             // Update button state
             updateButtons(pointer)
+            // Win condition
+            if (state.level.hasWon()) {
+                enterLevelPhase(LevelPhase.WINNING)
+            }
             break
 
         case LevelPhase.FAILING:
@@ -190,6 +201,11 @@ function update() {
             state.level.reset()
             enterLevelPhase(LevelPhase.RUNNING, Settings.restartMessageDuration)
             break
+
+        case LevelPhase.WINNING:
+            if (++state.phaseProgress >= Settings.curtainDuration) {
+                enterLevelPhase(LevelPhase.INITIAL)
+            }
     }
 }
 
@@ -209,6 +225,18 @@ function paint(t: number) {
     const phaseProgress = lerp(state.oldProgress, state.phaseProgress, t)
 
     switch (state.levelPhase) {
+        case LevelPhase.INITIAL:
+            // Paint the entire curtain
+            _paintCurtain(0.5 * Settings.SCREEN_WIDTH, 0.5 * Settings.SCREEN_HEIGHT,
+                -0.5 * Settings.displaySize, 0.5 * Settings.displaySize)
+            break
+
+        case LevelPhase.ENTERING:
+        case LevelPhase.WINNING:
+            // Paint the curtain
+            paintCurtain(t)
+            break
+
         case LevelPhase.RUNNING:
             // Fade out restartMessage
             if (phaseProgress > 0) {

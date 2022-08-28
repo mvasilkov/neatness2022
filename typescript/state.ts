@@ -1,7 +1,7 @@
 import type { Level } from './Level'
 
 export const enum LevelPhase {
-    INITIAL, RUNNING, FAILING, WINNING,
+    INITIAL, ENTERING, RUNNING, FAILING, WINNING,
 }
 
 interface State {

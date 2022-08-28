@@ -33,6 +33,10 @@ export const enum Settings {
     // Toolbar
     buttonWidth = 15,
     buttonHeight = 18,
+
+    // Curtain
+    displaySize = 1102, // Math.ceil((SCREEN_WIDTH ** 2 + SCREEN_HEIGHT ** 2) ** 0.5)
+    curtainDuration = 24,
 }
 
 /** Painting buffer */

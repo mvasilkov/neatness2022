@@ -1,3 +1,5 @@
+import { Mulberry32 } from '../node_modules/natlib/prng/Mulberry32.js'
+
 import { paint1BppSprite, paintToolbar } from './buttons.js'
 import { conPaint } from './canvas.js'
 import { Hotspot } from './Hotspot.js'
@@ -163,6 +165,13 @@ export class Level {
         this._connect(a, b)
     }
 
+    hasWon(): boolean {
+        for (const hotspot of this.entryPoints) {
+            if (!hotspot.isSatisfied) return false
+        }
+        return true
+    }
+
     paintInternal() {
     }
 
@@ -179,6 +188,15 @@ export class Level {
                         v + Settings.TILE_HEIGHT * y + y0, 2)
                 }
             }
+        })
+    }
+
+    paintInternalFungus(x0: number, y0: number, prngSeed: number) {
+        const prng = new Mulberry32(prngSeed)
+
+        const fungus = new Hotspot(this, x0, y0, 3, false)
+        fungus._paintInternal((x, y) => {
+            if (prng.random() < 0.5) this.setPoint(x, y, 3)
         })
     }
 
