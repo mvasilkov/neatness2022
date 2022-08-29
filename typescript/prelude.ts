@@ -36,7 +36,7 @@ export const enum Settings {
 
     // Curtain
     displaySize = 1102, // Math.ceil((SCREEN_WIDTH ** 2 + SCREEN_HEIGHT ** 2) ** 0.5)
-    curtainDuration = 24,
+    curtainDuration = 48,
 }
 
 /** Painting buffer */

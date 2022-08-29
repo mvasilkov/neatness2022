@@ -61,7 +61,7 @@ export function paintToolbar() {
         paint1BppSprite(buttons[n], 7, (x, y) => {
             conPaint.rect(x + x0 + 4, y + p + v0 + 3, 1, 1)
         })
-        conPaint.fillStyle = (n === 0 && !state.soundEnabled) ? '#f8401b' : '#000'
+        conPaint.fillStyle = (n === 0 && !state.soundEnabled) ? '#ff0040' : '#000'
         conPaint.fill()
 
         for (let x = 0; x < Settings.buttonWidth; ++x) {

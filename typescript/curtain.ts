@@ -7,10 +7,10 @@ import { easeInQuad, easeOutQuad } from './utils.js'
 
 const curtain = new CanvasHandle(document.createElement('canvas'),
     Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, (con, width, height) => {
-        // Colors: https://uigradients.com/#PinotNoir
-        const gradient = con.createLinearGradient(0, 0, width, 0)
-        gradient.addColorStop(0, '#4b6cb7')
-        gradient.addColorStop(1, '#182848')
+        // Colors: https://uigradients.com/#Dusk
+        const gradient = con.createLinearGradient(0, 0, 0, height)
+        gradient.addColorStop(0, '#2c3e50')
+        gradient.addColorStop(1, '#fd746c')
 
         con.fillStyle = gradient
         con.fillRect(0, 0, width, height)

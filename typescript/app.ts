@@ -204,7 +204,7 @@ function update() {
 
         case LevelPhase.WINNING:
             if (++state.phaseProgress >= Settings.curtainDuration) {
-                enterLevelPhase(LevelPhase.INITIAL)
+                enterLevel(++state.levelIndex)
             }
     }
 }
@@ -252,6 +252,9 @@ function paint(t: number) {
 }
 
 enterLevel(0)
+// First level starts abruptly
+state.level.reset() // Usually called by the INITIAL state
+enterLevelPhase(LevelPhase.RUNNING)
 
 startMainloop(update, paint)
 
