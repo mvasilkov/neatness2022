@@ -1,14 +1,38 @@
 import { CanvasHandle } from '../node_modules/natlib/canvas/CanvasHandle.js'
 
-import { conUI } from './canvas.js'
+import { conUI, setFontStyle } from './canvas.js'
 import { Settings } from './prelude.js'
 import { LevelPhase, state } from './state.js'
 import { easeInQuad, easeOutQuad } from './utils.js'
 
 const curtain = new CanvasHandle(document.createElement('canvas'),
     Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, (con, width, height) => {
-        con.fillStyle = '#ff0080'
+        // Colors: https://uigradients.com/#PinotNoir
+        const gradient = con.createLinearGradient(0, 0, width, 0)
+        gradient.addColorStop(0, '#4b6cb7')
+        gradient.addColorStop(1, '#182848')
+
+        con.fillStyle = gradient
         con.fillRect(0, 0, width, height)
+
+        const text = 'only in death does duty end'
+        const longText = Array.from({ length: 8 }, () => ' ').join(text)
+
+        setFontStyle(con, '24')
+        con.textAlign = 'center'
+        con.textBaseline = 'middle'
+
+        const textWidth = con.measureText(text).width
+        const Δx = 0.25 * textWidth
+        const Δy = 48
+
+        con.fillStyle = '#ffffff80'
+        for (let n = -5; n <= 5; ++n) {
+            con.fillText(longText, 0.5 * width - Δx * n, 0.5 * height + Δy * n)
+        }
+
+        con.fillStyle = '#fff'
+        con.fillText(text, 0.5 * width, 0.5 * height)
     }).canvas
 
 export function paintCurtain(t: number) {
