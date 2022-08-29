@@ -1,5 +1,5 @@
+import { tiles, width, xs, ys } from '../bitmaps/Neatness02.js'
 import { Level } from '../Level.js'
-import { tiles, width, xs, ys } from './tiles/Neatness02.js'
 
 export class Neatness02 extends Level {
     constructor() {

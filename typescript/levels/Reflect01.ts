@@ -1,6 +1,6 @@
+import { tiles, width } from '../bitmaps/Reflect01.js'
 import { Level } from '../Level.js'
 import { Settings } from '../prelude.js'
-import { tiles, width } from './tiles/Reflect01.js'
 
 export class Reflect01 extends Level {
     constructor() {

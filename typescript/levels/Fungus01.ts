@@ -1,5 +1,5 @@
+import { tiles, width, xs, ys } from '../bitmaps/Fungus01.js'
 import { Level } from '../Level.js'
-import { tiles, width, xs, ys } from './tiles/Fungus01.js'
 
 export class Fungus01 extends Level {
     constructor() {

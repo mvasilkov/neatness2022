@@ -1,9 +1,9 @@
 import type { Pointer } from '../node_modules/natlib/controls/Pointer'
 
+import { tiles as buttonLevel } from './bitmaps/ButtonLevel.js'
+import { tiles as buttonMusic } from './bitmaps/ButtonMusic.js'
+import { tiles as buttonReset } from './bitmaps/ButtonReset.js'
 import { conPaint } from './canvas.js'
-import { tiles as buttonLevel } from './levels/tiles/ButtonLevel.js'
-import { tiles as buttonMusic } from './levels/tiles/ButtonMusic.js'
-import { tiles as buttonReset } from './levels/tiles/ButtonReset.js'
 import { painting, Settings } from './prelude.js'
 import { state } from './state.js'
 

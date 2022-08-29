@@ -75,7 +75,7 @@ def run():
 
         save_points = [(x0 + TILE_WIDTH * (x - left), y0 + TILE_HEIGHT * (y - top)) for x, y in save_points]
 
-        out = OUR_ROOT / 'typescript' / 'levels' / 'tiles' / png_file.name
+        out = OUR_ROOT / 'typescript' / 'bitmaps' / png_file.name
         out = out.with_suffix('.ts')
         out.write_text(as_typescript(buf, save_points), encoding='utf-8', newline='\n')
 
