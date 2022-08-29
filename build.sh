@@ -18,3 +18,5 @@ node_modules/.bin/terser -cmo build/app.opt.js build/app.js
 
 # Package
 zip -j9 build/app.zip build/app.opt.js
+# brew install advancecomp
+advzip -z4 build/app.zip
