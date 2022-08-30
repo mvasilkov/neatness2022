@@ -1,3 +1,4 @@
 node_modules/
 out/**/*.js
 virtual/
+.DS_Store

@@ -1,13 +1,16 @@
 import type { Level } from './Level'
-import { Fungus01 } from './levels/Fungus01.js'
 import { Neatness01 } from './levels/Neatness01.js'
 import { Neatness02 } from './levels/Neatness02.js'
+import { NeatnessR02 } from './levels/NeatnessR02.js'
 import { enterLevelPhase, LevelPhase, state } from './state.js'
 
 const LEVEL_CONS: typeof Level[] = [
-    Fungus01,
+    // The Neatness
     Neatness01,
     Neatness02,
+    // The Reflectance
+    NeatnessR02,
+    // The Hotness
 ]
 
 export function enterLevel(n: number) {
