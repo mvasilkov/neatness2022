@@ -2,6 +2,7 @@ import { Mulberry32 } from '../node_modules/natlib/prng/Mulberry32.js'
 
 import { paint1BppSprite, paintToolbar } from './buttons.js'
 import { conPaint } from './canvas.js'
+import { colorPaint, colorPaintA, colorPaintAInversion, colorPaintB, colorPaintBInversion, colorPaintInversion, colorTile, colorTileInversion } from './colors/colors.js'
 import { Hotspot } from './Hotspot.js'
 import { oldPainting, painting, Settings } from './prelude.js'
 import { enterLevelPhase, LevelPhase } from './state.js'
@@ -58,6 +59,12 @@ export class Level {
         conPaint.fillRect(0, 0,
             Settings.IR_SCREEN_WIDTH, Settings.IR_SCREEN_HEIGHT)
 
+        if (this.reflect) {
+            conPaint.fillStyle = '#fbfbfb'
+            conPaint.fillRect(0.5 * Settings.IR_SCREEN_WIDTH, 0,
+                0.5 * Settings.IR_SCREEN_WIDTH, Settings.IR_SCREEN_HEIGHT)
+        }
+
         // 3) Painting buffer
         for (let y = 0; y < Settings.IR_SCREEN_HEIGHT; ++y) {
             for (let x = 0; x < Settings.IR_SCREEN_WIDTH; ++x) {
@@ -86,16 +93,17 @@ export class Level {
     setPoint(x: number, y: number, index: number) {
         painting[y][x] = index
 
-        // Colors: https://lospec.com/palette-list/blk-neo
+        const inv = this.reflect && x >= 0.5 * Settings.IR_SCREEN_WIDTH
+
         let color
         if (index === 0) color = '#000' // This shouldn't happen
-        else if (index === 1) color = '#ffe091'
-        else if (index === 2) color = '#eaeae8'
+        else if (index === 1) color = (inv ? colorPaintInversion : colorPaint)
+        else if (index === 2) color = (inv ? colorTileInversion : colorTile)
         else if (index === 3) color = '#ff0040' + (4 * this.fungusGeneration + 127).toString(16)
         else if (index >= 10 && index < 20) color =
-            this.hotspots[index].isSatisfied ? '#ffe091' : '#8cff9b'
+            this.hotspots[index].isSatisfied ? (inv ? colorPaintInversion : colorPaint) : (inv ? colorPaintAInversion : colorPaintA)
         else if (index >= 20 && index < 30) color =
-            this.hotspots[index].isSatisfied ? '#ffe091' : '#78fae6'
+            this.hotspots[index].isSatisfied ? (inv ? colorPaintInversion : colorPaint) : (inv ? colorPaintBInversion : colorPaintB)
         else color = '#ff0040' // This shouldn't happen
 
         conPaint.fillStyle = color
@@ -175,20 +183,42 @@ export class Level {
     paintInternal() {
     }
 
-    paintInternalTiles(tiles: number[], width: number) {
-        const x0 = 0.5 * (Settings.IR_SCREEN_WIDTH - Settings.TILE_WIDTH * width) | 0
-        const y0 = 0.5 * (Settings.IR_SCREEN_HEIGHT - Settings.TILE_HEIGHT * tiles.length) | 0
+    paintInternalTiles(tiles: number[], width: number, tileWidth = Settings.TILE_WIDTH, tileHeight = Settings.TILE_HEIGHT) {
+        const x0 = 0.5 * (Settings.IR_SCREEN_WIDTH - tileWidth * width) | 0
+        const y0 = 0.5 * (Settings.IR_SCREEN_HEIGHT - tileHeight * tiles.length) | 0
 
         paint1BppSprite(tiles, width, (x, y) => {
             // Paint a tile
-            for (let v = 0; v < Settings.TILE_HEIGHT; ++v) {
-                for (let u = 0; u < Settings.TILE_WIDTH; ++u) {
+            for (let v = 0; v < tileHeight; ++v) {
+                for (let u = 0; u < tileWidth; ++u) {
                     this.setPoint(
-                        u + Settings.TILE_WIDTH * x + x0,
-                        v + Settings.TILE_HEIGHT * y + y0, 2)
+                        u + tileWidth * x + x0,
+                        v + tileHeight * y + y0, 2)
                 }
             }
         })
+    }
+
+    paintInternalTiles2(tiles: number[], width: number, tileWidth = Settings.TILE_WIDTH, tileHeight = Settings.TILE_HEIGHT) {
+        const spriteWidth = tileWidth * width
+        const x0 = 0.5 * Settings.IR_SCREEN_WIDTH - spriteWidth | 0
+        const y0 = 0.5 * (Settings.IR_SCREEN_HEIGHT - tileHeight * tiles.length) | 0
+
+        const paintFun = (x0: number, y0: number) => {
+            return (x: number, y: number) => {
+                // Paint a tile
+                for (let v = 0; v < tileHeight; ++v) {
+                    for (let u = 0; u < tileWidth; ++u) {
+                        this.setPoint(
+                            u + tileWidth * x + x0,
+                            v + tileHeight * y + y0, 2)
+                    }
+                }
+            }
+        }
+
+        paint1BppSprite(tiles, width, paintFun(x0, y0))
+        paint1BppSprite(tiles, width, paintFun(x0 + spriteWidth, y0), true)
     }
 
     paintInternalFungus(x0: number, y0: number, prngSeed: number) {

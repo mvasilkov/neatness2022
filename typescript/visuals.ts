@@ -16,26 +16,3 @@ export function paintRestartMessage(opacity: number) {
         0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT)
     conUI.globalAlpha = 1
 }
-
-export const reflection = new CanvasHandle(document.createElement('canvas'), 0.5 * Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, (con, width, height) => {
-    con.strokeStyle = '#eaeae8'
-
-    for (let n = 0; n < 2 * height; n += 10) {
-        con.beginPath()
-        con.lineTo(0, n)
-        con.lineTo(n, 0)
-
-        con.stroke()
-    }
-
-    con.clearRect(0, 10, width, height - 20)
-    con.clearRect(0, 0, 5, height)
-    con.clearRect(width - 5, 0, 5, height)
-
-    con.beginPath()
-    con.lineTo(0.5, 0.5)
-    con.lineTo(0.5, height - 0.5)
-
-    con.setLineDash([20, 4, 3, 4])
-    con.stroke()
-}).canvas
