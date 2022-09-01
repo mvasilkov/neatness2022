@@ -187,6 +187,15 @@ export class Level {
         const x0 = 0.5 * (Settings.IR_SCREEN_WIDTH - tileWidth * width) | 0
         const y0 = 0.5 * (Settings.IR_SCREEN_HEIGHT - tileHeight * tiles.length) | 0
 
+        // Outline
+        conPaint.fillStyle = '#202020'
+        paint1BppSprite(tiles, width, (x, y) => {
+            conPaint.fillRect(
+                tileWidth * x + x0 - 0.5,
+                tileHeight * y + y0 - 0.5,
+                tileWidth + 1, tileHeight + 1)
+        })
+
         paint1BppSprite(tiles, width, (x, y) => {
             // Paint a tile
             for (let v = 0; v < tileHeight; ++v) {
@@ -204,6 +213,15 @@ export class Level {
         const x0 = 0.5 * Settings.IR_SCREEN_WIDTH - spriteWidth | 0
         const y0 = 0.5 * (Settings.IR_SCREEN_HEIGHT - tileHeight * tiles.length) | 0
 
+        const outlineFun = (x0: number, y0: number) => {
+            return (x: number, y: number) => {
+                conPaint.fillRect(
+                    tileWidth * x + x0 - 0.5,
+                    tileHeight * y + y0 - 0.5,
+                    tileWidth + 1, tileHeight + 1)
+            }
+        }
+
         const paintFun = (x0: number, y0: number) => {
             return (x: number, y: number) => {
                 // Paint a tile
@@ -216,6 +234,11 @@ export class Level {
                 }
             }
         }
+
+        // Outline
+        conPaint.fillStyle = '#202020'
+        paint1BppSprite(tiles, width, outlineFun(x0, y0))
+        paint1BppSprite(tiles, width, outlineFun(x0 + spriteWidth, y0), true)
 
         paint1BppSprite(tiles, width, paintFun(x0, y0))
         paint1BppSprite(tiles, width, paintFun(x0 + spriteWidth, y0), true)

@@ -1,4 +1,4 @@
-import { conUI } from './canvas.js'
+import { conPaint, conUI } from './canvas.js'
 import type { Level } from './Level'
 import { Settings } from './prelude.js'
 import { grave, skulls } from './sprites.js'
@@ -57,6 +57,11 @@ export class Hotspot {
     }
 
     paintInternal() {
+        // Outline
+        conPaint.fillStyle = '#202020'
+        this._paintInternal((x, y) => {
+            conPaint.fillRect(x - 0.5, y - 0.5, 2, 2)
+        })
         this._paintInternal((x, y) => {
             this.level.setPoint(x, y, this.index)
         })
