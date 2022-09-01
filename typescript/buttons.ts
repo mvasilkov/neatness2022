@@ -12,7 +12,7 @@ type UpdateFunction = (x: number, y: number) => void
 export function paint1BppSprite(tiles: number[], width: number, updateFunction: UpdateFunction, flip = false) {
     for (let y = 0; y < tiles.length; ++y) {
         for (let x = 0; x < width; ++x) {
-            const a = tiles[y] >> (flip ? x : width - 1 - x) & 1
+            const a = tiles[y] / 2 ** (flip ? x : width - 1 - x) & 1
             if (a === 0) continue
 
             updateFunction(x, y)
