@@ -180,6 +180,10 @@ export class Level {
         return true
     }
 
+    // @ts-expect-error 't' is declared but its value is never read.
+    paint(t: number) {
+    }
+
     paintInternal() {
     }
 

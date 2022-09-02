@@ -212,6 +212,8 @@ function update() {
 function paint(t: number) {
     conUI.clearRect(0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT)
 
+    state.level.paint(t)
+
     for (const hotspot of Object.values(state.level.hotspots)) {
         hotspot.paint()
     }
