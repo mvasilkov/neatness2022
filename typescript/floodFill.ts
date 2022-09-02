@@ -8,8 +8,8 @@ const enum FillDirection { UP = 1, DOWN, ALL }
 type ScanlineTuple = [number, number, number, FillDirection]
 
 /** Scanline flood fill routine */
-export function floodFill<T>(buf: T[][], width: number, height: number, x: number, y: number, updateValue: T, updateFunction: UpdateFunction) {
-    // Update buf where buf[y][x] === updateValue, using updateFunction(x, y)
+export function floodFill<T>(buf: T[][], width: number, height: number, x: number, y: number, updateValue: (value: T) => boolean, updateFunction: UpdateFunction) {
+    // Update buf where updateValue(buf[y][x]) === true, using updateFunction(x, y)
 
     const stack: ScanlineTuple[] = [
         [x, x, y, FillDirection.ALL],
@@ -22,7 +22,7 @@ export function floodFill<T>(buf: T[][], width: number, height: number, x: numbe
 
         // ⏪
         let u0 = x0
-        while (u0 >= 0 && buf[y][u0] === updateValue) {
+        while (u0 >= 0 && updateValue(buf[y][u0])) {
             --u0
         }
         if (++u0 < x0 - 1) {
@@ -31,7 +31,7 @@ export function floodFill<T>(buf: T[][], width: number, height: number, x: numbe
 
         // ⏩
         let u1 = x1
-        while (u1 < width && buf[y][u1] === updateValue) {
+        while (u1 < width && updateValue(buf[y][u1])) {
             ++u1
         }
         if (--u1 > x1 + 1) {
@@ -43,7 +43,7 @@ export function floodFill<T>(buf: T[][], width: number, height: number, x: numbe
         let run = false
         // Reuse x and x0 variables
         for (x = u0; x <= u1; ++x) {
-            if (buf[y][x] === updateValue) {
+            if (updateValue(buf[y][x])) {
                 updateFunction(x, y)
 
                 if (!run) {

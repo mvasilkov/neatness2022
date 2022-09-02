@@ -3,6 +3,7 @@ import { Mulberry32 } from '../node_modules/natlib/prng/Mulberry32.js'
 import { paint1BppSprite, paintToolbar } from './buttons.js'
 import { conPaint } from './canvas.js'
 import { Colors } from './colors/colors.js'
+import { floodFill } from './floodFill.js'
 import { Hotspot } from './Hotspot.js'
 import { oldPainting, painting, Settings } from './prelude.js'
 import { enterLevelPhase, LevelPhase } from './state.js'
@@ -12,6 +13,7 @@ import { enterLevelPhase, LevelPhase } from './state.js'
 // 1 – unconnected paint
 // 2 – tile
 // 3 – fungus
+// 9 – flood fill placeholder
 // [10, 20) – entry point
 // [20, 30) – exit point
 
@@ -153,9 +155,19 @@ export class Level {
         else {
             // Satisfying connection
             this.hotspots[a].isSatisfied = this.hotspots[b].isSatisfied = true
+
             // Change color
-            this.hotspots[a].paintInternal()
-            this.hotspots[b].paintInternal()
+            const saved: number[] = []
+            floodFill(painting, Settings.IR_SCREEN_WIDTH, Settings.IR_SCREEN_HEIGHT, this.hotspots[a].x, this.hotspots[a].y, value => value === 1 || value > 9, (x, y) => {
+                // Save the actual value
+                saved.push(x, y, painting[y][x])
+                // Have to change it to anything else for flood fill
+                painting[y][x] = 9
+            })
+            // Restore the actual values
+            for (let n = 0; n < saved.length; n += 3) {
+                this.setPoint(saved[n], saved[n + 1], saved[n + 2])
+            }
         }
     }
 

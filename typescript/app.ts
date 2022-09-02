@@ -116,7 +116,7 @@ function _paintLine(x0: number, y0: number, x1: number, y1: number, enabled: Ena
 
 function _floodFill(pointsToFloodFill: FloodFillPoint[]) {
     for (const [x, y, index] of pointsToFloodFill) {
-        floodFill(painting, Settings.IR_SCREEN_WIDTH, Settings.IR_SCREEN_HEIGHT, x, y, 1, function updatePoint(x, y) {
+        floodFill(painting, Settings.IR_SCREEN_WIDTH, Settings.IR_SCREEN_HEIGHT, x, y, value => value === 1, function updatePoint(x, y) {
             // Update the point
             state.level.setPoint(x, y, index)
 

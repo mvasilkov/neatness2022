@@ -32,7 +32,7 @@ export function paintTextBlob(con: CanvasRenderingContext2D, x: number, y: numbe
 
     const borderRadius = 16
     const padding = 16
-    const backgroundColor = '#00000090'
+    const backgroundColor = '#000000a0'
 
     con.beginPath()
     // Left side
