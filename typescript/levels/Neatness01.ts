@@ -1,6 +1,6 @@
 import { xs } from '../bitmaps/Neatness02.js'
 import { conUI, paintTextBlob } from '../canvas.js'
-import { colorTile } from '../colors/colors.js'
+import { Colors } from '../colors/colors.js'
 import { Level } from '../Level.js'
 import { Settings } from '../prelude.js'
 
@@ -19,6 +19,6 @@ export class Neatness01 extends Level {
         paintTextBlob(conUI,
             0.5 * Settings.SCREEN_WIDTH,
             0.75 * Settings.SCREEN_HEIGHT,
-            24, '24', colorTile, 'Connect the dots')
+            24, '24', Colors.tile, 'Connect the dots')
     }
 }

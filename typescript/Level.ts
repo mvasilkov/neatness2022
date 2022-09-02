@@ -2,7 +2,7 @@ import { Mulberry32 } from '../node_modules/natlib/prng/Mulberry32.js'
 
 import { paint1BppSprite, paintToolbar } from './buttons.js'
 import { conPaint } from './canvas.js'
-import { colorPaint, colorPaintA, colorPaintAInversion, colorPaintB, colorPaintBInversion, colorPaintInversion, colorTile, colorTileInversion } from './colors/colors.js'
+import { Colors } from './colors/colors.js'
 import { Hotspot } from './Hotspot.js'
 import { oldPainting, painting, Settings } from './prelude.js'
 import { enterLevelPhase, LevelPhase } from './state.js'
@@ -97,13 +97,13 @@ export class Level {
 
         let color
         if (index === 0) color = '#000' // This shouldn't happen
-        else if (index === 1) color = (inv ? colorPaintInversion : colorPaint)
-        else if (index === 2) color = (inv ? colorTileInversion : colorTile)
+        else if (index === 1) color = (inv ? Colors.paintInversion : Colors.paint)
+        else if (index === 2) color = (inv ? Colors.tileInversion : Colors.tile)
         else if (index === 3) color = '#ff0040' + (4 * this.fungusGeneration + 127).toString(16)
         else if (index >= 10 && index < 20) color =
-            this.hotspots[index].isSatisfied ? (inv ? colorPaintInversion : colorPaint) : (inv ? colorPaintAInversion : colorPaintA)
+            this.hotspots[index].isSatisfied ? (inv ? Colors.paintInversion : Colors.paint) : (inv ? Colors.paintAInversion : Colors.paintA)
         else if (index >= 20 && index < 30) color =
-            this.hotspots[index].isSatisfied ? (inv ? colorPaintInversion : colorPaint) : (inv ? colorPaintBInversion : colorPaintB)
+            this.hotspots[index].isSatisfied ? (inv ? Colors.paintInversion : Colors.paint) : (inv ? Colors.paintBInversion : Colors.paintB)
         else color = '#ff0040' // This shouldn't happen
 
         conPaint.fillStyle = color

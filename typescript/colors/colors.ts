@@ -1,13 +1,28 @@
+/*
 import { linearSrgbToOklab, oklabToLinearSrgb } from './oklab.js'
 import { linearToSrgb, srgbToLinear } from './srgb.js'
+*/
 
 // Colors: https://lospec.com/palette-list/blk-neo
+export const enum Colors {
+    paint = '#ffe091',
+    paintA = '#8cff9b',
+    paintB = '#78fae6',
+    tile = '#eaeae8',
+
+    // Inversion
+    paintInversion = '#ebcc7e',
+    paintAInversion = '#78eb88',
+    paintBInversion = '#62e6d2',
+    tileInversion = '#d6d6d4',
+}
+
+//#region Derivation
+/*
 export const colorPaint = '#ffe091'
 export const colorPaintA = '#8cff9b'
 export const colorPaintB = '#78fae6'
 export const colorTile = '#eaeae8'
-
-// Inversion
 
 const colorPaintO = linearSrgbToOklab({
     r: srgbToLinear(0xff / 0xff),
@@ -72,3 +87,5 @@ export const colorTileInversion = '#' +
     channel(linearToSrgb(colorTileL.r)) +
     channel(linearToSrgb(colorTileL.g)) +
     channel(linearToSrgb(colorTileL.b))
+*/
+//#endregion
