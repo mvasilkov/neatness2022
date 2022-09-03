@@ -1,6 +1,7 @@
 import type { Level } from './Level'
 import { Neatness01 } from './levels/Neatness01.js'
 import { Neatness02 } from './levels/Neatness02.js'
+import { NeatnessH01 } from './levels/NeatnessH01.js'
 import { NeatnessM01 } from './levels/NeatnessM01.js'
 import { NeatnessM02 } from './levels/NeatnessM02.js'
 import { NeatnessR01 } from './levels/NeatnessR01.js'
@@ -19,6 +20,7 @@ const LEVEL_CONS: typeof Level[] = [
     NeatnessR02,
     NeatnessR03,
     // The Hotness
+    NeatnessH01,
 ]
 
 export function enterLevel(n: number) {
