@@ -93,6 +93,8 @@ export class Level {
     }
 
     setPoint(x: number, y: number, index: number) {
+        if (y < 0 || y >= Settings.IR_SCREEN_HEIGHT) return
+
         painting[y][x] = index
 
         const inv = this.reflect && x >= 0.5 * Settings.IR_SCREEN_WIDTH
