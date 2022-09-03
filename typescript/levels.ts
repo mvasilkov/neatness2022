@@ -3,6 +3,7 @@ import { Neatness01 } from './levels/Neatness01.js'
 import { Neatness02 } from './levels/Neatness02.js'
 import { NeatnessH01 } from './levels/NeatnessH01.js'
 import { NeatnessH02 } from './levels/NeatnessH02.js'
+import { NeatnessH03 } from './levels/NeatnessH03.js'
 import { NeatnessM01 } from './levels/NeatnessM01.js'
 import { NeatnessM02 } from './levels/NeatnessM02.js'
 import { NeatnessM03 } from './levels/NeatnessM03.js'
@@ -29,6 +30,7 @@ const LEVEL_CONS: typeof Level[] = [
     // The Hotness
     NeatnessH01,
     NeatnessH02,
+    NeatnessH03,
 ]
 
 export function enterLevel(n: number) {
