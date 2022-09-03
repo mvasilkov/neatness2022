@@ -5,6 +5,7 @@ import { NeatnessH01 } from './levels/NeatnessH01.js'
 import { NeatnessH02 } from './levels/NeatnessH02.js'
 import { NeatnessM01 } from './levels/NeatnessM01.js'
 import { NeatnessM02 } from './levels/NeatnessM02.js'
+import { NeatnessM03 } from './levels/NeatnessM03.js'
 import { NeatnessR01 } from './levels/NeatnessR01.js'
 import { NeatnessR02 } from './levels/NeatnessR02.js'
 import { NeatnessR03 } from './levels/NeatnessR03.js'
@@ -16,6 +17,7 @@ const LEVEL_CONS: typeof Level[] = [
     Neatness02,
     NeatnessM01,
     NeatnessM02,
+    NeatnessM03,
     // The Reflectance
     NeatnessR01,
     NeatnessR02,
