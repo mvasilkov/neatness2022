@@ -31,12 +31,12 @@ function paintRoundRect(x: number, y: number, width: number, height: number, col
 }
 
 function paintButton(x: number, y: number, p: number) {
-    conPaint.fillStyle = '#000'
+    conPaint.fillStyle = state.level.reflect ? '#7b8382' /* '#fbfbfb' */ : '#000'
     conPaint.fillRect(x, y, Settings.buttonWidth, 1)
 
     // Colors: https://lospec.com/palette-list/twilioquest-76
     paintRoundRect(x, y + 1,
-        Settings.buttonWidth, Settings.buttonHeight - 1, '#636261')
+        Settings.buttonWidth, Settings.buttonHeight - 1, state.level.reflect ? '#43403f' : '#63605f')
     paintRoundRect(x + 1, y + p,
         Settings.buttonWidth - 2, Settings.buttonHeight - 3, '#eaeae8')
     paintRoundRect(x + 2, y + p + 1,

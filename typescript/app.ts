@@ -40,10 +40,13 @@ function paintLine(x0: number, y0: number, x1: number, y1: number) {
 function _paintLine(x0: number, y0: number, x1: number, y1: number, enabled: EnabledPart) {
     if (state.levelPhase !== LevelPhase.RUNNING) return
 
+    // Correct for pixel center
+    const inc = enabled === EnabledPart.RIGHT ? -0.5 : 0.5
+
     // Convert to internal resolution
-    x0 = (x0 + 0.5) / Settings.IR_X
+    x0 = (x0 + inc) / Settings.IR_X
     y0 = (y0 + 0.5) / Settings.IR_Y
-    x1 = (x1 + 0.5) / Settings.IR_X
+    x1 = (x1 + inc) / Settings.IR_X
     y1 = (y1 + 0.5) / Settings.IR_Y
 
     if (x0 < 0 || x0 >= Settings.IR_SCREEN_WIDTH ||
