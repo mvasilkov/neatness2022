@@ -1,6 +1,7 @@
 import type { Level } from './Level'
 import { Neatness01 } from './levels/Neatness01.js'
 import { Neatness02 } from './levels/Neatness02.js'
+import { Neatness03 } from './levels/Neatness03.js'
 import { NeatnessH01 } from './levels/NeatnessH01.js'
 import { NeatnessH02 } from './levels/NeatnessH02.js'
 import { NeatnessH03 } from './levels/NeatnessH03.js'
@@ -19,6 +20,7 @@ const LEVEL_CONS: typeof Level[] = [
     // The Neatness
     Neatness01,
     Neatness02,
+    Neatness03,
     NeatnessM01,
     NeatnessM02,
     NeatnessM03,
