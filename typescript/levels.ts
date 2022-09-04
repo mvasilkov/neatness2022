@@ -12,6 +12,7 @@ import { NeatnessR02 } from './levels/NeatnessR02.js'
 import { NeatnessR03 } from './levels/NeatnessR03.js'
 import { NeatnessR04 } from './levels/NeatnessR04.js'
 import { NeatnessR05 } from './levels/NeatnessR05.js'
+import { NeatnessR06 } from './levels/NeatnessR06.js'
 import { enterLevelPhase, LevelPhase, state } from './state.js'
 
 const LEVEL_CONS: typeof Level[] = [
@@ -27,6 +28,7 @@ const LEVEL_CONS: typeof Level[] = [
     NeatnessR03,
     NeatnessR04,
     NeatnessR05,
+    NeatnessR06,
     // The Hotness
     NeatnessH01,
     NeatnessH02,

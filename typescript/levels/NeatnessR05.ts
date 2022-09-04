@@ -1,5 +1,6 @@
 import { tiles, width, xs, ys } from '../bitmaps/NeatnessR05.js'
 import { Level } from '../Level.js'
+import { Settings } from '../prelude.js'
 
 export class NeatnessR05 extends Level {
     constructor() {
@@ -8,14 +9,15 @@ export class NeatnessR05 extends Level {
         this.reflect = true
 
         this.addHotspot(xs[0], ys[0], false)
-        this.addHotspot(xs[1], ys[1], true)
-        this.addHotspot(xs[2], ys[2], false)
-        this.addHotspot(xs[3], ys[3], true)
-        this.addHotspot(xs[4], ys[4], false)
-        this.addHotspot(xs[5], ys[5], true)
+        this.addHotspot(xs[1], ys[1], false)
+        this.addHotspot(xs[2], ys[2], true)
+        // Reflection
+        this.addHotspot(Settings.IR_SCREEN_WIDTH - xs[0], ys[0], false)
+        this.addHotspot(Settings.IR_SCREEN_WIDTH - xs[1], ys[1], true)
+        this.addHotspot(Settings.IR_SCREEN_WIDTH - xs[2], ys[2], true)
     }
 
     override paintInternal() {
-        this.paintInternalTiles(tiles, width)
+        this.paintInternalTiles2(tiles, width)
     }
 }

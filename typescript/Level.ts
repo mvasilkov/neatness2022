@@ -93,7 +93,11 @@ export class Level {
     }
 
     setPoint(x: number, y: number, index: number) {
-        if (y < 0 || y >= Settings.IR_SCREEN_HEIGHT) return
+        if (x < 0 || x >= Settings.IR_SCREEN_WIDTH ||
+            y < 0 || y >= Settings.IR_SCREEN_HEIGHT) {
+
+            return // Out of bounds, do nothing
+        }
 
         painting[y][x] = index
 
