@@ -17,8 +17,8 @@ export const enum Settings {
     /** Supersampling */
     UPSCALE_FROM_IR = 2,
 
-    /** For how long the 'Wrong. Again.' line is displayed */
-    restartMessageDuration = 100, // Ticks, 50 ticks == 1 second
+    /** For how long the 'Not like this' line is displayed */
+    restartMessageDuration = 125, // Ticks, 50 ticks == 1 second
     /** Skulls periodically turn at this rate */
     skullsTurnPeriod = 50,
     /** For how long a skull is facing forward during a turn */

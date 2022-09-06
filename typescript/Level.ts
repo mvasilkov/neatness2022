@@ -6,7 +6,8 @@ import { Colors } from './colors/colors.js'
 import { floodFill } from './floodFill.js'
 import { Hotspot } from './Hotspot.js'
 import { oldPainting, painting, Settings } from './prelude.js'
-import { enterLevelPhase, LevelPhase } from './state.js'
+import { enterLevelPhase, LevelPhase, state } from './state.js'
+import { produceRestartMessage } from './visuals.js'
 
 // Indices are as follows:
 // 0 – nothing
@@ -155,6 +156,7 @@ export class Level {
 
         if ((0.1 * a | 0) === (0.1 * b | 0)) {
             // Failing state
+            state.restartMessage = produceRestartMessage(this.hotspots[a], this.hotspots[b])
             // Can't call this.reset() here!
             enterLevelPhase(LevelPhase.FAILING)
         }

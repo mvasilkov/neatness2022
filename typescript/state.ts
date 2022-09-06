@@ -15,6 +15,7 @@ interface State {
     buttonsPressed: [boolean, boolean, boolean],
     oldPressed: [boolean, boolean, boolean],
     soundEnabled: boolean,
+    restartMessage: HTMLCanvasElement | null,
 }
 
 export const state: State = {
@@ -29,6 +30,7 @@ export const state: State = {
     buttonsPressed: [false, false, false],
     oldPressed: [false, false, false],
     soundEnabled: true,
+    restartMessage: null,
 }
 
 export function enterLevelPhase(phase: LevelPhase, initialProgress = 0) {

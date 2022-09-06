@@ -1,7 +1,5 @@
 export type ComparatorFn<T> = (a: T, b: T) => number
 
-type Optional<T> = T | null
-
 export class PriorityQueue<T> {
   readonly comparatorFn: ComparatorFn<T>
   length: number
@@ -27,7 +25,7 @@ export class PriorityQueue<T> {
     this.bubbleUp()
   }
 
-  remove(): Optional<T> {
+  remove(): T | null {
     if (this.length === 0) return null
 
     const node = this.values[0]
@@ -47,10 +45,6 @@ export class PriorityQueue<T> {
     this.bubbleDown()
 
     return node
-  }
-
-  heapsort() {
-    return Array.from({ length: this.length }, () => this.remove())
   }
 
   private parent(nodeIndex: number) {
