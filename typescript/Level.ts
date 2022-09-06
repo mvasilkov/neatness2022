@@ -109,9 +109,9 @@ export class Level {
         else if (index === 2) color = (inv ? Colors.tileInversion : Colors.tile)
         else if (index === 3) color = '#ff0040' + (4 * this.fungusGeneration + 127).toString(16)
         else if (index >= 10 && index < 20) color =
-            this.hotspots[index].isSatisfied ? (inv ? Colors.paintInversion : Colors.paint) : (inv ? Colors.paintAInversion : Colors.paintA)
+            this.hotspots[index].isSatisfied ? (inv ? Colors.paintConnectedInversion : Colors.paintConnected) : (inv ? Colors.paintAInversion : Colors.paintA)
         else if (index >= 20 && index < 30) color =
-            this.hotspots[index].isSatisfied ? (inv ? Colors.paintInversion : Colors.paint) : (inv ? Colors.paintBInversion : Colors.paintB)
+            this.hotspots[index].isSatisfied ? (inv ? Colors.paintConnectedInversion : Colors.paintConnected) : (inv ? Colors.paintBInversion : Colors.paintB)
         else color = '#ff0040' // This shouldn't happen
 
         conPaint.fillStyle = color
