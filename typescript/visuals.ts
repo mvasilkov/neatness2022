@@ -12,11 +12,14 @@ export function produceRestartMessage(a: Hotspot, b: Hotspot): HTMLCanvasElement
         con.scale(Settings.UPSCALE_FROM_IR, Settings.UPSCALE_FROM_IR)
 
         con.fillStyle = '#ff0040'
-        paintPath(con, a, b)
+        // Paint a path from a to b.
+        astar(painting, Settings.IR_SCREEN_WIDTH, Settings.IR_SCREEN_HEIGHT, a.x, a.y, b.x, b.y, function (x, y) {
+            con.fillRect(x, y, 1, 1)
+        })
 
         const Δx = b.x - a.x
         const Δy = b.y - a.y
-
+        // Don't paint inside the end points.
         a._paintInternal((x, y) => {
             con.clearRect(x, y, 1, 1)
             con.clearRect(x + Δx, y + Δy, 1, 1)
@@ -47,11 +50,4 @@ export function paintRestartMessage(opacity: number) {
         0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT)
 
     conUI.globalAlpha = 1
-}
-
-/** Paint a path from a to b. */
-export function paintPath(con: CanvasRenderingContext2D, a: Hotspot, b: Hotspot) {
-    astar(painting, Settings.IR_SCREEN_WIDTH, Settings.IR_SCREEN_HEIGHT, a.x, a.y, b.x, b.y, function (x, y) {
-        con.fillRect(x, y, 1, 1)
-    })
 }

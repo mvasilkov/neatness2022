@@ -111,7 +111,8 @@ export class Level {
         else if (index === 3) color = '#ff0040' + (4 * this.fungusGeneration + 127).toString(16)
         else if (index >= 10 && index < 20) color =
             this.hotspots[index].isSatisfied ? (inv ? Colors.paintConnectedInversion : Colors.paintConnected) : (inv ? Colors.paintAInversion : Colors.paintA)
-        else if (index >= 20 && index < 30) color =
+        // This should be less than 30, changed to 40 for the level select screen
+        else if (index >= 20 && index < 40) color =
             this.hotspots[index].isSatisfied ? (inv ? Colors.paintConnectedInversion : Colors.paintConnected) : (inv ? Colors.paintBInversion : Colors.paintB)
         else color = '#ff0040' // This shouldn't happen
 

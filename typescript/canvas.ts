@@ -19,7 +19,7 @@ export function setFontStyle(con: CanvasRenderingContext2D, style: string) {
 }
 
 // Work in progress
-export function paintTextBlob(con: CanvasRenderingContext2D, x: number, y: number, size: number, style: string, color: string, text: string) {
+export function paintTextBlob(con: CanvasRenderingContext2D, x: number, y: number, size: number, style: string, color: string, text: string, backgroundColor = '#000000a0') {
     setFontStyle(con, style)
     con.textAlign = 'center'
     con.textBaseline = 'middle'
@@ -32,7 +32,6 @@ export function paintTextBlob(con: CanvasRenderingContext2D, x: number, y: numbe
 
     const borderRadius = 16
     const padding = 16
-    const backgroundColor = '#000000a0'
 
     con.beginPath()
     // Left side
