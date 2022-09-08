@@ -37,13 +37,24 @@ const LEVEL_CONS: typeof Level[] = [
     NeatnessH01,
     NeatnessH02,
     NeatnessH03,
+    // Padding – this is never actually used
+    Neatness01,
     // Level Select
     LevelSelect,
 ]
 
 export function enterLevel(n: number) {
-    if (n !== Settings.levelSelectIndex &&
-        (n === 0 || state.completedLevels[n - 1])) state.currentLevel = n
+    // If we've completed the previous level
+    if (n !== Settings.levelSelectIndex && (n === 0 || state.completedLevels[n - 1])) {
+        // If that was the last level, current points to that
+        // and the level select screen is loaded.
+        if (n >= Settings.totalLevels) {
+            state.currentLevel = n - 1
+            state.levelIndex = n = Settings.levelSelectIndex
+        }
+        // Otherwise current points to the next level
+        else state.currentLevel = n
+    }
     state.level = new LEVEL_CONS[n]()
     enterLevelPhase(LevelPhase.INITIAL)
 }

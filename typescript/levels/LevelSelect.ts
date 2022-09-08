@@ -2,7 +2,7 @@ import { conPaint, conUI, paintTextBlob } from '../canvas.js'
 import { Colors } from '../colors/colors.js'
 import { Level } from '../Level.js'
 import { Settings } from '../prelude.js'
-import { state } from '../state.js'
+import { enterLevelPhase, LevelPhase, state } from '../state.js'
 
 type WalkFunction = (x: number, y: number, n: number) => void
 
@@ -34,6 +34,29 @@ export class LevelSelect extends Level {
         walkLevels(-20, (x, y) => {
             this.addHotspot(x, y, true)
         })
+    }
+
+    override _connect(a: number, b: number): void {
+        super._connect(a, b)
+
+        const start = this.entryPoints[0].index
+        let other: number
+
+        switch (start) {
+            case a:
+                other = b
+                break
+            case b:
+                other = a
+                break
+            default:
+                return
+        }
+
+        if (this.entryPoints[0].isSatisfied) {
+            state.levelIndex = other - this.exitPoints[0].index - 1
+            enterLevelPhase(LevelPhase.WINNING)
+        }
     }
 
     // @ts-expect-error 't' is declared but its value is never read.

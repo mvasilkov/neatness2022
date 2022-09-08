@@ -41,7 +41,8 @@ export class Level {
 
         // Lazy connectivity table using sparse arrays,
         // I wish I had a defaultdict like in Python.
-        this.connected = Array.from({ length: 30 }, () => [])
+        this.connected = Array.from({ length: 40 }, () => [])
+        // This should be 30, changed to 40 for the level select screen
 
         this.reflect = false
         // Fungus
@@ -154,12 +155,10 @@ export class Level {
     _connect(a: number, b: number) {
         if (a === b || this.connected[a][b]) return
 
-        console.log(`Connecting ${a} to ${b}`)
-
         this.connected[a][b] = true
         this.connected[b][a] = true
 
-        if ((0.1 * a | 0) === (0.1 * b | 0)) {
+        if ((0.1 * a | 0) < 2 === (0.1 * b | 0) < 2) {
             // Failing state
             state.restartMessage = produceRestartMessage(this.hotspots[a], this.hotspots[b])
             // Can't call this.reset() here!
