@@ -40,6 +40,7 @@ export const enum Settings {
 
     // Level select
     totalLevels = 15,
+    levelSelectIndex = 15,
 }
 
 /** Painting buffer */

@@ -31,6 +31,8 @@ export class Level {
     fungusTop: number
     fungusRight: number
     fungusBottom: number
+    // Buttons
+    buttonsEnabled: number
 
     constructor() {
         this.entryPoints = []
@@ -49,6 +51,8 @@ export class Level {
         this.fungusTop = 0
         this.fungusRight = 0
         this.fungusBottom = 0
+        // Buttons
+        this.buttonsEnabled = 3
     }
 
     reset() {

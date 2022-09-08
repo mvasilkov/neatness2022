@@ -193,6 +193,7 @@ function update() {
             updateButtons(pointer)
             // Win condition
             if (state.level.hasWon()) {
+                state.completedLevels[state.levelIndex] = true
                 enterLevelPhase(LevelPhase.WINNING)
             }
             break

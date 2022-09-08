@@ -5,7 +5,7 @@ import { tiles as buttonMusic } from './bitmaps/ButtonMusic.js'
 import { tiles as buttonReset } from './bitmaps/ButtonReset.js'
 import { conPaint } from './canvas.js'
 import { painting, Settings } from './prelude.js'
-import { state } from './state.js'
+import { enterLevelPhase, LevelPhase, state } from './state.js'
 
 type UpdateFunction = (x: number, y: number) => void
 
@@ -44,14 +44,14 @@ function paintButton(x: number, y: number, p: number) {
 }
 
 export function paintToolbar() {
-    const toolbarHeight = state.buttonsEnabled * Settings.buttonHeight + 2
+    const toolbarHeight = state.level.buttonsEnabled * Settings.buttonHeight + 2
 
     const x0 = Settings.IR_SCREEN_WIDTH - Settings.buttonWidth | 0
     const y0 = 0.5 * (Settings.IR_SCREEN_HEIGHT - toolbarHeight) | 0
 
     const buttons = [buttonMusic, buttonReset, buttonLevel]
 
-    for (let n = 0; n < state.buttonsEnabled; ++n) {
+    for (let n = 0; n < state.level.buttonsEnabled; ++n) {
         const v0 = y0 + n * (Settings.buttonHeight + 1)
         const p = state.buttonsPressed[n] ? 2 : 0
 
@@ -79,12 +79,12 @@ function pointInButton(x: number, y: number) {
     x = (x + 0.5) / Settings.IR_X
     y = (y + 0.5) / Settings.IR_Y
 
-    const toolbarHeight = state.buttonsEnabled * Settings.buttonHeight + 2
+    const toolbarHeight = state.level.buttonsEnabled * Settings.buttonHeight + 2
 
     const x0 = Settings.IR_SCREEN_WIDTH - Settings.buttonWidth | 0
     const y0 = 0.5 * (Settings.IR_SCREEN_HEIGHT - toolbarHeight) | 0
 
-    for (let n = 0; n < state.buttonsEnabled; ++n) {
+    for (let n = 0; n < state.level.buttonsEnabled; ++n) {
         const _y0 = y0 + n * (Settings.buttonHeight + 1)
 
         if (x >= x0 && x < x0 + Settings.buttonWidth &&
@@ -124,7 +124,8 @@ export function updateButtons(pointer: Pointer) {
             }
             if (state.oldPressed[2] && !state.buttonsPressed[2]) {
                 // Level button released
-                console.log('Level!')
+                state.levelIndex = Settings.levelSelectIndex - 1
+                enterLevelPhase(LevelPhase.WINNING)
             }
         }
         paintToolbar()

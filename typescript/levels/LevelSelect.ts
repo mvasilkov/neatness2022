@@ -2,6 +2,7 @@ import { conPaint, conUI, paintTextBlob } from '../canvas.js'
 import { Colors } from '../colors/colors.js'
 import { Level } from '../Level.js'
 import { Settings } from '../prelude.js'
+import { state } from '../state.js'
 
 type WalkFunction = (x: number, y: number, n: number) => void
 
@@ -25,6 +26,8 @@ export class LevelSelect extends Level {
     constructor() {
         super()
 
+        this.buttonsEnabled = 2
+
         this.addHotspot(0.5 * Settings.IR_SCREEN_WIDTH,
             0.5 * Settings.IR_SCREEN_HEIGHT, false)
 
@@ -43,7 +46,9 @@ export class LevelSelect extends Level {
 
     override paintInternal(): void {
         walkLevels(0, (x, y, n) => {
-            paintTextBlob(conPaint, x, y, 12, '200 12', Colors.tile, '' + (n + 1), '#0000')
+            const color = n === state.currentLevel ? Colors.tile :
+                state.completedLevels[n] ? '#7b8382' : '#ff0040'
+            paintTextBlob(conPaint, x, y, 12, '200 12', color, '' + (n + 1), '#0000')
         })
     }
 }
