@@ -15,6 +15,6 @@ export class NeatnessM02 extends Level {
     }
 
     override paintInternal() {
-        this.paintInternalTiles(tiles, width)
+        this.paintInternalTiles2(tiles, width)
     }
 }
