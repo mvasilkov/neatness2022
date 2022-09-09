@@ -57,7 +57,7 @@ export function enterLevel(n: number) {
     if (n !== Settings.levelSelectIndex && (n === 0 || state.completedLevels[n - 1])) {
         // If that was the last level, current points to that
         // and the level select screen is loaded.
-        if (n >= Settings.totalLevels) {
+        if (n === Settings.totalLevels || n === Settings.levelSelectIndex - 1) {
             state.currentLevel = n - 1
             state.levelIndex = n = Settings.levelSelectIndex
         }

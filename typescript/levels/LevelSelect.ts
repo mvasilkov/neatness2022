@@ -13,12 +13,26 @@ function walkLevels(Δr: number, walkFunction: WalkFunction) {
     const rx = 0.5 * Settings.IR_SCREEN_WIDTH - 6 * Settings.TILE_WIDTH + Δr
     const ry = 0.5 * Settings.IR_SCREEN_HEIGHT - 4 * Settings.TILE_HEIGHT + Δr
 
+    // Save coordinates for Coil levels
+    const xs: number[] = []
+    const ys: number[] = []
+
     for (let n = 0; n < Settings.totalLevels; ++n) {
         const angle = Math.PI * (1.32 * n / (Settings.totalLevels - 1) - 1.16)
         const x = rx * Math.cos(angle) + x0 | 0
         const y = ry * Math.sin(angle) + y0 | 0
 
         walkFunction(x, y, n)
+
+        if (n > 5 && n < 9) {
+            xs.push(x)
+            ys.push(Settings.IR_SCREEN_HEIGHT - y)
+        }
+    }
+
+    // Coil levels
+    for (let n = 0; n < 3; ++n) {
+        walkFunction(xs[n], ys[n], Settings.totalLevels + n + 1)
     }
 }
 
@@ -48,6 +62,8 @@ export class LevelSelect extends Level {
 
         if (this.entryPoints[0].isSatisfied) {
             state.levelIndex = other - this.exitPoints[0].index - 1
+            // Correct for padding
+            if (state.levelIndex >= Settings.totalLevels - 1) ++state.levelIndex
             enterLevelPhase(LevelPhase.WINNING)
         }
     }
@@ -64,7 +80,8 @@ export class LevelSelect extends Level {
         walkLevels(0, (x, y, n) => {
             const color = n === state.currentLevel ? Colors.tile :
                 state.completedLevels[n] ? '#7b8382' : '#ff0040'
-            paintTextBlob(conPaint, x, y, 12, '200 12', color, '' + (n + 1), '#0000')
+            const title = n > Settings.totalLevels ? 'Coil-' + (n - Settings.totalLevels) : '' + (n + 1)
+            paintTextBlob(conPaint, x, y, 12, '200 12', color, title, '#0000')
         })
     }
 }

@@ -1,4 +1,5 @@
 import type { Level } from './Level'
+import { Settings } from './prelude.js'
 
 export const enum LevelPhase {
     INITIAL, ENTERING, RUNNING, FAILING, WINNING,
@@ -34,6 +35,9 @@ export const state: State = {
     completedLevels: [],
     currentLevel: 0,
 }
+
+// Set padding to completed so that Coil-1 can be the current level.
+state.completedLevels[Settings.totalLevels] = true
 
 export function enterLevelPhase(phase: LevelPhase, initialProgress = 0) {
     state.levelPhase = phase
