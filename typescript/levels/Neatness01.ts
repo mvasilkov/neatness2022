@@ -3,10 +3,13 @@ import { conUI, paintTextBlob } from '../canvas.js'
 import { Colors } from '../colors/colors.js'
 import { Level } from '../Level.js'
 import { Settings } from '../prelude.js'
+import { state } from '../state.js'
 
 export class Neatness01 extends Level {
     constructor() {
         super()
+
+        this.buttonsEnabled = state.completedLevels[0] ? 3 : 2
 
         const y = 0.5 * Settings.IR_SCREEN_HEIGHT | 0
 

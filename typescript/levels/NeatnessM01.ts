@@ -1,9 +1,12 @@
 import { tiles, width, xs, ys } from '../bitmaps/NeatnessM01.js'
 import { Level } from '../Level.js'
+import { state } from '../state.js'
 
 export class NeatnessM01 extends Level {
     constructor() {
         super()
+
+        this.buttonsEnabled = state.completedLevels[3] ? 3 : 2
 
         this.addHotspot(xs[0], ys[0], false)
         this.addHotspot(xs[1], ys[1], true)

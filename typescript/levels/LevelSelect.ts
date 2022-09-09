@@ -42,16 +42,9 @@ export class LevelSelect extends Level {
         const start = this.entryPoints[0].index
         let other: number
 
-        switch (start) {
-            case a:
-                other = b
-                break
-            case b:
-                other = a
-                break
-            default:
-                return
-        }
+        if (start === a) other = b
+        else if (start === b) other = a
+        else return
 
         if (this.entryPoints[0].isSatisfied) {
             state.levelIndex = other - this.exitPoints[0].index - 1
