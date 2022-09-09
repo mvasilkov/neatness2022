@@ -1,3 +1,9 @@
+/* This file is part of The Neatness (js13kGames–2022)
+ * GitHub https://github.com/mvasilkov/neatness2022
+ * Copyright (c) 2022 Mark Vasilkov
+ * Licensed under the GNU General Public License version 3
+ * See https://www.gnu.org/licenses/gpl-3.0.en.html
+ */
 export const enum Settings {
     // Our internal resolution is (420, 270) with PAR of 8:7.
     IR_SCREEN_WIDTH = 420,

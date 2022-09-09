@@ -1,5 +1,4 @@
-/*
- * sRGB transform (TypeScript)
+/* sRGB transform (TypeScript)
  *
  * Copyright (c) 2022 Project Nayuki. (MIT License)
  * https://www.nayuki.io/page/srgb-transform-library
