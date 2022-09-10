@@ -14,7 +14,7 @@ import { state } from './state.js'
 import { easeOutQuad } from './utils.js'
 
 export function produceRestartMessage(a: Hotspot, b: Hotspot): HTMLCanvasElement {
-    const path = new CanvasHandle(document.createElement('canvas'), Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_WIDTH, Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_HEIGHT, function (con) {
+    const path = new CanvasHandle(null, Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_WIDTH, Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_HEIGHT, function (con) {
         con.scale(Settings.UPSCALE_FROM_IR, Settings.UPSCALE_FROM_IR)
 
         con.fillStyle = '#ff0040'
@@ -32,7 +32,7 @@ export function produceRestartMessage(a: Hotspot, b: Hotspot): HTMLCanvasElement
         })
     }).canvas
 
-    return new CanvasHandle(document.createElement('canvas'), Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, function (con) {
+    return new CanvasHandle(null, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, function (con) {
         con.drawImage(path,
             0, 0, path.width, path.height,
             0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT)

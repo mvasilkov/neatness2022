@@ -89,12 +89,12 @@ function getRenderingFunction(sprite: number[], width: number, palette: string[]
 
 export const skulls = [
     // left
-    new CanvasHandle(document.createElement('canvas'), 99, 99, getRenderingFunction(spriteSkullLeft, 11, paletteSkull, 9)).canvas,
+    new CanvasHandle(null, 99, 99, getRenderingFunction(spriteSkullLeft, 11, paletteSkull, 9)).canvas,
     // front
-    new CanvasHandle(document.createElement('canvas'), 99, 99, getRenderingFunction(spriteSkullFront, 11, paletteSkull, 9)).canvas,
+    new CanvasHandle(null, 99, 99, getRenderingFunction(spriteSkullFront, 11, paletteSkull, 9)).canvas,
     // right
-    new CanvasHandle(document.createElement('canvas'), 99, 99, getRenderingFunction(spriteSkullLeft, 11, paletteSkull, 9, true)).canvas,
+    new CanvasHandle(null, 99, 99, getRenderingFunction(spriteSkullLeft, 11, paletteSkull, 9, true)).canvas,
 ]
 
 export const grave =
-    new CanvasHandle(document.createElement('canvas'), 99, 99, getRenderingFunction(spriteGrave, 11, paletteGrave, 9)).canvas
+    new CanvasHandle(null, 99, 99, getRenderingFunction(spriteGrave, 11, paletteGrave, 9)).canvas

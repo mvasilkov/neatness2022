@@ -11,7 +11,7 @@ import { Settings } from './prelude.js'
 import { LevelPhase, state } from './state.js'
 import { easeInQuad, easeOutQuad } from './utils.js'
 
-const curtain = new CanvasHandle(document.createElement('canvas'),
+const curtain = new CanvasHandle(null,
     Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, (con, width, height) => {
         // Colors: https://uigradients.com/#Dusk
         const gradient = con.createLinearGradient(0, 0, 0, height)
