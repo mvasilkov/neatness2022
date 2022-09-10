@@ -6,6 +6,8 @@
  */
 import { Pointer } from '../node_modules/natlib/controls/Pointer.js'
 
+import { audioHandle, initializeAudio } from './audio/audio.js'
+
 type LineFunction = (x0: number, y0: number, x1: number, y1: number) => void
 
 /** Painting pointer class */
@@ -35,6 +37,11 @@ export class Painter extends Pointer {
         else {
             // If the first event has held=true, that's a bug, so skip it.
             this.receivedFirstEvent = true
+        }
+
+        // Initialize audio if needed
+        if (this.held && !audioHandle.initialized) {
+            audioHandle.initialize(initializeAudio)
         }
     }
 }
