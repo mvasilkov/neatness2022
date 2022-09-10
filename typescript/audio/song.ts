@@ -1,5 +1,16 @@
+/* This file is part of The Neatness (js13kGames–2022)
+ * GitHub https://github.com/mvasilkov/neatness2022
+ * Copyright (c) 2022 Mark Vasilkov
+ * Licensed under the GNU General Public License version 3
+ * See https://www.gnu.org/licenses/gpl-3.0.en.html
+ */
+
 type PlayNoteFunction = (index: number, start: number, end: number) => void
 
+/* Magical Power of the Mallet by ZUN
+ * Transcribed by MTSranger
+ * Edited by Mark Vasilkov
+ */
 export function play(note: PlayNoteFunction, bar: number) {
     switch (bar) {
         case 0: // half-bar 1
@@ -519,3 +530,7 @@ export function play(note: PlayNoteFunction, bar: number) {
             break
     }
 }
+
+// Unconstrained by the limitations of js13k and web audio,
+// you should really listen to this other version of the song:
+// https://youtu.be/gQKo2O8z34c

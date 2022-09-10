@@ -6,6 +6,7 @@
  */
 import type { Pointer } from '../node_modules/natlib/controls/Pointer'
 
+import { toggleAudio } from './audio/audio.js'
 import { tiles as buttonLevel } from './bitmaps/ButtonLevel.js'
 import { tiles as buttonMusic } from './bitmaps/ButtonMusic.js'
 import { tiles as buttonReset } from './bitmaps/ButtonReset.js'
@@ -122,7 +123,7 @@ export function updateButtons(pointer: Pointer) {
         if (!pointer.held) {
             if (state.oldPressed[0] && !state.buttonsPressed[0]) {
                 // Music button released
-                state.soundEnabled = !state.soundEnabled
+                toggleAudio(state.soundEnabled = !state.soundEnabled)
             }
             if (state.oldPressed[1] && !state.buttonsPressed[1]) {
                 // Reset button released

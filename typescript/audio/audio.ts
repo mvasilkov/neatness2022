@@ -38,10 +38,19 @@ export function initializeAudio(con: AudioContext) {
         convolver.buffer = buf
 
         songStart = con.currentTime + 0.05
-        for (let n = 0; n < 4; ++n) {
-            play((index, start, end) => playNote(index, start + n, end + n), n)
-        }
+        // for (let n = 0; n < 4; ++n) {
+        //     play((index, start, end) => playNote(index, start + n, end + n), n)
+        // }
+
+        enqueue()
+        setInterval(enqueue, 999)
     }, 16000, 1000, 2 * TEMPO_MUL, 0.00001, -90)
+}
+
+export function toggleAudio(on: boolean) {
+    if (audioOut) {
+        audioOut.gain.value = on ? 0.4 : 0
+    }
 }
 
 function decay(osc: OscillatorNode, start: number) {
@@ -63,4 +72,21 @@ function playNote(n: number, start: number, end: number) {
     decay(osc, start).connect(audioOut)
     osc.start(songStart + start)
     osc.stop(songStart + end)
+}
+
+let prevPart = -1
+
+function enqueue() {
+    let bufferWanted = audioHandle.con!.currentTime - songStart + 4
+    let queued = (prevPart + 1) * TEMPO_MUL
+
+    if (queued > bufferWanted) return
+    bufferWanted += 4
+
+    while (queued < bufferWanted) {
+        const n = ++prevPart
+        play((index, start, end) => playNote(index, start + n, end + n), n % 57)
+
+        queued += TEMPO_MUL
+    }
 }
