@@ -1,6 +1,11 @@
-# The Neatness
+# [The Neatness][1]
 
 Written by Mark Vasilkov for js13kGames in 2022.
+
+Released under the [GNU General Public License version 3][2]
+
+[1]: https://github.com/mvasilkov/neatness2022
+[2]: https://www.gnu.org/licenses/gpl-3.0.en.html
 
 ## Acknowledgements
 

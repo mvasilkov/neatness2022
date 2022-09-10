@@ -1,4 +1,6 @@
 {
+  "author": "Mark Vasilkov (https://github.com/mvasilkov)",
+  "license": "GPL-3.0-only",
   "dependencies": {
     "natlib": "^0.1.0"
   },
