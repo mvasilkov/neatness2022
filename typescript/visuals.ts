@@ -11,7 +11,7 @@ import { conPaint, conUI, paintTextBlob } from './canvas.js'
 import { Colors } from './colors/colors.js'
 import { Hotspot } from './Hotspot.js'
 import { painting, Settings } from './prelude.js'
-import { princess, skulls } from './sprites.js'
+import { princess, princessSkull } from './sprites.js'
 import { state } from './state.js'
 import { easeInOutQuad, easeOutQuad } from './utils.js'
 
@@ -67,8 +67,6 @@ export function paintEnding(opacity: number) {
     const x0 = 0.5 * (Settings.IR_SCREEN_WIDTH - width) | 0
     const y0 = 0.5 * (Settings.IR_SCREEN_HEIGHT - height) | 0
 
-    conPaint.globalAlpha = easeInOutQuad(opacity)
-
     conPaint.fillStyle = '#7b8382'
     conPaint.fillRect(x0, y0, width, height)
 
@@ -77,15 +75,15 @@ export function paintEnding(opacity: number) {
         2 * Settings.TILE_WIDTH + x0, 2 * Settings.TILE_HEIGHT + y0,
         17 * Settings.TILE_WIDTH, 14 * Settings.TILE_HEIGHT)
 
-    conPaint.globalAlpha = 1 - conPaint.globalAlpha
+    conPaint.globalAlpha = 1 - easeInOutQuad(opacity)
 
     conPaint.fillStyle = Colors.tile
     conPaint.fillRect(x0, y0, width, height)
 
-    conPaint.drawImage(skulls[2],
-        0, 0, skulls[2].width, skulls[2].height,
-        6 * Settings.TILE_WIDTH + x0, 5 * Settings.TILE_HEIGHT + y0,
-        11 * Settings.TILE_WIDTH, 11 * Settings.TILE_HEIGHT)
+    conPaint.drawImage(princessSkull,
+        0, 0, princessSkull.width, princessSkull.height,
+        7 * Settings.TILE_WIDTH + x0, 2 * Settings.TILE_HEIGHT + y0,
+        11 * Settings.TILE_WIDTH, 14 * Settings.TILE_HEIGHT)
 
     conPaint.globalAlpha = 1
 }

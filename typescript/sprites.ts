@@ -5,7 +5,6 @@
  * See https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 import { CanvasHandle } from '../node_modules/natlib/canvas/CanvasHandle.js'
-import { paint1BppSprite } from './buttons.js'
 import { Colors } from './colors/colors.js'
 
 // Skull: 11 by 11, 2-bit
@@ -81,10 +80,14 @@ const spritePrincess = [
     0b0101000101010001010101010101000000,
 ]
 
-// Crown: 5 by 2, 1-bit
+// Crown: 7 by 3, 2-bit
+// 0) Transparent
+// 1) Outline
+// 2) Main color
 const spriteCrown = [
-    0b10101,
-    0b11111,
+    0b00010001000100,
+    0b01100110011001,
+    0b01101010101001,
 ]
 
 // Colors: https://lospec.com/palette-list/twilioquest-76
@@ -107,7 +110,12 @@ const palettePrincess = [
     '#101010',
     '#ffe08b',
     '#fdbd8f',
-    // '#eb8f48', crown
+]
+
+const paletteCrown = [
+    '#0000',
+    '#101010',
+    Colors.paintB,
 ]
 
 function getRenderingFunction(sprite: number[], width: number, palette: string[], scale: number, flip = false) {
@@ -139,10 +147,29 @@ export const grave =
 
 export const princess =
     new CanvasHandle(null, 17 * 9, 14 * 9, con => {
+        // Paint princess
+        con.save()
+
         getRenderingFunction(spritePrincess, 17, palettePrincess, 9)(con)
 
-        con.fillStyle = Colors.paintB
-        paint1BppSprite(spriteCrown, 5, (x, y) => {
-            con.fillRect(x + 8, y + 1, 1, 1)
-        })
+        con.restore()
+
+        // Paint crown
+        con.translate(7 * 9, 0)
+
+        getRenderingFunction(spriteCrown, 7, paletteCrown, 9)(con)
+    }).canvas
+
+export const princessSkull =
+    new CanvasHandle(null, 99, 14 * 9, con => {
+        // Paint skull
+        const skull = skulls[2]
+        con.drawImage(skull,
+            0, 0, skull.width, skull.height,
+            0, 3 * 9, 99, 99)
+
+        // Paint crown
+        con.translate(2 * 9, 0)
+
+        getRenderingFunction(spriteCrown, 7, paletteCrown, 9)(con)
     }).canvas
