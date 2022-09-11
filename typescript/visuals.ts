@@ -7,11 +7,13 @@
 import { CanvasHandle } from '../node_modules/natlib/canvas/CanvasHandle.js'
 
 import { astar } from './astar.js'
-import { conUI, paintTextBlob } from './canvas.js'
+import { conPaint, conUI, paintTextBlob } from './canvas.js'
+import { Colors } from './colors/colors.js'
 import { Hotspot } from './Hotspot.js'
 import { painting, Settings } from './prelude.js'
+import { princess, skulls } from './sprites.js'
 import { state } from './state.js'
-import { easeOutQuad } from './utils.js'
+import { easeInOutQuad, easeOutQuad } from './utils.js'
 
 export function produceRestartMessage(a: Hotspot, b: Hotspot): HTMLCanvasElement {
     const path = new CanvasHandle(null, Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_WIDTH, Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_HEIGHT, function (con) {
@@ -56,4 +58,34 @@ export function paintRestartMessage(opacity: number) {
         0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT)
 
     conUI.globalAlpha = 1
+}
+
+export function paintEnding(opacity: number) {
+    // Princess: 17 by 14, padding 2
+    const width = Settings.TILE_WIDTH * (17 + 4)
+    const height = Settings.TILE_HEIGHT * (14 + 4)
+    const x0 = 0.5 * (Settings.IR_SCREEN_WIDTH - width) | 0
+    const y0 = 0.5 * (Settings.IR_SCREEN_HEIGHT - height) | 0
+
+    conPaint.globalAlpha = easeInOutQuad(opacity)
+
+    conPaint.fillStyle = '#7b8382'
+    conPaint.fillRect(x0, y0, width, height)
+
+    conPaint.drawImage(princess,
+        0, 0, princess.width, princess.height,
+        2 * Settings.TILE_WIDTH + x0, 2 * Settings.TILE_HEIGHT + y0,
+        17 * Settings.TILE_WIDTH, 14 * Settings.TILE_HEIGHT)
+
+    conPaint.globalAlpha = 1 - conPaint.globalAlpha
+
+    conPaint.fillStyle = Colors.tile
+    conPaint.fillRect(x0, y0, width, height)
+
+    conPaint.drawImage(skulls[2],
+        0, 0, skulls[2].width, skulls[2].height,
+        6 * Settings.TILE_WIDTH + x0, 5 * Settings.TILE_HEIGHT + y0,
+        11 * Settings.TILE_WIDTH, 11 * Settings.TILE_HEIGHT)
+
+    conPaint.globalAlpha = 1
 }

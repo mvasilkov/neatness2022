@@ -74,7 +74,7 @@ export class Level {
             Settings.IR_SCREEN_WIDTH, Settings.IR_SCREEN_HEIGHT)
 
         if (this.reflect) {
-            conPaint.fillStyle = '#7b8382' /* '#fbfbfb' */
+            conPaint.fillStyle = '#7b8382'
             conPaint.fillRect(0.5 * Settings.IR_SCREEN_WIDTH, 0,
                 0.5 * Settings.IR_SCREEN_WIDTH, Settings.IR_SCREEN_HEIGHT)
         }

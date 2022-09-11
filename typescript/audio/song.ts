@@ -8,7 +8,7 @@
 type PlayNoteFunction = (index: number, start: number, end: number) => void
 
 /* Magical Power of the Mallet by ZUN
- * Transcribed by MTSranger
+ * Transcribed by MTSranger (released under CC BY 4.0)
  * Edited by Mark Vasilkov
  */
 export function play(note: PlayNoteFunction, bar: number) {

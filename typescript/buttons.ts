@@ -38,7 +38,7 @@ function paintRoundRect(x: number, y: number, width: number, height: number, col
 }
 
 function paintButton(x: number, y: number, p: number) {
-    conPaint.fillStyle = state.level.reflect ? '#7b8382' /* '#fbfbfb' */ : '#000'
+    conPaint.fillStyle = state.level.reflect ? '#7b8382' : '#000'
     conPaint.fillRect(x, y, Settings.buttonWidth, 1)
 
     // Colors: https://lospec.com/palette-list/twilioquest-76

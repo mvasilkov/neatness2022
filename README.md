@@ -1,5 +1,10 @@
 # [The Neatness][1]
 
+> A walk through life, however thorough,<br>
+> Ends on a hill a bit too steep.<br>
+> Bear witness, not to strife and sorrow, –<br>
+> Bare neatness of eternal sleep.<br>
+
 Written by Mark Vasilkov for js13kGames in 2022.
 
 Released under the [GNU General Public License version 3][2]
@@ -8,6 +13,11 @@ Released under the [GNU General Public License version 3][2]
 [2]: https://www.gnu.org/licenses/gpl-3.0.en.html
 
 ## Acknowledgements
+
+*The Neatness* is inspired by
+
+* *The Looker* by Bradley Lovell
+* *The Witness* by Jonathan Blow
 
 The following data structures and algorithms
 were harmed in the making of this game:

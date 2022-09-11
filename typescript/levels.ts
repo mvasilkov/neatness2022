@@ -8,6 +8,7 @@ import type { Level } from './Level'
 import { Coil01 } from './levels/Coil01.js'
 import { Coil02 } from './levels/Coil02.js'
 import { Coil03 } from './levels/Coil03.js'
+import { Ending } from './levels/Ending.js'
 import { LevelSelect } from './levels/LevelSelect.js'
 import { Neatness01 } from './levels/Neatness01.js'
 import { Neatness02 } from './levels/Neatness02.js'
@@ -46,6 +47,8 @@ const LEVEL_CONS: typeof Level[] = [
     NeatnessH01,
     NeatnessH02,
     NeatnessH03,
+    // Ending
+    Ending,
     // Padding – this is never actually used
     Neatness01,
     // Coil levels

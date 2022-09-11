@@ -45,8 +45,8 @@ export const enum Settings {
     curtainDuration = 48,
 
     // Level select
-    totalLevels = 15,
-    levelSelectIndex = 20,
+    totalLevels = 16,
+    levelSelectIndex = 21,
 }
 
 /** Painting buffer */

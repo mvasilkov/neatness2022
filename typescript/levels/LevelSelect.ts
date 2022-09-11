@@ -23,8 +23,8 @@ function walkLevels(Δr: number, walkFunction: WalkFunction) {
     const xs: number[] = []
     const ys: number[] = []
 
-    for (let n = 0; n < Settings.totalLevels; ++n) {
-        const angle = Math.PI * (1.32 * n / (Settings.totalLevels - 1) - 1.16)
+    for (let n = 0; n < Settings.totalLevels - 1; ++n) {
+        const angle = Math.PI * (1.32 * n / (Settings.totalLevels - 2) - 1.16)
         const x = rx * Math.cos(angle) + x0 | 0
         const y = ry * Math.sin(angle) + y0 | 0
 
