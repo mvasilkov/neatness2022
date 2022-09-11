@@ -15,7 +15,7 @@ import { princess, princessSkull } from './sprites.js'
 import { state } from './state.js'
 import { easeInOutQuad, easeOutQuad } from './utils.js'
 
-export function produceRestartMessage(a: Hotspot, b: Hotspot): HTMLCanvasElement {
+export function produceRestartMessage(a: Hotspot, b: Hotspot, coil = false): HTMLCanvasElement {
     const path = new CanvasHandle(null, Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_WIDTH, Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_HEIGHT, function (con) {
         con.scale(Settings.UPSCALE_FROM_IR, Settings.UPSCALE_FROM_IR)
 
@@ -42,7 +42,7 @@ export function produceRestartMessage(a: Hotspot, b: Hotspot): HTMLCanvasElement
         paintTextBlob(con,
             0.5 * Settings.SCREEN_WIDTH,
             0.5 * Settings.SCREEN_HEIGHT,
-            64, 'bold 64', '#ff0040', 'Not like this')
+            64, 'bold 64', '#ff0040', coil ? 'Requires Coil Membership' : 'Not like this')
     }).canvas
 }
 

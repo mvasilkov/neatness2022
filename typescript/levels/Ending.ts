@@ -9,7 +9,6 @@ import { conUI, paintTextBlob } from '../canvas.js'
 import { Colors } from '../colors/colors.js'
 import { Level } from '../Level.js'
 import { Settings } from '../prelude.js'
-import { state } from '../state.js'
 import { paintEnding } from '../visuals.js'
 
 export class Ending extends Level {
@@ -17,8 +16,6 @@ export class Ending extends Level {
 
     constructor() {
         super()
-
-        this.buttonsEnabled = state.completedLevels[1] ? 3 : 2
 
         this.addHotspot(xs[0], ys[0], false)
         this.addHotspot(xs[1], ys[1], true)
@@ -34,6 +31,8 @@ export class Ending extends Level {
 
     override setPoint(x: number, y: number, index: number): void {
         super.setPoint(x, y, index)
+
+        if (this.entryPoints[0].isSatisfied && this.exitPoints[0].isSatisfied) return
 
         if (index === 1 || index > 9) {
             this.opacity =

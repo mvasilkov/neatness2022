@@ -9,6 +9,7 @@ import { Colors } from '../colors/colors.js'
 import { Level } from '../Level.js'
 import { Settings } from '../prelude.js'
 import { enterLevelPhase, LevelPhase, state } from '../state.js'
+import { produceRestartMessage } from '../visuals.js'
 
 type WalkFunction = (x: number, y: number, n: number) => void
 
@@ -68,8 +69,23 @@ export class LevelSelect extends Level {
 
         if (this.entryPoints[0].isSatisfied) {
             state.levelIndex = other - this.exitPoints[0].index - 1
-            // Correct for padding
-            if (state.levelIndex >= Settings.totalLevels - 1) ++state.levelIndex
+            // Correct for ending and padding
+            if (state.levelIndex >= Settings.totalLevels - 2) {
+                state.levelIndex += 2
+
+                // Coil
+                const hasCoil = location.hash === '#coil' ||
+                    (document.monetization && document.monetization.state === 'started')
+
+                if (!hasCoil) {
+                    // Failing state
+                    state.restartMessage = produceRestartMessage(this.hotspots[a], this.hotspots[b], true)
+                    // Can't call this.reset() here!
+                    enterLevelPhase(LevelPhase.FAILING)
+
+                    return
+                }
+            }
             enterLevelPhase(LevelPhase.WINNING)
         }
     }
