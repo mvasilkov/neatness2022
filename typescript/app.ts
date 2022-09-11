@@ -8,6 +8,7 @@ import { lerp } from '../node_modules/natlib/interpolation.js'
 import { startMainloop } from '../node_modules/natlib/scheduling/mainloop.js'
 import { Vec2 } from '../node_modules/natlib/Vec2.js'
 
+import { audioHandle, initializeAudio } from './audio/audio.js'
 import { updateButtons } from './buttons.js'
 import { canvasPaint, conUI } from './canvas.js'
 import { paintCurtain, _paintCurtain } from './curtain.js'
@@ -26,6 +27,36 @@ pointer.addEventListeners(document)
 document.addEventListener('contextmenu', event => {
     event.preventDefault()
 })
+
+// Initialize audio if needed
+function ini() {
+    if (!audioHandle.initialized) {
+        audioHandle.initialize(initializeAudio)
+    }
+}
+document.addEventListener('touchend', ini)
+document.addEventListener('mousedown', ini)
+document.addEventListener('mouseup', ini)
+
+// Fullscreen support (except on desktop)
+/*
+if (navigator.maxTouchPoints > 1) {
+    let triedFullscreen = false
+
+    document.addEventListener('touchend', event => {
+        if (triedFullscreen) return
+        triedFullscreen = true
+
+        try {
+            document.querySelector('#a')!.requestFullscreen({
+                navigationUI: 'hide',
+            })
+        }
+        catch (err) {
+        }
+    })
+}
+*/
 
 //#region Line painting function
 

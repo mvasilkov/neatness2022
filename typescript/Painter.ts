@@ -6,7 +6,6 @@
  */
 import { Pointer } from '../node_modules/natlib/controls/Pointer.js'
 
-import { audioHandle, initializeAudio } from './audio/audio.js'
 import { autoscale } from './autoscale.js'
 
 type LineFunction = (x0: number, y0: number, x1: number, y1: number) => void
@@ -43,8 +42,10 @@ export class Painter extends Pointer {
         }
 
         // Initialize audio if needed
+        /*
         if (this.held && !audioHandle.initialized) {
             audioHandle.initialize(initializeAudio)
         }
+        */
     }
 }
