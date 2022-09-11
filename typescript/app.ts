@@ -22,6 +22,11 @@ import { paintRestartMessage } from './visuals.js'
 const pointer = new Painter(canvasPaint.canvas, paintLine)
 pointer.addEventListeners(document)
 
+// Disable the context menu
+document.addEventListener('contextmenu', event => {
+    event.preventDefault()
+})
+
 //#region Line painting function
 
 const enum EnabledPart { ALL, LEFT, RIGHT }

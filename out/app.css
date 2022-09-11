@@ -1,10 +1,20 @@
+@charset "utf-8";
+
+* {
+  touch-action: manipulation;
+}
+
 html {
   background: #101010;
   font-family: -apple-system, 'Segoe UI', 'DejaVu Sans', system-ui, sans-serif;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 canvas {
   display: block;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-user-drag: none;
 }
 
 #a {

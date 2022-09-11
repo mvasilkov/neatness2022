@@ -20,7 +20,7 @@ let audioOut: GainNode
 let songStart: number
 
 export function initializeAudio(con: AudioContext) {
-    audioOut = new GainNode(con, { gain: 0.4 })
+    audioOut = new GainNode(con, { gain: 0.3333 })
 
     // Reverb
     const convolver = new ConvolverNode(con)
@@ -49,7 +49,7 @@ export function initializeAudio(con: AudioContext) {
 
 export function toggleAudio(on: boolean) {
     if (audioOut) {
-        audioOut.gain.value = on ? 0.4 : 0
+        audioOut.gain.value = on ? 0.3333 : 0
     }
 }
 
