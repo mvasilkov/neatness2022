@@ -24,6 +24,7 @@ interface State {
     restartMessage: HTMLCanvasElement | null,
     completedLevels: boolean[],
     currentLevel: number, // Excluding the level select screen
+    held: boolean,
 }
 
 export const state: State = {
@@ -40,6 +41,7 @@ export const state: State = {
     restartMessage: null,
     completedLevels: [],
     currentLevel: 0,
+    held: false,
 }
 
 // Set padding to completed so that Coil-1 can be the current level.

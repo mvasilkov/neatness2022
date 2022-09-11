@@ -7,6 +7,7 @@
 import { Pointer } from '../node_modules/natlib/controls/Pointer.js'
 
 import { autoscale } from './autoscale.js'
+import { state } from './state.js'
 
 type LineFunction = (x0: number, y0: number, x1: number, y1: number) => void
 
@@ -32,7 +33,7 @@ export class Painter extends Pointer {
 
         if (this.receivedFirstEvent) {
             // Paint by dragging
-            if (this.held) {
+            if (this.held && state.held) {
                 this.paintLine(_x, _y, this.x, this.y)
             }
         }

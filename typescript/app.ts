@@ -202,6 +202,8 @@ function activatePoint(x: number, y: number, enabled: EnabledPart): boolean {
 function update() {
     state.oldProgress = state.phaseProgress
 
+    state.held = pointer.held
+
     switch (state.levelPhase) {
         case LevelPhase.INITIAL:
             state.level.reset()
