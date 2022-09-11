@@ -90,3 +90,45 @@ function enqueue() {
         queued += TEMPO_MUL
     }
 }
+
+// Sound effects
+
+export const enum SoundEffect {
+    BUTTON_CLICK,
+    CONNECTION,
+    BAD_CONNECTION,
+}
+
+export function sound(effect: SoundEffect) {
+    if (!audioOut) return
+
+    switch (effect) {
+        case SoundEffect.BUTTON_CLICK:
+            playNote2(91, 0, 0.04) // G6
+            break
+
+        case SoundEffect.CONNECTION:
+            playNote2(79, 0, 0.05) // G5
+            playNote2(83, 0.05, 0.05) // B5
+            playNote2(88, 0.1, 0.05) // E6
+            break
+
+        case SoundEffect.BAD_CONNECTION:
+            playNote2(43, 0, 0.2) // G2
+            break
+    }
+}
+
+// This is `playNote()` but for sound effects
+function playNote2(n: number, start: number, duration: number) {
+    start += audioHandle.con!.currentTime
+
+    const osc = new OscillatorNode(audioHandle.con!, {
+        type: 'square',
+        frequency: convertMidiToFrequency(n),
+    })
+    // decay(osc, start).connect(audioOut)
+    osc.connect(audioOut)
+    osc.start(start)
+    osc.stop(start + duration)
+}

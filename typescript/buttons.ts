@@ -6,7 +6,7 @@
  */
 import type { Pointer } from '../node_modules/natlib/controls/Pointer'
 
-import { toggleAudio } from './audio/audio.js'
+import { sound, SoundEffect, toggleAudio } from './audio/audio.js'
 import { tiles as buttonLevel } from './bitmaps/ButtonLevel.js'
 import { tiles as buttonMusic } from './bitmaps/ButtonMusic.js'
 import { tiles as buttonReset } from './bitmaps/ButtonReset.js'
@@ -128,11 +128,15 @@ export function updateButtons(pointer: Pointer) {
             if (state.oldPressed[1] && !state.buttonsPressed[1]) {
                 // Reset button released
                 state.level.reset()
+
+                sound(SoundEffect.BUTTON_CLICK)
             }
             if (state.oldPressed[2] && !state.buttonsPressed[2]) {
                 // Level button released
                 state.levelIndex = Settings.levelSelectIndex - 1
                 enterLevelPhase(LevelPhase.WINNING)
+
+                sound(SoundEffect.BUTTON_CLICK)
             }
         }
         paintToolbar()

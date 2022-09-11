@@ -4,8 +4,8 @@
  * Licensed under the GNU General Public License version 3
  * See https://www.gnu.org/licenses/gpl-3.0.en.html
  */
-import { linearSrgbToOklab, oklabToLinearSrgb } from './oklab.js'
-import { linearToSrgb, srgbToLinear } from './srgb.js'
+// import { linearSrgbToOklab, oklabToLinearSrgb } from './oklab.js'
+// import { linearToSrgb, srgbToLinear } from './srgb.js'
 
 // Colors: https://lospec.com/palette-list/blk-neo
 export const enum Colors {
@@ -24,7 +24,7 @@ export const enum Colors {
 }
 
 //#region Derivation
-
+/*
 export const colorPaint = '#b483ef'
 export const colorPaintConnected = '#ffe091'
 export const colorPaintA = '#8cff9b'
@@ -124,5 +124,5 @@ console.log(`paintConnectedInversion = '${colorPaintConnectedInversion}',`)
 console.log(`paintAInversion = '${colorPaintAInversion}',`)
 console.log(`paintBInversion = '${colorPaintBInversion}',`)
 console.log(`tileInversion = '${colorTileInversion}',`)
-
+*/
 //#endregion

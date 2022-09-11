@@ -7,6 +7,10 @@
 
 Written by Mark Vasilkov for js13kGames in 2022.
 
+If you feel it's too easy, try the Coil levels from the
+level select screen. They are cursedly hard.
+(If you don't have Coil, append `#coil` to the URL.)
+
 Released under the [GNU General Public License version 3][2]
 
 [1]: https://github.com/mvasilkov/neatness2022

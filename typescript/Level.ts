@@ -6,6 +6,7 @@
  */
 import { Mulberry32 } from '../node_modules/natlib/prng/Mulberry32.js'
 
+import { sound, SoundEffect } from './audio/audio.js'
 import { paint1BppSprite, paintToolbar } from './buttons.js'
 import { conPaint } from './canvas.js'
 import { Colors } from './colors/colors.js'
@@ -169,6 +170,8 @@ export class Level {
             state.restartMessage = produceRestartMessage(this.hotspots[a], this.hotspots[b])
             // Can't call this.reset() here!
             enterLevelPhase(LevelPhase.FAILING)
+
+            sound(SoundEffect.BAD_CONNECTION)
         }
         else {
             // Satisfying connection
@@ -186,6 +189,8 @@ export class Level {
             for (let n = 0; n < saved.length; n += 3) {
                 this.setPoint(saved[n], saved[n + 1], saved[n + 2])
             }
+
+            sound(SoundEffect.CONNECTION)
         }
     }
 
