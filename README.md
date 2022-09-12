@@ -11,6 +11,10 @@ If you feel it's too easy, try the Coil levels from the
 level select screen. They are cursedly hard.
 (If you don't have Coil, append `#coil` to the URL.)
 
+For best experience on Android, use the 'Add to Home screen'
+feature. Seriously, it's amazing how much better the game runs
+if started from that shortcut.
+
 Released under the [GNU General Public License version 3][2]
 
 [1]: https://github.com/mvasilkov/neatness2022

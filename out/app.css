@@ -1,7 +1,8 @@
 @charset "utf-8";
 
 * {
-  touch-action: manipulation;
+  /* touch-action: manipulation; */
+  touch-action: none;
 }
 
 html,
