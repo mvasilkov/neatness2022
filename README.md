@@ -15,6 +15,8 @@ For best experience on Android, use the 'Add to Home screen'
 feature. Seriously, it's amazing how much better the game runs
 if started from that shortcut.
 
+Thank you for playing!
+
 Released under the [GNU General Public License version 3][2]
 
 [1]: https://github.com/mvasilkov/neatness2022
