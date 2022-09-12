@@ -4,7 +4,7 @@
  * Licensed under the GNU General Public License version 3
  * See https://www.gnu.org/licenses/gpl-3.0.en.html
  */
-import { CanvasHandle } from '../node_modules/natlib/canvas/CanvasHandle.js'
+import { CanvasHandle } from './CanvasHandle.js'
 import { Colors } from './colors/colors.js'
 
 // Skull: 11 by 11, 2-bit

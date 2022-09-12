@@ -4,10 +4,9 @@
  * Licensed under the GNU General Public License version 3
  * See https://www.gnu.org/licenses/gpl-3.0.en.html
  */
-import { CanvasHandle } from '../node_modules/natlib/canvas/CanvasHandle.js'
-
 import { astar } from './astar.js'
 import { conPaint, conUI, paintTextBlob } from './canvas.js'
+import { CanvasHandle } from './CanvasHandle.js'
 import { Colors } from './colors/colors.js'
 import { Hotspot } from './Hotspot.js'
 import { painting, Settings } from './prelude.js'
