@@ -26,9 +26,13 @@ cat <<END > build/config.json
 END
 node_modules/.bin/html-minifier-terser -c build/config.json -o build/index.html out/index.html
 
+python3 -c "import json; from pathlib import Path; "\
+"obj = json.loads(Path('out/app.json').read_text(encoding='utf-8')); "\
+"Path('build/app.json').write_text(json.dumps(obj, separators=(',', ':')), encoding='utf-8')"
+
 # Package
 mv build/app.opt.js build/app.js
 mv build/app.opt.css build/app.css
-zip -j9 build/app.zip build/app.js build/app.css build/index.html
+zip -j9 build/app.zip build/app.js build/app.css build/index.html build/app.json
 # brew install advancecomp
 advzip -z4 build/app.zip
