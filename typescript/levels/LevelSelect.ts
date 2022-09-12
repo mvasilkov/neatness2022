@@ -24,6 +24,7 @@ function walkLevels(Δr: number, walkFunction: WalkFunction) {
     const xs: number[] = []
     const ys: number[] = []
 
+    // Subtract one because the last level isn't selectable
     for (let n = 0; n < Settings.totalLevels - 1; ++n) {
         const angle = Math.PI * (1.32 * n / (Settings.totalLevels - 2) - 1.16)
         const x = rx * Math.cos(angle) + x0 | 0
