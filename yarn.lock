@@ -265,10 +265,10 @@ minimatch@^3.1.1:
   dependencies:
     brace-expansion "^1.1.7"
 
-natlib@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/natlib/-/natlib-0.1.1.tgz#58e074c4afd1e127b9689e17022ba1f4d6c3df85"
-  integrity sha512-WcU1FTIhVTHprU2OiVQebD5mxTOHNRdlPa5dnKi/Y6Vsf+FPJQguu+xAA/4LbVEvtoKBM3dENir2wi7n8PIchw==
+natlib@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/natlib/-/natlib-0.1.2.tgz#9fc7818fb59dd550776449b59c8dc82adb52799a"
+  integrity sha512-wEgV40MtWN+tOA2n9JXW8UrkJ2mdX6FmCSqAH+JE5xmdQ3MnymsRGXQCCxIAnpsWw4ipkDi+vh0lFXUL6Y813Q==
 
 no-case@^3.0.4:
   version "3.0.4"
