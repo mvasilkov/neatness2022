@@ -4,7 +4,8 @@
  * Licensed under the GNU General Public License version 3
  * See https://www.gnu.org/licenses/gpl-3.0.en.html
  */
-import { CanvasHandle } from './CanvasHandle.js'
+import { CanvasHandle } from '../node_modules/natlib/canvas/CanvasHandle.js'
+
 import { Colors } from './colors/colors.js'
 
 // Skull: 11 by 11, 2-bit
@@ -135,18 +136,18 @@ function getRenderingFunction(sprite: number[], width: number, palette: string[]
 
 export const skulls = [
     // left
-    new CanvasHandle(null, 99, 99, getRenderingFunction(spriteSkullLeft, 11, paletteSkull, 9)).canvas,
+    new CanvasHandle(null, 99, 99, 2, getRenderingFunction(spriteSkullLeft, 11, paletteSkull, 9)).canvas,
     // front
-    new CanvasHandle(null, 99, 99, getRenderingFunction(spriteSkullFront, 11, paletteSkull, 9)).canvas,
+    new CanvasHandle(null, 99, 99, 2, getRenderingFunction(spriteSkullFront, 11, paletteSkull, 9)).canvas,
     // right
-    new CanvasHandle(null, 99, 99, getRenderingFunction(spriteSkullLeft, 11, paletteSkull, 9, true)).canvas,
+    new CanvasHandle(null, 99, 99, 2, getRenderingFunction(spriteSkullLeft, 11, paletteSkull, 9, true)).canvas,
 ]
 
 export const grave =
-    new CanvasHandle(null, 99, 99, getRenderingFunction(spriteGrave, 11, paletteGrave, 9)).canvas
+    new CanvasHandle(null, 99, 99, 2, getRenderingFunction(spriteGrave, 11, paletteGrave, 9)).canvas
 
 export const princess =
-    new CanvasHandle(null, 17 * 9, 14 * 9, con => {
+    new CanvasHandle(null, 17 * 9, 14 * 9, 2, con => {
         // Paint princess
         con.save()
 
@@ -161,7 +162,7 @@ export const princess =
     }).canvas
 
 export const princessSkull =
-    new CanvasHandle(null, 99, 14 * 9, con => {
+    new CanvasHandle(null, 99, 14 * 9, 2, con => {
         // Paint skull
         const skull = skulls[2]
         con.drawImage(skull,

@@ -4,9 +4,10 @@
  * Licensed under the GNU General Public License version 3
  * See https://www.gnu.org/licenses/gpl-3.0.en.html
  */
+import { CanvasHandle } from '../node_modules/natlib/canvas/CanvasHandle.js'
+
 import { astar } from './astar.js'
 import { conPaint, conUI, paintTextBlob } from './canvas.js'
-import { CanvasHandle } from './CanvasHandle.js'
 import { Colors } from './colors/colors.js'
 import { Hotspot } from './Hotspot.js'
 import { painting, Settings } from './prelude.js'
@@ -15,7 +16,7 @@ import { state } from './state.js'
 import { easeInOutQuad, easeOutQuad } from './utils.js'
 
 export function produceRestartMessage(a: Hotspot, b: Hotspot, coil = false): HTMLCanvasElement {
-    const path = new CanvasHandle(null, Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_WIDTH, Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_HEIGHT, function (con) {
+    const path = new CanvasHandle(null, Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_WIDTH, Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_HEIGHT, Settings.SUPERSAMPLING, function (con) {
         con.scale(Settings.UPSCALE_FROM_IR, Settings.UPSCALE_FROM_IR)
 
         con.fillStyle = '#ff0040'
@@ -33,7 +34,7 @@ export function produceRestartMessage(a: Hotspot, b: Hotspot, coil = false): HTM
         })
     }).canvas
 
-    return new CanvasHandle(null, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, function (con) {
+    return new CanvasHandle(null, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, Settings.SUPERSAMPLING, function (con) {
         con.drawImage(path,
             0, 0, path.width, path.height,
             0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT)

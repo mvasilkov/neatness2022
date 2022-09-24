@@ -22,6 +22,7 @@ export const enum Settings {
     SCREEN_HEIGHT = 540,
     /** Supersampling */
     UPSCALE_FROM_IR = 2,
+    SUPERSAMPLING = 2,
 
     /** For how long the 'Not like this' line is displayed */
     restartMessageDuration = 125, // Ticks, 50 ticks == 1 second

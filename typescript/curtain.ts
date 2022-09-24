@@ -4,14 +4,15 @@
  * Licensed under the GNU General Public License version 3
  * See https://www.gnu.org/licenses/gpl-3.0.en.html
  */
+import { CanvasHandle } from '../node_modules/natlib/canvas/CanvasHandle.js'
+
 import { conUI, setFontStyle } from './canvas.js'
-import { CanvasHandle } from './CanvasHandle.js'
 import { Settings } from './prelude.js'
 import { LevelPhase, state } from './state.js'
 import { easeInQuad, easeOutQuad } from './utils.js'
 
 const curtain = new CanvasHandle(null,
-    Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, (con, width, height) => {
+    Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, Settings.SUPERSAMPLING, (con, width, height) => {
         // Colors: https://uigradients.com/#Dusk
         const gradient = con.createLinearGradient(0, 0, 0, height)
         gradient.addColorStop(0, '#2c3e50')

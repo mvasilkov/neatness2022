@@ -4,9 +4,8 @@
  * Licensed under the GNU General Public License version 3
  * See https://www.gnu.org/licenses/gpl-3.0.en.html
  */
+import { PriorityQueue } from '../node_modules/natlib/collections/PriorityQueue.js'
 import { Vec2 } from '../node_modules/natlib/Vec2.js'
-
-import { PriorityQueue } from './PriorityQueue.js'
 
 class Vec2WithPriority extends Vec2 {
     // Can't change these without invalidating the hash
@@ -42,7 +41,7 @@ export function astar(buf: number[][], width: number, height: number, x0: number
     score[start.hash] = 0
 
     while (frontier.length !== 0) {
-        const current = frontier.remove()!
+        const current = frontier.get()!
 
         if (current.x === x1 && current.y === y1) {
             break // Found the path
@@ -54,7 +53,7 @@ export function astar(buf: number[][], width: number, height: number, x0: number
                 previous[next.hash] = current
                 score[next.hash] = nextScore
                 next.priority = nextScore + heuristic(x1, y1, next.x, next.y)
-                frontier.insert(next)
+                frontier.put(next)
             }
         }
     }
