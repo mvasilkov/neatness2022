@@ -4,6 +4,7 @@
  * Licensed under the GNU General Public License version 3
  * See https://www.gnu.org/licenses/gpl-3.0.en.html
  */
+import { dda } from '../node_modules/natlib/dda.js'
 import { lerp } from '../node_modules/natlib/interpolation.js'
 import { startMainloop } from '../node_modules/natlib/scheduling/mainloop.js'
 import { Vec2 } from '../node_modules/natlib/Vec2.js'
@@ -12,7 +13,6 @@ import { audioHandle, initializeAudio } from './audio/audio.js'
 import { updateButtons } from './buttons.js'
 import { canvasPaint, conUI } from './canvas.js'
 import { paintCurtain, _paintCurtain } from './curtain.js'
-import { ddaWalk } from './ddaWalk.js'
 import { floodFill } from './floodFill.js'
 import { enterLevel } from './levels.js'
 import { Painter } from './Painter.js'
@@ -122,7 +122,7 @@ function _paintLine(x0: number, y0: number, x1: number, y1: number, enabled: Ena
     let addedPointInThisRun = false
 
     // @ts-expect-error Not all code paths return a value.
-    ddaWalk(startPoint, endPoint.normalize(), function (x, y, length) {
+    dda(startPoint, endPoint.normalize(), function (x, y, length) {
         if (x < 0 || x >= Settings.IR_SCREEN_WIDTH ||
             y < 0 || y >= Settings.IR_SCREEN_HEIGHT) {
 
