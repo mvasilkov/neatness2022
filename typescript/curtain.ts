@@ -5,11 +5,11 @@
  * See https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 import { CanvasHandle } from '../node_modules/natlib/canvas/CanvasHandle.js'
+import { easeInQuad, easeOutQuad } from '../node_modules/natlib/interpolation.js'
 
 import { conUI, setFontStyle } from './canvas.js'
 import { Settings } from './prelude.js'
 import { LevelPhase, state } from './state.js'
-import { easeInQuad, easeOutQuad } from './utils.js'
 
 const curtain = new CanvasHandle(null,
     Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, Settings.SUPERSAMPLING, (con, width, height) => {

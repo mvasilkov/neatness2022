@@ -5,6 +5,7 @@
  * See https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 import { CanvasHandle } from '../node_modules/natlib/canvas/CanvasHandle.js'
+import { easeInOutQuad, easeOutQuad } from '../node_modules/natlib/interpolation.js'
 
 import { astar } from './astar.js'
 import { conPaint, conUI, paintTextBlob } from './canvas.js'
@@ -13,7 +14,6 @@ import { Hotspot } from './Hotspot.js'
 import { painting, Settings } from './prelude.js'
 import { princess, princessSkull } from './sprites.js'
 import { state } from './state.js'
-import { easeInOutQuad, easeOutQuad } from './utils.js'
 
 export function produceRestartMessage(a: Hotspot, b: Hotspot, coil = false): HTMLCanvasElement {
     const path = new CanvasHandle(null, Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_WIDTH, Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_HEIGHT, Settings.SUPERSAMPLING, function (con) {
