@@ -5,10 +5,10 @@
  * See https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 import { convertMidiToFrequency } from '../../node_modules/natlib/audio/audio.js'
+import { AudioHandle } from '../../node_modules/natlib/audio/AudioHandle.js'
 import { Mulberry32 } from '../../node_modules/natlib/prng/Mulberry32.js'
 
 import { Settings } from '../prelude.js'
-import { AudioHandle } from './AudioHandle.js'
 import { ImpulseResponse } from './ImpulseResponse.js'
 import { play } from './song.js'
 
