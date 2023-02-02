@@ -6,8 +6,8 @@
  */
 import { CanvasHandle } from '../node_modules/natlib/canvas/CanvasHandle.js'
 import { easeInOutQuad, easeOutQuad } from '../node_modules/natlib/interpolation.js'
+import { astar } from '../node_modules/natlib/pathfinding/astar.js'
 
-import { astar } from './astar.js'
 import { conPaint, conUI, paintTextBlob } from './canvas.js'
 import { Colors } from './colors/colors.js'
 import { Hotspot } from './Hotspot.js'
@@ -15,13 +15,41 @@ import { painting, Settings } from './prelude.js'
 import { princess, princessSkull } from './sprites.js'
 import { state } from './state.js'
 
+//#region A* support functions
+function isTraversable(index: number): boolean {
+    return index === 1 || index > 9
+}
+
+/** Get the neighbourhood of connected points. */
+function getConnected(buf: number[][], width: number, height: number, x: number, y: number) {
+    const connected: [x: number, y: number][] = []
+
+    // left
+    if (x > 0 && isTraversable(buf[y][x - 1]))
+        connected.push([x - 1, y])
+    // top
+    if (y > 0 && isTraversable(buf[y - 1][x]))
+        connected.push([x, y - 1])
+    // right
+    if (x < width - 1 && isTraversable(buf[y][x + 1]))
+        connected.push([x + 1, y])
+    // bottom
+    if (y < height - 1 && isTraversable(buf[y + 1][x]))
+        connected.push([x, y + 1])
+
+    return connected
+}
+
+const _getConnected = getConnected.bind(null, painting, Settings.IR_SCREEN_WIDTH, Settings.IR_SCREEN_HEIGHT)
+//#endregion
+
 export function produceRestartMessage(a: Hotspot, b: Hotspot, coil = false): HTMLCanvasElement {
     const path = new CanvasHandle(null, Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_WIDTH, Settings.UPSCALE_FROM_IR * Settings.IR_SCREEN_HEIGHT, Settings.SUPERSAMPLING, function (con) {
         con.scale(Settings.UPSCALE_FROM_IR, Settings.UPSCALE_FROM_IR)
 
         con.fillStyle = '#ff0040'
         // Paint a path from a to b.
-        astar(painting, Settings.IR_SCREEN_WIDTH, Settings.IR_SCREEN_HEIGHT, a.x, a.y, b.x, b.y, function (x, y) {
+        astar(a.x, a.y, b.x, b.y, _getConnected, function (x, y) {
             con.fillRect(x, y, 1, 1)
         })
 

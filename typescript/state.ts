@@ -4,6 +4,7 @@
  * Licensed under the GNU General Public License version 3
  * See https://www.gnu.org/licenses/gpl-3.0.en.html
  */
+import { FALSE, ShortBool } from '../node_modules/natlib/prelude.js'
 import type { Level } from './Level'
 import { Settings } from './prelude.js'
 
@@ -24,7 +25,7 @@ interface State {
     restartMessage: HTMLCanvasElement | null,
     completedLevels: boolean[],
     currentLevel: number, // Excluding the level select screen
-    held: boolean,
+    held: ShortBool,
 }
 
 export const state: State = {
@@ -41,7 +42,7 @@ export const state: State = {
     restartMessage: null,
     completedLevels: [],
     currentLevel: 0,
-    held: false,
+    held: FALSE,
 }
 
 // Set padding to completed so that Coil-1 can be the current level.

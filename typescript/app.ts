@@ -5,7 +5,9 @@
  * See https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 import { dda } from '../node_modules/natlib/dda.js'
+import { floodFill } from '../node_modules/natlib/floodFill.js'
 import { lerp } from '../node_modules/natlib/interpolation.js'
+import { FALSE } from '../node_modules/natlib/prelude.js'
 import { startMainloop } from '../node_modules/natlib/scheduling/mainloop.js'
 import { Vec2 } from '../node_modules/natlib/Vec2.js'
 
@@ -13,7 +15,6 @@ import { audioHandle, initializeAudio } from './audio/audio.js'
 import { updateButtons } from './buttons.js'
 import { canvasPaint, conUI } from './canvas.js'
 import { paintCurtain, _paintCurtain } from './curtain.js'
-import { floodFill } from './floodFill.js'
 import { enterLevel } from './levels.js'
 import { Painter } from './Painter.js'
 import { painting, Settings } from './prelude.js'
@@ -161,7 +162,7 @@ function _paintLine(x0: number, y0: number, x1: number, y1: number, enabled: Ena
 
 function _floodFill(pointsToFloodFill: FloodFillPoint[]) {
     for (const [x, y, index] of pointsToFloodFill) {
-        floodFill(painting, Settings.IR_SCREEN_WIDTH, Settings.IR_SCREEN_HEIGHT, x, y, value => value === 1, function updatePoint(x, y) {
+        floodFill(Settings.IR_SCREEN_WIDTH, Settings.IR_SCREEN_HEIGHT, x, y, (x, y) => painting[y][x] === 1, function updatePoint(x, y) {
             // Update the point
             state.level.setPoint(x, y, index)
 
@@ -244,7 +245,7 @@ function update() {
 
         case LevelPhase.FAILING:
             // Cut the line
-            pointer.held = false
+            pointer.held = FALSE
             // Restart the level
             state.level.reset()
             enterLevelPhase(LevelPhase.RUNNING, Settings.restartMessageDuration)
