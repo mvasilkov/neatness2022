@@ -51,6 +51,8 @@ were harmed in the making of this game:
 * `A*` based on the excellent
   [Introduction to the `A*` Algorithm][ack8] by [Amit Patel][ack9]
 
+Updated implementations of all of these are available in [natlib][natlib].
+
 [ack1]: https://lodev.org/cgtutor/raycasting.html
 [ack2]: https://github.com/lvandeve
 [ack3]: https://github.com/OneLoneCoder
@@ -60,3 +62,4 @@ were harmed in the making of this game:
 [ack7]: https://youtu.be/M6OW0KNkhhs
 [ack8]: https://www.redblobgames.com/pathfinding/a-star/introduction.html
 [ack9]: https://github.com/redblobgames
+[natlib]: https://github.com/mvasilkov/natlib

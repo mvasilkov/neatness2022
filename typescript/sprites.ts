@@ -4,6 +4,7 @@
  * Licensed under the GNU General Public License version 3
  * See https://www.gnu.org/licenses/gpl-3.0.en.html
  */
+import { readBitmap } from '../node_modules/natlib/bitmap/bitmap.js'
 import { CanvasHandle } from '../node_modules/natlib/canvas/CanvasHandle.js'
 
 import { Colors } from './colors/colors.js'
@@ -123,14 +124,10 @@ function getRenderingFunction(sprite: number[], width: number, palette: string[]
     return function (con: CanvasRenderingContext2D) {
         con.scale(scale, scale)
 
-        for (let y = 0; y < sprite.length; ++y) {
-            for (let x = 0; x < width; ++x) {
-                const index = sprite[y] / 4 ** (flip ? x : width - 1 - x) & 3
-
-                con.fillStyle = palette[index]
-                con.fillRect(x, y, 1, 1)
-            }
-        }
+        readBitmap(sprite, width, 2, (x, y, index) => {
+            con.fillStyle = palette[index]
+            con.fillRect(flip ? x : width - 1 - x, y, 1, 1)
+        })
     }
 }
 

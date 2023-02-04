@@ -4,6 +4,7 @@
  * Licensed under the GNU General Public License version 3
  * See https://www.gnu.org/licenses/gpl-3.0.en.html
  */
+import { readBitmap } from '../node_modules/natlib/bitmap/bitmap.js'
 import type { Pointer } from '../node_modules/natlib/controls/Pointer'
 
 import { sound, SoundEffect, toggleAudio } from './audio/audio.js'
@@ -17,14 +18,10 @@ import { enterLevelPhase, LevelPhase, state } from './state.js'
 type UpdateFunction = (x: number, y: number) => void
 
 export function paint1BppSprite(tiles: number[], width: number, updateFunction: UpdateFunction, flip = false) {
-    for (let y = 0; y < tiles.length; ++y) {
-        for (let x = 0; x < width; ++x) {
-            const a = tiles[y] / 2 ** (flip ? x : width - 1 - x) & 1
-            if (a === 0) continue
-
-            updateFunction(x, y)
-        }
-    }
+    readBitmap(tiles, width, 1, (x, y, value) => {
+        if (value === 0) return
+        updateFunction(flip ? x : width - 1 - x, y)
+    })
 }
 
 function paintRoundRect(x: number, y: number, width: number, height: number, color: string) {
