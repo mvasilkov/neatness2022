@@ -1,5 +1,11 @@
 # [The Neatness][1]
 
+**Disclaimer:**
+
+The author of this work does not condone the repackaging of "The Neatness" as any kind of NFT or blockchain-related technology. The use of this work for such purposes is not supported by the author and may result in unintended consequences, including hospitalization, disability or permanent damage. Consider yourself disclaimed.
+
+***
+
 > A walk through life, however thorough,<br>
 > Ends on a hill a bit too steep.<br>
 > Bear witness, not to strife and sorrow, –<br>
